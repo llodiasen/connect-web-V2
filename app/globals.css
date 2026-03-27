@@ -1,26 +1,1127 @@
 @import "tailwindcss";
 
+/* ============================================================
+   CONNECT-WEB — Design System Global
+   Architecture v1.0 — Tailwind v4 CSS-first configuration
+   ============================================================ */
+
+/* ── TOKENS PRIMITIFS ──────────────────────────────────────── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+
+  /* Couleurs Orange (brand primary) */
+  --color-orange-50:  #FFF4EE;
+  --color-orange-100: #FFE4CC;
+  --color-orange-200: #FFC799;
+  --color-orange-300: #FF9F55;
+  --color-orange-400: #FF7A20;
+  --color-orange-500: #E8611A;   /* ← Brand primary */
+  --color-orange-600: #C44D0E;
+  --color-orange-700: #9E3A08;
+  --color-orange-800: #7A2B06;
+  --color-orange-900: #5A1F04;
+
+  /* Neutres (dark theme) */
+  --color-dark-950:  #080C12;
+  --color-dark-900:  #0D1117;   /* Fond principal body */
+  --color-dark-800:  #161B27;   /* Fond cards/sections */
+  --color-dark-700:  #1E2535;   /* Fond cards hover */
+  --color-dark-600:  #2A3347;   /* Bordures subtiles */
+  --color-dark-500:  #3D4F6B;   /* Bordures visibles */
+  --color-dark-400:  #5A6E8F;   /* Texte désactivé */
+  --color-dark-300:  #8899BB;   /* Texte secondaire */
+  --color-dark-200:  #B8C8E0;   /* Texte body normal */
+  --color-dark-100:  #DCE5F2;   /* Texte important */
+  --color-dark-50:   #F4F7FC;   /* Texte headings */
+
+  /* ── CHARTE LOGO CONNECT WEB — Bleu dominant ── */
+  --color-blue-900:  #1B2A4A;   /* Logo "CONNECT" — fond Hero, boutons CTA, section dark */
+  --color-blue-800:  #2D3E5F;   /* Logo "WEB" — sections dark medium */
+  --color-blue-700:  #3D5278;   /* Hover boutons, liens actifs */
+  --color-blue-600:  #4D6490;   /* Borders accent bleu */
+  --color-blue-100:  #E2EAF4;   /* Fond badge/pill bleu clair */
+  --color-blue-50:   #EEF3FA;   /* Fond icône wrapper */
+
+  /* ── TOKENS SÉMANTIQUES — Charte Connect Web (Bleu logo) ── */
+
+  /* Surfaces */
+  --bg-base:          #FAFAFA;        /* Fond body — blanc cassé              */
+  --bg-elevated:      #F4F6FA;        /* Sections alternées — bleuté léger    */
+  --bg-overlay:       #ECEEF3;        /* Hover, overlays légers               */
+  --bg-blue-dark:     #1B2A4A;        /* Sections dark — bleu logo foncé      */
+  --bg-blue-medium:   #2D3E5F;        /* Sections dark medium                 */
+  --bg-blue-light:    #EEF3FA;        /* Sections accent bleu très clair      */
+
+  /* Texte */
+  --text-primary:     #1B2A4A;        /* Bleu logo — remplace le near-black   */
+  --text-secondary:   #4A5568;        /* Gris medium                          */
+  --text-tertiary:    #718096;        /* Gris clair                           */
+  --text-disabled:    #A0AEC0;        /* Décoratif uniquement                 */
+  --text-on-dark:     #FFFFFF;        /* Sur fond sombre                      */
+  --text-on-dark-muted: rgba(255,255,255,0.65); /* Sur fond sombre — atténué  */
+
+  /* Bordures */
+  --border-subtle:    #EEF1F7;        /* Presque invisible                    */
+  --border-default:   #DDE3EE;        /* Standard — légèrement bleuté         */
+  --border-strong:    #C5CFDF;        /* Visible                              */
+  --border-blue:      var(--color-blue-600); /* Accent bleu                   */
+
+  /* Brand — charte logo */
+  --brand-primary:   var(--color-blue-900);   /* Bleu logo — boutons, liens   */
+  --brand-secondary: var(--color-blue-800);   /* Bleu medium                  */
+  --brand-accent:    var(--color-orange-500); /* Orange — hover et accents    */
+  --brand-hover:     var(--color-blue-700);
+  --brand-active:    var(--color-blue-800);
+
+  /* États sémantiques */
+  --color-success: #16A34A;
+  --color-warning: #D97706;
+  --color-error:   #DC2626;
+  --color-info:    var(--color-blue-700);
+
+  /* Surfaces sémantiques */
+  --bg-success-subtle: rgba(22, 163, 74,  0.08);
+  --bg-error-subtle:   rgba(220, 38,  38, 0.08);
+  --bg-warning-subtle: rgba(217, 119, 6,  0.08);
+
+  /* Focus ring */
+  --ring-focus:  var(--color-blue-700);
+  --ring-offset: #FFFFFF;
+
+  /* ── TYPOGRAPHIE ─────────────────────────────────────────── */
+
+  /* Familles — pointent sur les variables next/font injectées par layout.tsx */
+  --font-heading: 'Clash Display', var(--font-montserrat), system-ui, sans-serif;
+  --font-body:    var(--font-jost), system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', 'Fira Code', monospace;
+
+  /* Scale typographique (modular scale 1.25 — Major Third) */
+  --text-xs:   0.75rem;
+  --text-sm:   0.875rem;
+  --text-base: 1rem;
+  --text-lg:   1.125rem;
+  --text-xl:   1.25rem;
+  --text-2xl:  1.5rem;
+  --text-3xl:  1.875rem;
+  --text-4xl:  2.25rem;
+  --text-5xl:  3rem;
+  --text-6xl:  3.75rem;
+  --text-7xl:  4.5rem;
+
+  /* Poids */
+  --font-light:     300;   /* ← Poids corps de texte / paragraphes */
+  --font-regular:   400;
+  --font-medium:    500;
+  --font-semibold:  600;
+  --font-bold:      700;
+  --font-extrabold: 800;
+
+  /* Line heights */
+  --leading-tight:   1.15;
+  --leading-snug:    1.35;
+  --leading-normal:  1.5;
+  --leading-relaxed: 1.65;
+  --leading-loose:   1.8;
+
+  /* Letter spacing */
+  --tracking-tight:   -0.03em;
+  --tracking-normal:   0em;
+  --tracking-wide:     0.05em;
+  --tracking-wider:    0.1em;
+  --tracking-widest:   0.2em;
+
+  /* ── ESPACEMENT (base 8px) ───────────────────────────────── */
+  --space-1:  0.25rem;
+  --space-2:  0.5rem;
+  --space-3:  0.75rem;
+  --space-4:  1rem;
+  --space-5:  1.25rem;
+  --space-6:  1.5rem;
+  --space-8:  2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+  --space-32: 8rem;
+
+  /* ── TOKENS UI — Tailles typographiques cartes & filtres ── */
+  --card-title-size:  22px;   /* Titre h3 carte service/portfolio                */
+  --card-text-size:   17.5px; /* Description carte — justify dans les cards      */
+  --card-text-weight: var(--font-light); /* Font-weight description carte → light  */
+  --filter-text-size: 14px;   /* Texte boutons filtres/tabs (base 13px +1)       */
+  --faq-question-size: var(--card-text-size); /* Titre question FAQ — aligné card-text */
+  --faq-answer-size:  var(--card-text-size); /* Texte réponse FAQ — aligné card-text  */
+
+  /* Espacements sémantiques */
+  --section-padding-y:   clamp(4rem, 8vw, 7rem);
+  --section-padding-x:   clamp(1rem, 5vw, 2rem);
+  --container-max-width: 1200px;
+  --container-wide:      1440px;
+  --card-padding:        var(--space-8);
+  --card-gap:            var(--space-6);
+  --nav-height:          72px;
+  --topbar-height:       0px;
+
+  /* Border radius */
+  --radius-sm:   0.375rem;
+  --radius-md:   0.5rem;
+  --radius-lg:   0.75rem;
+  --radius-xl:   1.25rem;
+  --radius-full: 9999px;
+
+  /* ── ANIMATIONS ──────────────────────────────────────────── */
+
+  /* Durées */
+  --duration-instant: 50ms;
+  --duration-fast:    150ms;
+  --duration-normal:  300ms;
+  --duration-slow:    500ms;
+  --duration-slower:  800ms;
+
+  /* Easings */
+  --ease-out:    cubic-bezier(0.0, 0.0, 0.2, 1.0);
+  --ease-in:     cubic-bezier(0.4, 0.0, 1.0, 1.0);
+  --ease-in-out: cubic-bezier(0.4, 0.0, 0.2, 1.0);
+  --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1.0);
+
+  /* Ombres — teintées bleu pour cohérence charte */
+  --shadow-sm:      0 1px 3px rgba(27,42,74,0.08), 0 1px 2px rgba(27,42,74,0.05);
+  --shadow-md:      0 4px 16px rgba(27,42,74,0.10), 0 2px 4px rgba(27,42,74,0.06);
+  --shadow-lg:      0 8px 32px rgba(27,42,74,0.12), 0 4px 8px rgba(27,42,74,0.07);
+  --shadow-glow:    0 0 24px rgba(27,42,74,0.18);
+  --shadow-glow-sm: 0 0 12px rgba(27,42,74,0.12);
+
+  /* ── BOUTONS — tokens design system v4.1 ─────────────────── */
+  --btn-primary-bg:       #E8622A;   /* CTA principal — orange brand             */
+  --btn-primary-hover:    #C9501E;   /* CTA hover — orange foncé                 */
+  --btn-primary-shadow:   0 4px 12px rgba(232, 98, 42, 0.30); /* Ombre hover    */
+  --btn-secondary-bg:     #1B2B4B;   /* CTA secondaire — bleu logo               */
+  --btn-secondary-hover:  #243659;   /* CTA secondaire hover — bleu medium       */
+  --btn-ghost-border:     #1B2B4B;   /* Ghost — bordure bleu logo                */
+  --btn-ghost-hover-bg:   #1B2B4B;   /* Ghost hover — fond bleu logo             */
 }
 
+/* ── TAILWIND v4 — THEME CONFIGURATION ───────────────────── */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+
+  /* Couleurs orange */
+  --color-orange-50:  var(--color-orange-50);
+  --color-orange-100: var(--color-orange-100);
+  --color-orange-200: var(--color-orange-200);
+  --color-orange-300: var(--color-orange-300);
+  --color-orange-400: var(--color-orange-400);
+  --color-orange-500: var(--color-orange-500);
+  --color-orange-600: var(--color-orange-600);
+  --color-orange-700: var(--color-orange-700);
+  --color-orange-800: var(--color-orange-800);
+  --color-orange-900: var(--color-orange-900);
+
+  /* Couleurs dark */
+  --color-dark-950: var(--color-dark-950);
+  --color-dark-900: var(--color-dark-900);
+  --color-dark-800: var(--color-dark-800);
+  --color-dark-700: var(--color-dark-700);
+  --color-dark-600: var(--color-dark-600);
+  --color-dark-500: var(--color-dark-500);
+  --color-dark-400: var(--color-dark-400);
+  --color-dark-300: var(--color-dark-300);
+  --color-dark-200: var(--color-dark-200);
+  --color-dark-100: var(--color-dark-100);
+  --color-dark-50:  var(--color-dark-50);
+
+  /* Couleurs bleues — charte logo Connect Web */
+  --color-blue-900: var(--color-blue-900);
+  --color-blue-800: var(--color-blue-800);
+  --color-blue-700: var(--color-blue-700);
+  --color-blue-600: var(--color-blue-600);
+  --color-blue-100: var(--color-blue-100);
+  --color-blue-50:  var(--color-blue-50);
+
+  /* Couleurs sémantiques */
+  --color-brand:         var(--brand-primary);
+  --color-brand-hover:   var(--brand-hover);
+  --color-brand-active:  var(--brand-active);
+  --color-success:       var(--color-success);
+  --color-warning:       var(--color-warning);
+  --color-error:         var(--color-error);
+  --color-info:          var(--color-info);
+
+  /* Polices */
+  --font-heading: var(--font-heading);
+  --font-body:    var(--font-body);
+  --font-mono:    var(--font-mono);
+
+  /* Breakpoints */
+  --breakpoint-xs:  375px;
+  --breakpoint-sm:  640px;
+  --breakpoint-md:  768px;
+  --breakpoint-lg:  1024px;
+  --breakpoint-xl:  1280px;
+  --breakpoint-2xl: 1536px;
+
+  /* Border radius */
+  --radius-sm:   var(--radius-sm);
+  --radius-md:   var(--radius-md);
+  --radius-lg:   var(--radius-lg);
+  --radius-xl:   var(--radius-xl);
+  --radius-full: var(--radius-full);
+
+  /* Ombres */
+  --shadow-sm:      var(--shadow-sm);
+  --shadow-md:      var(--shadow-md);
+  --shadow-lg:      var(--shadow-lg);
+  --shadow-glow:    var(--shadow-glow);
+  --shadow-glow-sm: var(--shadow-glow-sm);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ── BASE STYLES ──────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: var(--card-text-size);
+  font-weight: var(--font-light);
+  line-height: var(--leading-normal);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100dvh;
+}
+
+/* ── TYPOGRAPHIE DE BASE ──────────────────────────────────── */
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  color: var(--text-primary);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+}
+
+h1 { font-weight: var(--font-bold);     font-size: clamp(1.75rem,  3.5vw, 2.5rem);   }
+h2 { font-weight: var(--font-bold);     font-size: clamp(1.5rem, 2.5vw, 2rem); }
+h3 { font-weight: var(--font-semibold); font-size: clamp(1.0625rem, 1.8vw, 1.25rem); }
+h4 { font-weight: var(--font-semibold); font-size: var(--text-xl); }
+h5 { font-weight: var(--font-medium);   font-size: var(--text-lg); }
+h6 { font-weight: var(--font-medium);   font-size: var(--text-base); }
+
+p {
+  font-weight: var(--font-light);
+  color: var(--text-secondary);
+  line-height: var(--leading-relaxed);
+}
+
+/* Classes utilitaires typographiques */
+.text-display {
+  font-family: var(--font-heading);
+  font-weight: var(--font-extrabold);
+  font-size: clamp(1.875rem, 4vw, 2.625rem);
+  line-height: 1.1;
+  letter-spacing: var(--tracking-tight);
+}
+
+.text-eyebrow {
+  font-family: 'Clash Display', var(--font-montserrat), system-ui, sans-serif;
+  font-weight: 500;
+  font-size: var(--text-xs);
+  line-height: 1.4;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--brand-primary);
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, var(--color-orange-400), var(--color-orange-600));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── LAYOUT UTILITIES ─────────────────────────────────────── */
+
+.container {
+  width: 100%;
+  max-width: var(--container-max-width);
+  margin-inline: auto;
+  padding-inline: var(--section-padding-x);
+}
+
+.container-wide {
+  width: 100%;
+  max-width: var(--container-wide);
+  margin-inline: auto;
+  padding-inline: var(--section-padding-x);
+}
+
+.section {
+  padding-block: var(--section-padding-y);
+}
+
+/* ── FOCUS ACCESSIBILITÉ ──────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--ring-focus);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+/* ── SÉLECTION ───────────────────────────────────────────── */
+::selection {
+  background-color: rgba(232, 97, 26, 0.3);
+  color: var(--text-primary);
+}
+
+/* ── SCROLLBAR (Webkit) ───────────────────────────────────── */
+::-webkit-scrollbar        { width: 6px; height: 6px; }
+::-webkit-scrollbar-track  { background: var(--bg-elevated); }
+::-webkit-scrollbar-thumb  { background: var(--border-strong); border-radius: var(--radius-full); }
+::-webkit-scrollbar-thumb:hover { background: var(--text-disabled); }
+
+/* ── IMAGES ───────────────────────────────────────────────── */
+img, video { max-width: 100%; height: auto; display: block; }
+
+/* ── LIENS ────────────────────────────────────────────────── */
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+/* ── TOPBAR — active la hauteur au breakpoint sm (640px) ─── */
+@media (min-width: 640px) {
+  :root {
+    --topbar-height: 36px;
+  }
+}
+
+/* ── RÉDUCTION DE MOUVEMENT ───────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   CLAUDE.md v4.0 — Charte Connect Web (Bleu logo)
+   Section wrappers — 5 classes selon alternance HOME
+══════════════════════════════════════════════════════════════ */
+
+/* ── SECTION WRAPPERS ─────────────────────────────────────── */
+
+/* Sections fond blanc pur */
+.section-base {
+  background-color: #FFFFFF;
+  padding-block:    var(--section-padding-y);
+  padding-inline:   var(--section-padding-x);
+}
+
+/* Sections bleuté très léger — sections alternées light */
+.section-alt {
+  background-color: #F4F6FA;
+  padding-block:    var(--section-padding-y);
+  padding-inline:   var(--section-padding-x);
+}
+
+/* Sections bleu très clair — accent soft */
+.section-blue-soft {
+  background-color: #EEF3FA;
+  padding-block:    var(--section-padding-y);
+  padding-inline:   var(--section-padding-x);
+}
+
+/* Sections dark — bleu logo foncé */
+.section-brand {
+  background-color: #1B2A4A;
+  color:            #FFFFFF;
+  padding-block:    var(--section-padding-y);
+  padding-inline:   var(--section-padding-x);
+}
+
+/* Sections dark medium — bleu logo medium */
+.section-brand-medium {
+  background-color: #2D3E5F;
+  color:            #FFFFFF;
+  padding-block:    var(--section-padding-y);
+  padding-inline:   var(--section-padding-x);
+}
+
+/* ─── Cards flush — pattern avec gap réel et bordures individuelles ─── */
+.cards-flush {
+  display: grid;
+  gap: 24px;
+  background-color: transparent;
+}
+.cards-flush > * {
+  background-color: #FFFFFF;
+  padding: 28px;
+  border: 1px solid #DDE3EE;
+  border-radius: 12px;
+  transition: background-color 0.15s ease;
+}
+.cards-flush > *:hover {
+  background-color: #F4F6FA;
+}
+
+/* Cards sans padding interne — image plein bord */
+.cards-flush .card {
+  padding: 0;
+  overflow: hidden;
+}
+
+/* Hero — fond sombre réf. Hero Dev Web · #0A0B0E · titre blanc massif */
+.hero-bg {
+  background-color: #0A0B0E;
+  color:            #FFFFFF;
+  background-image: radial-gradient(
+    ellipse 60% 50% at 65% 50%,
+    rgba(232, 97, 26, 0.08) 0%,
+    transparent 70%
+  );
+}
+
+/* ── CONTAINER NARROW ─────────────────────────────────────── */
+.container-narrow {
+  width:          100%;
+  max-width:      800px;
+  margin-inline:  auto;
+  padding-inline: var(--section-padding-x);
+}
+
+/* ── TYPOGRAPHIE — Tokens clamp() CLAUDE.md v3.1 ─────────── */
+
+/* Sous-titre hero — blanc, utilisé sur fond sombre dans tous les heroes */
+.text-hero-subtitle {
+  font-family: var(--font-body);
+  font-size:   clamp(1rem, 1.5vw, 1.0625rem);
+  font-weight: 300;
+  color:       #FFFFFF;
+  line-height: 1.75;
+}
+
+.text-h1 {
+  font-family:    var(--font-heading);
+  font-size:      clamp(2rem, 4vw, 3rem);
+  font-weight:    800;
+  line-height:    1.05;
+  letter-spacing: -0.03em;
+  color:          var(--text-primary);
+}
+
+.text-h2 {
+  font-family:    var(--font-heading);
+  font-size:      clamp(1.5rem, 2.5vw, 2rem);
+  font-weight:    700;
+  line-height:    1.25;
+  color:          var(--text-primary);
+}
+
+.text-h3 {
+  font-family:    var(--font-heading);
+  font-size:      clamp(1.125rem, 2vw, 1.5rem);
+  font-weight:    600;
+  line-height:    1.35;
+  color:          var(--text-primary);
+}
+
+.text-body {
+  font-family: var(--font-body);
+  font-size:   var(--card-text-size);
+  font-weight: var(--font-light);
+  line-height: 1.6;
+  color:       var(--text-secondary);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   ANIMATIONS — Keyframes & classes utilitaires
+   Source de vérité : lib/motion.ts (Framer Motion variants)
+══════════════════════════════════════════════════════════════ */
+
+/* ── KEYFRAMES ────────────────────────────────────────────── */
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.82); }
+  to   { opacity: 1; transform: scale(1);    }
+}
+
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-32px); }
+  to   { opacity: 1; transform: translateX(0);     }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(32px); }
+  to   { opacity: 1; transform: translateX(0);    }
+}
+
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1;    transform: scale(1);    }
+  50%       { opacity: 0.75; transform: scale(0.97); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0);   }
+  50%       { transform: translateY(-8px); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+
+/* ── CLASSES UTILITAIRES ANIMATION ───────────────────────── */
+
+/* Entrée fade + slide-up (CSS fallback sans Framer) */
+.animate-fade-up {
+  animation: fadeInUp 0.55s cubic-bezier(0.0, 0.0, 0.2, 1.0) both;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s cubic-bezier(0.0, 0.0, 0.2, 1.0) both;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.45s cubic-bezier(0.34, 1.56, 0.64, 1.0) both;
+}
+
+/* Délais stagger — à combiner avec .animate-* */
+.delay-1 { animation-delay: 0.1s; }
+.delay-2 { animation-delay: 0.2s; }
+.delay-3 { animation-delay: 0.3s; }
+.delay-4 { animation-delay: 0.4s; }
+.delay-5 { animation-delay: 0.5s; }
+.delay-6 { animation-delay: 0.6s; }
+
+/* Float continu — pills Hero, badges */
+.animate-float       { animation: float 3.5s ease-in-out infinite; }
+.animate-float-slow  { animation: float 5.0s ease-in-out infinite; }
+.animate-pulse-soft  { animation: pulse-soft 2.5s ease-in-out infinite; }
+
+/* ── CARDS — Standards CLAUDE.md v5.0 ────────────────────── */
+
+/* Justification globale des descriptions dans toutes les cartes */
+.card p,
+.cards-flush > * p {
+  text-align: justify;
+}
+
+/* Base card — transition complète sur toutes les propriétés animées */
+.card {
+  display:          flex;
+  flex-direction:   column;
+  height:           100%;
+  background-color: #FFFFFF;
+  border:           1px solid var(--border-default);
+  border-radius:    var(--border-radius-lg);
+  box-shadow:       var(--shadow-sm);
+  padding:          28px;
+  transition:
+    transform      250ms cubic-bezier(0.0, 0.0, 0.2, 1.0),
+    box-shadow     250ms cubic-bezier(0.0, 0.0, 0.2, 1.0),
+    border-color   250ms cubic-bezier(0.0, 0.0, 0.2, 1.0),
+    background-color 200ms ease;
+  will-change: transform, box-shadow;
+}
+
+.card:hover {
+  transform:    translateY(-6px);
+  box-shadow:   0 16px 48px rgba(27,42,74,0.14), 0 4px 12px rgba(27,42,74,0.08);
+  border-color: rgba(232,97,26,0.35);
+}
+
+/* Hover carte subtil — grilles denses, section-alt */
+.card-subtle:hover {
+  transform:    translateY(-4px);
+  box-shadow:   0 10px 32px rgba(27,42,74,0.11), 0 2px 8px rgba(27,42,74,0.06);
+  border-color: var(--border-strong);
+}
+
+/* Icône de carte — transition couleur + scale */
+.card-icon {
+  display:          flex;
+  align-items:      center;
+  justify-content:  center;
+  width:            44px;
+  height:           44px;
+  border-radius:    var(--border-radius-md);
+  background-color: var(--color-blue-50);
+  color:            var(--color-blue-800);
+  flex-shrink:      0;
+  transition:
+    background-color 200ms ease,
+    color            200ms ease,
+    transform        200ms cubic-bezier(0.34, 1.56, 0.64, 1.0);
+}
+
+/* L'icône suit l'état hover de sa card parente */
+.card:hover .card-icon {
+  background-color: rgba(232,97,26,0.1);
+  color:            var(--color-orange-500);
+  transform:        scale(1.1);
+}
+
+/* Lien interne des cards — flèche qui glisse */
+.card-link {
+  display:     inline-flex;
+  align-items: center;
+  gap:         6px;
+  font-family: var(--font-body);
+  font-size:   13px;
+  font-weight: 600;
+  color:       var(--color-blue-800);
+  text-decoration: none;
+  transition:  color 200ms ease;
+  margin-top:  auto;
+  padding-top: 16px;
+}
+
+.card-link:hover {
+  color: var(--color-orange-500);
+}
+
+.card-link svg {
+  transition: transform 200ms cubic-bezier(0.0, 0.0, 0.2, 1.0);
+}
+
+.card-link:hover svg {
+  transform: translateX(4px);
+}
+
+.card-icon {
+  display:          flex;
+  align-items:      center;
+  justify-content:  center;
+  width:            2.75rem;   /* 44px */
+  height:           2.75rem;   /* 44px */
+  border-radius:    var(--radius-md);
+  background-color: rgba(232, 97, 26, 0.08);
+  color:            var(--color-orange-500);
+  margin-bottom:    1rem;
+  flex-shrink:      0;
+}
+
+/* ── BUTTONS ──────────────────────────────────────────────── */
+.btn {
+  display:         inline-flex;
+  align-items:     center;
+  justify-content: center;
+  gap:             0.5rem;
+  font-family:     var(--font-body);
+  font-weight:     600;
+  border-radius:   var(--radius-md);
+  cursor:          pointer;
+  transition:      all 0.2s ease;
+  white-space:     nowrap;
+  text-decoration: none;
+  border:          none;
+  outline:         none;
+}
+
+.btn-sm  { font-size: 0.875rem;  padding: 0.5rem 1rem; }
+.btn-md  { font-size: 0.9375rem; padding: 0.75rem 1.5rem; }
+.btn-lg  { font-size: 1rem;      padding: 0.875rem 2rem; }
+
+.btn-primary {
+  background-color: var(--btn-primary-bg);  /* #E8622A */
+  color:            #FFFFFF;
+  transition:       all 0.2s ease;
+}
+.btn-primary:hover {
+  background-color: var(--btn-primary-hover); /* #C9501E */
+  transform:        translateY(-1px);
+  box-shadow:       var(--btn-primary-shadow);
+}
+.btn-primary:active {
+  background-color: var(--btn-primary-hover);
+  transform:        translateY(0);
+}
+
+.btn-secondary {
+  background-color: var(--btn-secondary-bg);  /* #1B2B4B */
+  color:            #FFFFFF;
+  transition:       all 0.2s ease;
+}
+.btn-secondary:hover {
+  background-color: var(--btn-secondary-hover); /* #243659 */
+  transform:        translateY(-1px);
+}
+.btn-secondary:active {
+  background-color: var(--btn-secondary-hover);
+  transform:        translateY(0);
+}
+
+.btn-ghost {
+  background-color: transparent;
+  color:            var(--btn-ghost-border);   /* #1B2B4B */
+  border:           1.5px solid var(--btn-ghost-border);
+  transition:       all 0.2s ease;
+}
+.btn-ghost:hover {
+  background-color: var(--btn-ghost-hover-bg); /* #1B2B4B */
+  color:            #FFFFFF;
+}
+
+.btn-outline {
+  background-color: transparent;
+  color:            var(--btn-primary-bg);
+  border:           1.5px solid var(--btn-primary-bg);
+  transition:       all 0.2s ease;
+}
+.btn-outline:hover {
+  background-color: var(--btn-primary-bg);
+  color:            #FFFFFF;
+}
+
+.btn:focus-visible {
+  outline:        2px solid var(--ring-focus);
+  outline-offset: 2px;
+}
+
+/* ── SECTION HEADER ───────────────────────────────────────── */
+.section-header { margin-bottom: 3rem; }
+.section-header.center {
+  text-align:    center;
+  max-width:     640px;
+  margin-inline: auto;
+  margin-bottom: 3rem;
+}
+
+/* ── HEADER / NAV ─────────────────────────────────────────── */
+.nav-scrolled {
+  background-color:          rgba(27, 42, 74, 0.95);
+  backdrop-filter:           blur(20px);
+  -webkit-backdrop-filter:   blur(20px);
+  border-bottom:             1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:                var(--shadow-md);
+}
+
+.nav-link {
+  position:        relative;
+  font-size:       0.875rem;
+  font-weight:     500;
+  color:           var(--text-secondary);
+  text-decoration: none;
+  padding-block:   0.25rem;
+  transition:      color 0.15s ease;
+}
+.nav-link:hover  { color: var(--text-primary); }
+.nav-link.active { color: var(--text-primary); }
+.nav-link.active::after {
+  content:          '';
+  position:         absolute;
+  bottom:           0;
+  left:             0;
+  width:            100%;
+  height:           2px;
+  background-color: var(--color-orange-500);
+  border-radius:    9999px;
+}
+
+/* ── MEGA MENU ────────────────────────────────────────────── */
+.mega-menu {
+  background-color: #FFFFFF;
+  border:           1px solid var(--border-default);
+  box-shadow:       var(--shadow-lg);
+  border-radius:    var(--radius-lg);
+}
+
+.mega-menu-item {
+  display:         flex;
+  align-items:     flex-start;
+  gap:             0.75rem;
+  padding:         0.625rem 0.75rem;
+  border-radius:   var(--radius-md);
+  text-decoration: none;
+  transition:      background-color 0.15s ease;
+}
+.mega-menu-item:hover { background-color: var(--bg-elevated); }
+
+/* ── CODE BLOCK — VS Code Light theme ⛔ PAS de thème dark ── */
+.code-block {
+  background-color: #FAFAFA;
+  border:           1px solid var(--border-default);
+  border-radius:    var(--radius-lg);
+  font-family:      'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+  font-size:        0.8125rem;
+  line-height:      1.7;
+  padding:          1.5rem;
+  overflow-x:       auto;
+}
+.code-block .token-keyword  { color: var(--color-orange-500); font-weight: 600; }
+.code-block .token-string   { color: #16A34A; }
+.code-block .token-comment  { color: var(--text-tertiary); font-style: italic; }
+.code-block .token-property { color: #2563EB; }
+.code-block .token-number   { color: #D97706; }
+
+/* ── BADGE / PILL ─────────────────────────────────────────── */
+.badge {
+  display:        inline-flex;
+  align-items:    center;
+  gap:            0.25rem;
+  font-size:      0.6875rem;
+  font-weight:    700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding:        0.2rem 0.6rem;
+  border-radius:  9999px;
+  white-space:    nowrap;
+}
+.badge-orange  { background-color: var(--color-orange-500); color: #FFFFFF; }
+.badge-popular { background-color: var(--color-orange-500); color: #FFFFFF; }
+.badge-new     { background-color: var(--color-info);       color: #FFFFFF; }
+.badge-bonus   { background-color: var(--color-success);    color: #FFFFFF; }
+.badge-subtle  { background-color: rgba(232,97,26,0.1);     color: var(--color-orange-500); }
+
+/* ── LOGO SCROLL BANNER (CSS keyframes — pas Framer) ─────── */
+.logo-scroll-track {
+  display:   flex;
+  gap:       3rem;
+  animation: logoScroll 30s linear infinite;
+  width:     max-content;
+}
+.logo-scroll-track:hover { animation-play-state: paused; }
+
+@keyframes logoScroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+.logo-scroll-wrapper { position: relative; overflow: hidden; }
+.logo-scroll-wrapper::before,
+.logo-scroll-wrapper::after {
+  content:        '';
+  position:       absolute;
+  top:            0;
+  bottom:         0;
+  width:          120px;
+  z-index:        2;
+  pointer-events: none;
+}
+.logo-scroll-wrapper::before {
+  left:       0;
+  background: linear-gradient(to right, var(--bg-elevated), transparent);
+}
+.logo-scroll-wrapper::after {
+  right:      0;
+  background: linear-gradient(to left, var(--bg-elevated), transparent);
+}
+
+/* ── PROCESS TIMELINE ─────────────────────────────────────── */
+.process-step-number {
+  display:          flex;
+  align-items:      center;
+  justify-content:  center;
+  width:            2.5rem;
+  height:           2.5rem;
+  border-radius:    9999px;
+  background-color: var(--color-blue-900);
+  color:            #FFFFFF;
+  font-family:      var(--font-heading);
+  font-weight:      700;
+  font-size:        0.875rem;
+  flex-shrink:      0;
+  box-shadow:       var(--shadow-sm);
+}
+
+.process-connector {
+  height:        2px;
+  flex:          1;
+  background:    linear-gradient(to right, var(--color-orange-500), var(--border-default));
+  opacity:       0.3;
+  margin-inline: 0.5rem;
+}
+
+/* ── STATS ROW ────────────────────────────────────────────── */
+.stat-value {
+  font-family:    var(--font-heading);
+  font-size:      clamp(1.5rem, 2.5vw, 2rem);
+  font-weight:    800;
+  color:          var(--color-orange-500);
+  line-height:    1;
+  letter-spacing: -0.02em;
+}
+.stat-label {
+  font-size:  0.875rem;
+  color:      var(--text-tertiary);
+  margin-top: 0.25rem;
+}
+
+/* ── FAQ ACCORDION ────────────────────────────────────────── */
+.faq-item { border-bottom: 1px solid var(--border-default); }
+.faq-trigger {
+  display:         flex;
+  align-items:     center;
+  justify-content: space-between;
+  width:           100%;
+  padding-block:   1.25rem;
+  background:      none;
+  border:          none;
+  cursor:          pointer;
+  text-align:      left;
+  font-family:     var(--font-heading);
+  font-weight:     600;
+  font-size:       1rem;
+  color:           var(--text-primary);
+  transition:      color 0.15s ease;
+}
+.faq-trigger:hover { color: var(--color-orange-500); }
+.faq-icon {
+  width:       1.25rem;
+  height:      1.25rem;
+  color:       var(--color-orange-500);
+  flex-shrink: 0;
+  transition:  transform 0.2s ease;
+}
+[data-state="open"] .faq-icon { transform: rotate(45deg); }
+.faq-content {
+  padding-bottom: 1.25rem;
+  font-size:      0.9375rem;
+  color:          var(--text-secondary);
+  line-height:    1.65;
+}
+
+/* ── PRICING CARDS ────────────────────────────────────────── */
+.pricing-card {
+  display:          flex;
+  flex-direction:   column;
+  background-color: var(--bg-base);
+  border:           1px solid var(--border-default);
+  border-radius:    var(--radius-xl);
+  padding:          2rem;
+  box-shadow:       var(--shadow-sm);
+  transition:       all 0.2s ease;
+}
+.pricing-card.featured {
+  border-color: var(--color-orange-500);
+  box-shadow:   var(--shadow-glow);
+  transform:    scale(1.03);
+  position:     relative;
+}
+.pricing-card.featured::before {
+  content:          'Recommandé';
+  position:         absolute;
+  top:              -0.75rem;
+  left:             50%;
+  transform:        translateX(-50%);
+  background-color: var(--color-orange-500);
+  color:            #FFFFFF;
+  font-size:        0.6875rem;
+  font-weight:      700;
+  letter-spacing:   0.08em;
+  text-transform:   uppercase;
+  padding:          0.2rem 0.75rem;
+  border-radius:    9999px;
+}
+
+/* ── COMPARISON TABLE ─────────────────────────────────────── */
+.comparison-table th {
+  background-color: var(--color-orange-500);
+  color:            #FFFFFF;
+  font-family:      var(--font-heading);
+  font-weight:      700;
+  padding:          0.875rem 1rem;
+  text-align:       center;
+}
+.comparison-table td {
+  padding:       0.75rem 1rem;
+  border-bottom: 1px solid var(--border-subtle);
+  text-align:    center;
+  color:         var(--text-secondary);
+  font-size:     0.9375rem;
+}
+.comparison-table tr:nth-child(even) td { background-color: var(--bg-elevated); }
+.comparison-check { color: var(--color-success); }
+.comparison-cross  { color: var(--text-disabled); }
+
+/* ── FOOTER — Fond sombre (même que Hero) ────────────────── */
+.footer {
+  background-color: #0A0B0E;
+  color:            rgba(255,255,255,0.55);
+  border-top:       1px solid rgba(255,255,255,0.08);
+}
+.footer-heading {
+  font-family:    var(--font-heading);
+  font-size:      0.75rem;
+  font-weight:    700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color:          var(--color-orange-500);
+  margin-bottom:  1rem;
+}
+.footer-link {
+  display:         inline-flex;
+  align-items:     center;
+  gap:             0.25rem;
+  font-size:       0.875rem;
+  color:           #718096;
+  text-decoration: none;
+  transition:      color 0.15s ease, transform 0.15s ease;
+}
+.footer-link:hover {
+  color:     var(--color-orange-500);
+  transform: translateX(4px);
+}
+
+/* ── FORM INPUTS ──────────────────────────────────────────── */
+.form-input,
+.form-textarea,
+.form-select {
+  width:            100%;
+  background-color: var(--bg-base);
+  border:           1px solid var(--border-default);
+  border-radius:    var(--radius-md);
+  padding:          0.75rem 1rem;
+  font-family:      var(--font-body);
+  font-size:        0.9375rem;
+  color:            var(--text-primary);
+  transition:       border-color 0.15s ease, box-shadow 0.15s ease;
+  outline:          none;
+}
+.form-input:focus,
+.form-textarea:focus,
+.form-select:focus {
+  border-color: var(--color-orange-500);
+  box-shadow:   0 0 0 3px rgba(232, 97, 26, 0.12);
+}
+.form-input::placeholder,
+.form-textarea::placeholder { color: var(--text-disabled); }
+.form-label {
+  display:       block;
+  font-size:     0.875rem;
+  font-weight:   500;
+  color:         var(--text-primary);
+  margin-bottom: 0.375rem;
+}
+.form-error {
+  font-size:  0.8125rem;
+  color:      var(--color-error);
+  margin-top: 0.25rem;
 }
