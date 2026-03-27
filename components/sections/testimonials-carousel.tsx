@@ -221,9 +221,8 @@ function ReviewCard({ review }: { review: Review }) {
         {/* Texte */}
         <p style={{
           fontFamily: 'var(--font-body)',
-          fontWeight: 300,
+          fontWeight: 'var(--card-text-weight)',
           fontSize:   'var(--card-text-size)',
-              fontWeight: 'var(--card-text-weight)',
           color:      '#4A5568',
           lineHeight: 1.65,
           flex:       1,
