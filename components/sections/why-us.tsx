@@ -166,9 +166,8 @@ export function WhyUs() {
               <p
                 style={{
                   fontFamily: 'var(--font-body)',
-                  fontWeight: 300,
+                  fontWeight: 'var(--card-text-weight)',
                   fontSize:   'var(--card-text-size)',
-              fontWeight: 'var(--card-text-weight)',
                   color:      '#6B7280',
                   lineHeight: 1.7,
                   textAlign:  'justify',
