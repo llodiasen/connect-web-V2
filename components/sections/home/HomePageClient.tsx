@@ -28,12 +28,18 @@ const BL_MED   = '#2D3E5F'   // section-brand-medium, hover dark sections
 const OR_500   = '#E8611A'   // var(--color-orange-500) — eyebrow, icônes, accents UNIQUEMENT
 const OR_400   = '#FF7A20'   // var(--color-orange-400) — accents sur fond sombre
 
-/* Boutons — design system v4.1 */
-const BTN_PRI     = '#E8622A'  // CTA primaire défaut
-const BTN_PRI_HOV = '#C9501E'  // CTA primaire hover
-const BTN_PRI_SHD = '0 4px 12px rgba(232,98,42,0.30)' // CTA primaire ombre hover
-const BTN_SEC     = '#1B2B4B'  // CTA secondaire défaut
-const BTN_SEC_HOV = '#243659'  // CTA secondaire hover
+/* Boutons — design system v4.2 SMALL */
+const BTN_PRI     = '#F05A28'  // CTA primaire défaut
+const BTN_PRI_HOV = '#1B2A3B'  // CTA primaire hover
+const BTN_SEC_HOV = '#1B2A3B'  // CTA secondaire hover
+const BTN_SMALL: React.CSSProperties = {
+  display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+  padding: '8px 16px', fontSize: '14px', borderRadius: '6px',
+  fontWeight: 600, fontFamily: 'var(--font-body)', cursor: 'pointer',
+  textDecoration: 'none', transition: 'all 300ms ease',
+}
+const BTN_PRI_STYLE: React.CSSProperties  = { ...BTN_SMALL, background: BTN_PRI,    color: '#FFFFFF', border: 'none' }
+const BTN_SEC_STYLE: React.CSSProperties  = { ...BTN_SMALL, background: 'transparent', color: '#F05A28', border: '1.5px solid #F05A28' }
 
 /* ─────────────────────────────────────────────────────────────────
    STYLES PARTAGÉS — tokens CLAUDE.md
@@ -232,10 +238,10 @@ function HeroSection() {
           {/* H1 */}
           <h1 style={{
             fontFamily:    'var(--font-heading)',
-            fontWeight:    700,
+            fontWeight:    600,
             fontSize:      'clamp(2.2rem, 5vw, 3.75rem)',
             lineHeight:    1.1,
-            letterSpacing: '-0.04em',
+            letterSpacing: '-0.01em',
             color:         '#FFFFFF',
             marginBottom:  '24px',
           }}>
@@ -247,69 +253,36 @@ function HeroSection() {
           <p style={{
             fontFamily:   'var(--font-jost)',
             fontSize:     'clamp(1rem, 1.8vw, 1.125rem)',
+            fontWeight:   400,
             lineHeight:   1.75,
             color:        '#FFFFFF',
+            opacity:      1,
             maxWidth:     '640px',
             marginBottom: '36px',
             textAlign:    'justify',
           }}>
-            Entrepreneurs, commerçants, PME et startups&nbsp;: nous construisons les solutions digitales qui accélèrent votre croissance — sites performants, boutiques en ligne, automatisation et IA. Du cadrage à la mise en ligne, un seul interlocuteur, des résultats mesurables.
+            Nous développons sur mesure les solutions digitales qui font grandir les entreprises — applications mobile, applications web, SaaS, sites performants, boutiques en ligne, automatisation IA.
           </p>
 
           {/* CTAs — CLAUDE.md : CTA primaire #1B2A4A, hover orange */}
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', marginBottom: '48px' }}>
             <Link
               href="/contact"
-              style={{
-                display:        'inline-flex',
-                alignItems:     'center',
-                gap:            '8px',
-                background:     BTN_PRI,
-                color:          '#FFFFFF',
-                fontFamily:     'var(--font-body)',
-                fontWeight:     600,
-                fontSize:       '13px',
-                height:         '36px',
-                padding:        '0 16px',
-                borderRadius:   '8px',
-                textDecoration: 'none',
-                transition:     'all 0.2s ease',
-              }}
-              onMouseEnter={e => {
-                const el = e.currentTarget as HTMLAnchorElement
-                el.style.background  = BTN_PRI_HOV
-                el.style.transform   = 'translateY(-1px)'
-                el.style.boxShadow   = BTN_PRI_SHD
-              }}
-              onMouseLeave={e => {
-                const el = e.currentTarget as HTMLAnchorElement
-                el.style.background  = BTN_PRI
-                el.style.transform   = 'translateY(0)'
-                el.style.boxShadow   = 'none'
-              }}
+              style={{ ...BTN_PRI_STYLE, gap: '8px' }}
+              onMouseEnter={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = BTN_PRI_HOV; el.style.borderColor = BTN_PRI_HOV }}
+              onMouseLeave={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = BTN_PRI; el.style.borderColor = BTN_PRI }}
+              onMouseDown={e => { (e.currentTarget as HTMLAnchorElement).style.transform = 'scale(0.97)' }}
+              onMouseUp={e => { (e.currentTarget as HTMLAnchorElement).style.transform = 'scale(1)' }}
             >
               Lancer mon projet <ArrowRight size={14} />
             </Link>
             <Link
               href="/portfolio"
-              style={{
-                display:        'inline-flex',
-                alignItems:     'center',
-                gap:            '8px',
-                background:     'rgba(255,255,255,0.08)',
-                border:         '1px solid rgba(255,255,255,0.22)',
-                color:          '#FFFFFF',
-                fontFamily:     'var(--font-body)',
-                fontWeight:     600,
-                fontSize:       '13px',
-                height:         '36px',
-                padding:        '0 16px',
-                borderRadius:   '8px',
-                textDecoration: 'none',
-                transition:     'background 0.2s ease',
-              }}
-              onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.background = 'rgba(255,255,255,0.15)' }}
-              onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.background = 'rgba(255,255,255,0.08)' }}
+              style={{ ...BTN_SEC_STYLE, gap: '8px' }}
+              onMouseEnter={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = BTN_SEC_HOV; el.style.borderColor = BTN_SEC_HOV; el.style.color = '#FFFFFF' }}
+              onMouseLeave={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = 'transparent'; el.style.borderColor = '#F05A28'; el.style.color = '#F05A28' }}
+              onMouseDown={e => { (e.currentTarget as HTMLAnchorElement).style.transform = 'scale(0.97)' }}
+              onMouseUp={e => { (e.currentTarget as HTMLAnchorElement).style.transform = 'scale(1)' }}
             >
               Voir nos réalisations
             </Link>
@@ -499,8 +472,8 @@ function StatsBand() {
 }
 
 const ABOUT_ITEMS: React.ReactNode[] = [
-  <>Plus de leads grâce à des sites optimisés pour la conversion</>,
-  <>Plus de ventes avec des boutiques en ligne qui convertissent</>,
+  <>Plus de leads grâce à des sites pensés pour la conversion</>,
+  <>Plus de ventes avec des boutiques en ligne qui performent</>,
 ]
 
 const ABOUT_PILLS = [
@@ -544,7 +517,7 @@ function AboutSection() {
 
             {/* Eyebrow */}
             <span style={{ ...eyebrow, ...reveal(visible, 0), textAlign: 'left', marginBottom: '20px' }}>
-              QUI SOMMES-NOUS
+              CONNECT WEB
             </span>
 
             {/* Titre H2 */}
@@ -553,7 +526,7 @@ function AboutSection() {
                 ...sectionTitle,
                 ...reveal(visible, 70),
                 fontFamily:    'Clash Display, var(--font-montserrat), sans-serif',
-                fontSize:      'clamp(1.75rem, 2.8vw, 2.25rem)',
+                fontSize:      'clamp(1.875rem, 2.8vw, 2.375rem)',
                 fontWeight:    700,
                 lineHeight:    1.25,
                 letterSpacing: '-0.03em',
@@ -561,11 +534,12 @@ function AboutSection() {
                 textAlign:     'left',
                 margin:        0,
                 marginBottom:  '20px',
-                maxWidth:      '520px',
+                maxWidth:      'none',
               }}
             >
               Solutions digitales{' '}
-              <span style={{ color: 'var(--color-orange-500)' }}>sur mesure</span>{' '}
+              <span style={{ color: 'var(--color-orange-500)', whiteSpace: 'nowrap' }}>sur mesure</span>
+              <br />
               pour votre croissance.
             </h2>
 
@@ -575,116 +549,29 @@ function AboutSection() {
                 ...sectionSubtitle,
                 ...reveal(visible, 130),
                 maxWidth:     'none',
-                fontSize:     '16px',
+                fontSize:     '18px',
                 lineHeight:   1.7,
                 marginBottom: '32px',
                 color:        '#0A0A0A',
-                textAlign:    'left',
+                textAlign:    'justify',
               }}
             >
-              Agence digitale basée à Dakar, Connect-Web conçoit des solutions concrètes — sites, boutiques en ligne, applications métier et automatisation IA.
-              Un seul interlocuteur, des résultats mesurables.
+              Projets abandonnés, outils inadaptés, prestataires qui disparaissent — trop d&apos;entreprises subissent le digital au lieu d&apos;en profiter. Connect-Web est là pour changer ça : nous accompagnons les entreprises, PME, commerces et entrepreneurs qui veulent faire du digital un vrai levier de croissance, pas une source de frustration.
+              <br /><br />
+              Notre mission : concevoir des solutions concrètes face aux vraies problématiques — visibilité en ligne, génération de leads, automatisation des processus et ventes en ligne. Nous maîtrisons les réalités du marché africain et les standards internationaux pour livrer des solutions qui génèrent un ROI mesurable dès les premières semaines.
             </p>
 
-            {/* 2 bullets */}
-            <ul
-              style={{
-                ...reveal(visible, 180),
-                listStyle:     'none',
-                padding:       0,
-                margin:        '0 0 32px 0',
-                display:       'flex',
-                flexDirection: 'column',
-                gap:           '20px',
-              }}
-            >
-              {ABOUT_ITEMS.map((item, i) => (
-                <li
-                  key={i}
-                  style={{
-                    display:     'flex',
-                    alignItems:  'flex-start',
-                    paddingLeft: '16px',
-                    borderLeft:  '2px solid var(--color-orange-500)',
-                  }}
-                >
-                  <span
-                    style={{
-                      fontFamily: 'var(--font-body)',
-                      fontSize:   '17px',
-                      color:      '#0A0A0A',
-                      lineHeight: 1.55,
-                    }}
-                  >
-                    {item}
-                  </span>
-                </li>
-              ))}
-            </ul>
 
-            {/* Pills chiffres — légers, élégants */}
-            <div
-              style={{
-                ...reveal(visible, 230),
-                display:   'flex',
-                flexWrap:  'wrap',
-                gap:       '10px',
-                marginBottom: '36px',
-              }}
-            >
-              {['3+ ans d\'expérience', 'Clients dans 4+ pays', '100% dans les délais'].map(label => (
-                <span key={label} style={{
-                  display:      'inline-flex',
-                  alignItems:   'center',
-                  gap:          '6px',
-                  background:   '#F7F8FA',
-                  border:       '1px solid var(--border-default)',
-                  borderRadius: '100px',
-                  padding:      '6px 14px',
-                  fontFamily:   'var(--font-body)',
-                  fontSize:     '13px',
-                  fontWeight:   500,
-                  color:        'var(--text-primary)',
-                  whiteSpace:   'nowrap',
-                }}>
-                  <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--color-orange-500)', flexShrink: 0 }} />
-                  {label}
-                </span>
-              ))}
-            </div>
 
             {/* CTA — outline orange */}
             <div style={{ ...reveal(visible, 270) }}>
               <Link
                 href="/a-propos"
-                style={{
-                  display:        'inline-flex',
-                  alignItems:     'center',
-                  gap:            '8px',
-                  background:     'transparent',
-                  color:          'var(--color-orange-500)',
-                  border:         '1.5px solid var(--color-orange-500)',
-                  fontFamily:     'var(--font-body)',
-                  fontWeight:     600,
-                  fontSize:       '13px',
-                  height:         '36px',
-                  padding:        '0 16px',
-                  borderRadius:   '8px',
-                  textDecoration: 'none',
-                  transition:     'all 0.2s ease',
-                }}
-                onMouseEnter={e => {
-                  const el = e.currentTarget as HTMLAnchorElement
-                  el.style.background = 'var(--color-orange-500)'
-                  el.style.color      = '#FFFFFF'
-                  el.style.transform  = 'translateY(-1px)'
-                }}
-                onMouseLeave={e => {
-                  const el = e.currentTarget as HTMLAnchorElement
-                  el.style.background = 'transparent'
-                  el.style.color      = 'var(--color-orange-500)'
-                  el.style.transform  = 'translateY(0)'
-                }}
+                style={{ ...BTN_SEC_STYLE, gap: '8px' }}
+                onMouseEnter={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = BTN_SEC_HOV; el.style.borderColor = BTN_SEC_HOV; el.style.color = '#FFFFFF' }}
+                onMouseLeave={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = 'transparent'; el.style.borderColor = '#F05A28'; el.style.color = '#F05A28' }}
+                onMouseDown={e => { (e.currentTarget as HTMLAnchorElement).style.transform = 'scale(0.97)' }}
+                onMouseUp={e => { (e.currentTarget as HTMLAnchorElement).style.transform = 'scale(1)' }}
               >
                 En savoir plus
                 <ArrowRight size={14} />
@@ -701,7 +588,8 @@ function AboutSection() {
               position:     'relative',
               borderRadius: '12px',
               overflow:     'hidden',
-              height:       '480px',
+              alignSelf:    'stretch',
+              minHeight:    '300px',
               flexShrink:   0,
               boxShadow:    '0 20px 60px rgba(0,0,0,0.12), 0 4px 16px rgba(0,0,0,0.06)',
             }}
@@ -1039,7 +927,7 @@ function ServicesSection() {
         <div ref={ref} style={{ textAlign: 'center', marginBottom: '48px' }}>
           <span style={{ ...eyebrow, ...reveal(visible, 0) }}>NOS EXPERTISES</span>
           <h2 style={{ ...sectionTitle, ...reveal(visible, 80), fontSize: '1.875rem', fontFamily: 'Clash Display, var(--font-montserrat), sans-serif', fontWeight: 700 }}>
-            Nos services, vos résultats, votre croissance.
+            Nos expertises, au service de votre croissance.
           </h2>
           <p style={{ ...sectionSubtitle, ...reveal(visible, 160) }}>
             Des sites, boutiques en ligne et outils automatisés qui convertissent. Chaque solution est pensée pour générer du ROI et accélérer votre croissance.
@@ -1066,33 +954,11 @@ function ServicesSection() {
         <div style={{ textAlign: 'center', ...reveal(visible, 320) }}>
           <Link
             href="/services"
-            style={{
-              display:        'inline-flex',
-              alignItems:     'center',
-              gap:            '8px',
-              fontFamily:     'var(--font-body)',
-              fontWeight:     600,
-              fontSize:       '14px',
-              color:          '#FFFFFF',
-              background:     BTN_PRI,
-              borderRadius:   '8px',
-              height:         '44px',
-              padding:        '0 22px',
-              textDecoration: 'none',
-              transition:     'all 0.2s ease',
-            }}
-            onMouseEnter={e => {
-              const el = e.currentTarget as HTMLAnchorElement
-              el.style.background = BTN_PRI_HOV
-              el.style.transform  = 'translateY(-1px)'
-              el.style.boxShadow  = BTN_PRI_SHD
-            }}
-            onMouseLeave={e => {
-              const el = e.currentTarget as HTMLAnchorElement
-              el.style.background = BTN_PRI
-              el.style.transform  = 'translateY(0)'
-              el.style.boxShadow  = 'none'
-            }}
+            style={{ ...BTN_PRI_STYLE, gap: '8px' }}
+            onMouseEnter={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = BTN_PRI_HOV; el.style.borderColor = BTN_PRI_HOV }}
+            onMouseLeave={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = BTN_PRI; el.style.borderColor = BTN_PRI }}
+            onMouseDown={e => { (e.currentTarget as HTMLAnchorElement).style.transform = 'scale(0.97)' }}
+            onMouseUp={e => { (e.currentTarget as HTMLAnchorElement).style.transform = 'scale(1)' }}
           >
             Voir tous nos services <ArrowRight size={15} />
           </Link>
@@ -1109,10 +975,10 @@ function ServicesSection() {
    Source : CONTENT_HOMEPAGE_V4.md > SECTION 4
    ─────────────────────────────────────────────────────────────── */
 const STEPS = [
-  { num: '01', titre: 'Cadrage & stratégie',       desc: "Analyse de votre marché et objectifs. Proposition avec ROI estimé sous 48h.",        badge: 'ROI estimé en 48h'          },
-  { num: '02', titre: 'Conception & validation',    desc: "Maquettes Figma interactives validées par vous avant le moindre code.",              badge: 'Zéro code sans validation'  },
-  { num: '03', titre: 'Développement & itérations', desc: "Sprints de 2 semaines, démos régulières, IA intégrée quand pertinent.",             badge: 'Démos toutes les 2 semaines' },
-  { num: '04', titre: 'Lancement & croissance',     desc: "Mise en production, formation, analytics. On accompagne votre croissance.",          badge: 'Support continu inclus'     },
+  { num: '01', titre: 'Audit & diagnostic',          desc: "Analyse de votre existant, identification des blocages et opportunités.",                badge: 'Audit livré en 48h'           },
+  { num: '02', titre: 'Stratégie & architecture',    desc: "Choix technologiques, roadmap priorisée, estimation budgétaire transparente.",                                      badge: 'Stack validée avec vous'      },
+  { num: '03', titre: 'Développement agile',          desc: "Code propre, testé, documenté. Vous suivez l'avancement en temps réel sur votre tableau de bord.",            badge: 'Accès tableau de bord live'   },
+  { num: '04', titre: 'Lancement & optimisation',    desc: "Mise en production, monitoring, formation équipe. On reste là après le go-live.",                                  badge: 'Suivi post-lancement inclus'  },
 ]
 
 function ProcessSection() {
@@ -1133,11 +999,11 @@ function ProcessSection() {
           </p>
         </div>
 
-        {/* Timeline horizontale */}
-        <div style={{ position: 'relative', ...reveal(visible, 220) }}>
+        {/* Timeline */}
+        <div style={{ position: 'relative', overflowX: 'hidden', ...reveal(visible, 220) }}>
 
-          {/* Ligne horizontale continue au centre des cercles */}
-          <div aria-hidden="true" style={{
+          {/* Ligne horizontale — desktop uniquement */}
+          <div aria-hidden="true" className="hidden lg:block" style={{
             position:     'absolute',
             top:          '20px',
             left:         '0',
@@ -1148,7 +1014,7 @@ function ProcessSection() {
             zIndex:       0,
           }} />
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '20px' }}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4" style={{ gap: '20px' }}>
             {STEPS.map((step, i) => {
               const isEven = i % 2 === 0
               return (
@@ -1199,13 +1065,13 @@ function ProcessSection() {
                       el.style.boxShadow = isEven ? '0 2px 8px rgba(232,98,42,0.06)' : '0 1px 4px rgba(0,0,0,0.05)'
                     }}
                   >
-                    <h3 style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '17px', color: 'var(--text-primary)', marginBottom: '8px', lineHeight: 1.3, textAlign: 'left' }}>
+                    <h3 style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: 'clamp(14.5px, 1.35vw, 18px)', color: 'var(--text-primary)', marginBottom: '8px', lineHeight: 1.3, textAlign: 'left' }}>
                       {step.titre}
                     </h3>
-                    <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--card-text-size)', lineHeight: 1.65, color: 'var(--text-secondary)', margin: '0 0 14px', textAlign: 'left' }}>
+                    <p style={{ fontFamily: 'var(--font-body)', fontSize: '16.5px', lineHeight: 1.65, color: 'var(--text-primary)', margin: '0 0 14px', textAlign: 'justify', display: '-webkit-box', WebkitLineClamp: 4, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
                       {step.desc}
                     </p>
-                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', fontFamily: 'var(--font-body)', fontSize: '11.5px', fontWeight: 600, color: OR_500, background: 'rgba(232,98,42,0.07)', border: '1px solid rgba(232,98,42,0.18)', borderRadius: '6px', padding: '5px 10px', whiteSpace: 'nowrap' }}>
+                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', fontFamily: 'var(--font-body)', fontSize: '12.5px', fontWeight: 600, color: OR_500, background: 'rgba(232,98,42,0.07)', border: '1px solid rgba(232,98,42,0.18)', borderRadius: '6px', padding: '5px 10px', whiteSpace: 'nowrap' }}>
                       <Check size={11} color={OR_500} strokeWidth={2.5} />
                       {step.badge}
                     </span>
@@ -1586,34 +1452,11 @@ function OffresSection() {
               {/* CTA — CLAUDE.md : #1B2A4A défaut, hover orange */}
               <Link
                 href="/contact"
-                style={{
-                  display:        'flex',
-                  alignItems:     'center',
-                  justifyContent: 'center',
-                  gap:            '6px',
-                  background:     BTN_PRI,
-                  border:         'none',
-                  color:          '#FFFFFF',
-                  fontFamily:     'var(--font-body)',
-                  fontWeight:     600,
-                  fontSize:       '14px',
-                  height:         '44px',
-                  borderRadius:   '8px',
-                  textDecoration: 'none',
-                  transition:     'all 0.2s ease',
-                }}
-                onMouseEnter={e => {
-                  const el = e.currentTarget as HTMLAnchorElement
-                  el.style.background = BTN_PRI_HOV
-                  el.style.transform  = 'translateY(-1px)'
-                  el.style.boxShadow  = BTN_PRI_SHD
-                }}
-                onMouseLeave={e => {
-                  const el = e.currentTarget as HTMLAnchorElement
-                  el.style.background = BTN_PRI
-                  el.style.transform  = 'translateY(0)'
-                  el.style.boxShadow  = 'none'
-                }}
+                style={{ ...BTN_PRI_STYLE, gap: '6px', width: '100%' }}
+                onMouseEnter={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = BTN_PRI_HOV; el.style.borderColor = BTN_PRI_HOV }}
+                onMouseLeave={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = BTN_PRI; el.style.borderColor = BTN_PRI }}
+                onMouseDown={e => { (e.currentTarget as HTMLAnchorElement).style.transform = 'scale(0.97)' }}
+                onMouseUp={e => { (e.currentTarget as HTMLAnchorElement).style.transform = 'scale(1)' }}
               >
                 Démarrer ce projet <ArrowRight size={14} />
               </Link>
@@ -1625,32 +1468,11 @@ function OffresSection() {
         <div style={{ textAlign: 'center', marginBottom: '48px' }}>
           <Link
             href="/services"
-            style={{
-              display:        'inline-flex',
-              alignItems:     'center',
-              gap:            '8px',
-              background:     'transparent',
-              border:         `1.5px solid ${BL_DARK}`,
-              color:          BL_DARK,
-              fontFamily:     'var(--font-body)',
-              fontWeight:     600,
-              fontSize:       '15px',
-              height:         '44px',
-              padding:        '0 28px',
-              borderRadius:   '8px',
-              textDecoration: 'none',
-              transition:     'all 0.2s ease',
-            }}
-            onMouseEnter={e => {
-              const el = e.currentTarget as HTMLAnchorElement
-              el.style.background = BL_DARK
-              el.style.color      = '#FFFFFF'
-            }}
-            onMouseLeave={e => {
-              const el = e.currentTarget as HTMLAnchorElement
-              el.style.background = 'transparent'
-              el.style.color      = BL_DARK
-            }}
+            style={{ ...BTN_SEC_STYLE, gap: '8px' }}
+            onMouseEnter={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = BTN_SEC_HOV; el.style.borderColor = BTN_SEC_HOV; el.style.color = '#FFFFFF' }}
+            onMouseLeave={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = 'transparent'; el.style.borderColor = '#F05A28'; el.style.color = '#F05A28' }}
+            onMouseDown={e => { (e.currentTarget as HTMLAnchorElement).style.transform = 'scale(0.97)' }}
+            onMouseUp={e => { (e.currentTarget as HTMLAnchorElement).style.transform = 'scale(1)' }}
           >
             Voir toutes les offres <ArrowRight size={15} />
           </Link>
@@ -1750,33 +1572,11 @@ function CtaBannerSection() {
         }}>
           <Link
             href="/contact"
-            style={{
-              display:        'inline-flex',
-              alignItems:     'center',
-              gap:            '8px',
-              background:     BTN_PRI,
-              color:          '#FFFFFF',
-              fontFamily:     'var(--font-body)',
-              fontWeight:     600,
-              fontSize:       '13px',
-              height:         '38px',
-              padding:        '0 20px',
-              borderRadius:   '8px',
-              textDecoration: 'none',
-              transition:     'all 0.2s ease',
-            }}
-            onMouseEnter={e => {
-              const el = e.currentTarget as HTMLAnchorElement
-              el.style.background = BTN_PRI_HOV
-              el.style.transform  = 'translateY(-2px)'
-              el.style.boxShadow  = BTN_PRI_SHD
-            }}
-            onMouseLeave={e => {
-              const el = e.currentTarget as HTMLAnchorElement
-              el.style.background = BTN_PRI
-              el.style.transform  = 'translateY(0)'
-              el.style.boxShadow  = 'none'
-            }}
+            style={{ ...BTN_PRI_STYLE, gap: '8px' }}
+            onMouseEnter={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = BTN_PRI_HOV; el.style.borderColor = BTN_PRI_HOV }}
+            onMouseLeave={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = BTN_PRI; el.style.borderColor = BTN_PRI }}
+            onMouseDown={e => { (e.currentTarget as HTMLAnchorElement).style.transform = 'scale(0.97)' }}
+            onMouseUp={e => { (e.currentTarget as HTMLAnchorElement).style.transform = 'scale(1)' }}
           >
             Démarrer mon projet <ArrowRight size={16} />
           </Link>
@@ -2012,7 +1812,7 @@ function ContactCTASection() {
               fontFamily:   'var(--font-body)',
               fontSize:     '15px',
               lineHeight:   1.7,
-              color:        'var(--text-on-dark-muted)',
+              color:        '#FFFFFF',
               marginBottom: '40px',
             }}>
               Entrepreneur, commerçant ou dirigeant de PME — réponse sous 24h · Proposition avec ROI estimé sous 48h · Sans engagement
@@ -2177,37 +1977,20 @@ function ContactCTASection() {
                   type="submit"
                   disabled={loading}
                   style={{
-                    display:        'flex',
-                    alignItems:     'center',
-                    justifyContent: 'center',
-                    gap:            '8px',
-                    background:     loading ? 'rgba(232,98,42,0.4)' : BTN_PRI,
-                    color:          '#FFFFFF',
-                    fontFamily:     'var(--font-body)',
-                    fontWeight:     700,
-                    fontSize:       '15px',
-                    height:         '52px',
-                    borderRadius:   '8px',
-                    border:         'none',
-                    cursor:         loading ? 'not-allowed' : 'pointer',
-                    transition:     'all 0.2s ease',
+                    ...BTN_PRI_STYLE,
+                    gap:       '8px',
+                    width:     '100%',
+                    background: loading ? 'rgba(240,90,40,0.4)' : BTN_PRI,
+                    cursor:    loading ? 'not-allowed' : 'pointer',
                   }}
                   onMouseEnter={e => {
-                    if (!loading) {
-                      const el = e.currentTarget as HTMLButtonElement
-                      el.style.background = BTN_PRI_HOV
-                      el.style.transform  = 'translateY(-1px)'
-                      el.style.boxShadow  = BTN_PRI_SHD
-                    }
+                    if (!loading) { const el = e.currentTarget as HTMLButtonElement; el.style.background = BTN_PRI_HOV; el.style.borderColor = BTN_PRI_HOV }
                   }}
                   onMouseLeave={e => {
-                    if (!loading) {
-                      const el = e.currentTarget as HTMLButtonElement
-                      el.style.background = BTN_PRI
-                      el.style.transform  = 'translateY(0)'
-                      el.style.boxShadow  = 'none'
-                    }
+                    if (!loading) { const el = e.currentTarget as HTMLButtonElement; el.style.background = BTN_PRI; el.style.borderColor = BTN_PRI }
                   }}
+                  onMouseDown={e => { if (!loading) (e.currentTarget as HTMLButtonElement).style.transform = 'scale(0.97)' }}
+                  onMouseUp={e => { if (!loading) (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1)' }}
                 >
                   {loading ? 'Envoi...' : 'Envoyer ma demande'} {!loading && <ArrowRight size={16} />}
                 </button>
@@ -2298,7 +2081,7 @@ function ContactCTASection() {
                     <div style={{
                       fontFamily:   'var(--font-body)',
                       fontSize:     '14px',
-                      color:        'var(--color-orange-400)',
+                      color:        '#FFFFFF',
                       fontWeight:   600,
                       marginBottom: '4px',
                     }}>
@@ -2307,7 +2090,7 @@ function ContactCTASection() {
                     <div style={{
                       fontFamily: 'var(--font-body)',
                       fontSize:   '13px',
-                      color:      'var(--text-on-dark-muted)',
+                      color:      '#FFFFFF',
                     }}>
                       {alt.detail}
                     </div>

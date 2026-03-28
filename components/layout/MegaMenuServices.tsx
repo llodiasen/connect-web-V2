@@ -24,12 +24,14 @@ const COLUMNS = [
     ],
   },
   {
-    label: 'E-commerce',
+    label: 'Site internet',
     items: [
       { label: 'Sites E-commerce',       href: '/services/sites-ecommerce'       },
       { label: 'Boutique Shopify',        href: '/services/boutique-shopify'      },
       { label: 'Boutique WooCommerce',    href: '/services/boutique-woocommerce'  },
       { label: 'Marketplace',             href: '/services/marketplace'           },
+      { label: 'Sites Vitrine',           href: '/services/sites-vitrine'         },
+      { label: 'Landing Pages',           href: '/services/landing-pages'         },
     ],
   },
   {
@@ -42,11 +44,11 @@ const COLUMNS = [
     ],
   },
   {
-    label: 'Web & Produit',
+    label: 'Technologie NFC',
     items: [
-      { label: 'Sites Vitrine',           href: '/services/sites-vitrine'        },
-      { label: 'Carte NFC',               href: '/services/carte-visite-nfc'     },
-      { label: 'Landing Pages',           href: '/services/landing-pages'        },
+      { label: 'Carte de visite NFC',     href: '/services/carte-visite-nfc'     },
+      { label: 'Menu Digital NFC',        href: '/services/menu-digital'         },
+      { label: 'Pack NFC Business',       href: '/services/nfc'                  },
     ],
   },
 ]
