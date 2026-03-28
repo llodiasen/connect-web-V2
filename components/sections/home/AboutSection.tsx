@@ -48,13 +48,48 @@ export default function AboutSection() {
                 fontFamily: 'DM Sans, sans-serif',
               }}
             >
-              Connect Web accompagne les PME, startups et entrepreneurs dans la
-              conception de solutions digitales sur mesure. Sites web,
-              applications mobiles, logiciels SaaS — on prend en charge votre
-              projet de A à Z, du brief au déploiement. Chaque solution est
-              pensée pour votre marché, vos utilisateurs et vos objectifs
-              business. On ne livre pas du code, on livre des résultats.
+              Trop d&apos;entreprises subissent le digital au lieu d&apos;en profiter — projets
+              abandonnés, outils inadaptés, prestataires qui disparaissent.
+              Connect-Web accompagne les entreprises, PME, commerces et
+              entrepreneurs qui veulent faire du digital un vrai levier de
+              croissance, pas une source de frustration.
             </p>
+            <p
+              className="text-body"
+              style={{
+                color: '#555',
+                lineHeight: '1.8',
+                marginTop: '16px',
+                fontFamily: 'DM Sans, sans-serif',
+              }}
+            >
+              Notre mission : concevoir des solutions concrètes qui répondent aux
+              vraies problématiques — visibilité en ligne, génération de leads,
+              automatisation des processus, et ventes en ligne. Nous comprenons
+              votre métier, nous maîtrisons les réalités du marché africain et
+              les standards internationaux, et nous livrons dans les délais —
+              sans mauvaises surprises, avec des résultats mesurables dès les
+              premières semaines.
+            </p>
+            <ul
+              style={{
+                listStyle: 'none',
+                margin: '20px 0 0',
+                padding: 0,
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '10px',
+              }}
+            >
+              <li style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#111', fontFamily: 'DM Sans, sans-serif', fontSize: '15px' }}>
+                <span style={{ width: '7px', height: '7px', borderRadius: '50%', backgroundColor: 'var(--orange)', flexShrink: 0 }} />
+                Plus de leads grâce à des sites pensés pour la conversion
+              </li>
+              <li style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#111', fontFamily: 'DM Sans, sans-serif', fontSize: '15px' }}>
+                <span style={{ width: '7px', height: '7px', borderRadius: '50%', backgroundColor: 'var(--orange)', flexShrink: 0 }} />
+                Plus de ventes avec des boutiques en ligne qui performent
+              </li>
+            </ul>
           </div>
         </div>
       </div>
