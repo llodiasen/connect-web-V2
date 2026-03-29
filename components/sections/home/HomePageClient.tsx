@@ -160,6 +160,17 @@ const CLIENT_LOGOS = [
   { name: 'Client 2',         src: '/Clients/images (5).jpg'               },
 ]
 
+const HERO_CSS = `
+@media (min-width: 768px) and (max-width: 1023px) {
+  .hero-title   { font-size: clamp(2rem, 4.5vw, 3rem) !important; }
+  .hero-eyebrow { font-size: clamp(0.65rem, 1.5vw, 0.875rem) !important; }
+}
+@media (max-width: 767px) {
+  .hero-title   { font-size: clamp(1.6875rem, 4vw, 3.1875rem) !important; }
+  .hero-eyebrow { font-size: clamp(0.6rem, 2.5vw, 0.875rem) !important; }
+}
+`
+
 function HeroSection() {
   return (
     <section
@@ -186,6 +197,8 @@ function HeroSection() {
         }} />
       </div>
 
+      <style>{HERO_CSS}</style>
+
       {/* Grille de points décorative */}
       <div aria-hidden="true" style={{
         position:        'absolute',
@@ -209,7 +222,7 @@ function HeroSection() {
         <div style={{ maxWidth: '760px' }}>
 
           {/* Badge eyebrow — orange (CLAUDE.md : eyebrow = orange) */}
-          <span style={{
+          <span className="hero-eyebrow" style={{
             display:       'inline-flex',
             alignItems:    'center',
             gap:           '8px',
@@ -236,7 +249,7 @@ function HeroSection() {
           </span>
 
           {/* H1 */}
-          <h1 style={{
+          <h1 className="hero-title" style={{
             fontFamily:    'var(--font-heading)',
             fontWeight:    600,
             fontSize:      'clamp(2.2rem, 5vw, 3.75rem)',
@@ -338,8 +351,8 @@ function StatsGrid() {
               {label}
             </p>
 
-            {/* Description muted */}
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: '15px', fontWeight: 'var(--font-light)' as unknown as number, color: 'var(--text-tertiary)', lineHeight: 1.45 }}>
+            {/* Description muted — masquée sur mobile */}
+            <p className="hidden sm:block" style={{ fontFamily: 'var(--font-body)', fontSize: '15px', fontWeight: 'var(--font-light)' as unknown as number, color: 'var(--text-tertiary)', lineHeight: 1.45 }}>
               {desc}
             </p>
           </div>
@@ -424,9 +437,17 @@ function ClientLogos() {
 
 // CSS responsive injecté une seule fois — évite Tailwind pour les breakpoints complexes
 const ABOUT_CSS = `
+@media (min-width: 768px) and (max-width: 1023px) {
+  .about-grid  { flex-direction: column !important; }
+  .about-img   { order: -1; height: 320px !important; min-height: unset !important; margin-right: 0 !important; border-radius: 12px !important; }
+  .about-title { font-size: clamp(1.5rem, 3.5vw, 2rem) !important; }
+  .about-body  { font-size: 16px !important; }
+}
 @media (max-width: 767px) {
-  .about-grid { flex-direction: column !important; }
+  .about-grid  { flex-direction: column !important; }
   .about-img   { order: -1; height: 280px !important; min-height: unset !important; margin-right: 0 !important; border-radius: 12px !important; }
+  .about-title { font-size: clamp(1.375rem, 5vw, 1.875rem) !important; }
+  .about-body  { font-size: 16px !important; }
 }
 .about-img-inner { transition: transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94); }
 .about-img:hover .about-img-inner { transform: scale(1.03); }
@@ -522,6 +543,7 @@ function AboutSection() {
 
             {/* Titre H2 */}
             <h2
+              className="about-title"
               style={{
                 ...sectionTitle,
                 ...reveal(visible, 70),
@@ -545,6 +567,7 @@ function AboutSection() {
 
             {/* Paragraphe — 2 phrases, voix unique */}
             <p
+              className="about-body"
               style={{
                 ...sectionSubtitle,
                 ...reveal(visible, 130),
@@ -784,6 +807,18 @@ const SERVICES_TOP6: Service[] = [
 const SERVICES_CSS = `
 @media (max-width: 639px)  { .svc-grid { grid-template-columns: 1fr !important; } }
 @media (min-width: 640px) and (max-width: 1023px) { .svc-grid { grid-template-columns: repeat(2,1fr) !important; } }
+@media (max-width: 767px) {
+  .svc-section          { overflow-x: hidden !important; }
+  .svc-container        { padding-left: 16px !important; padding-right: 16px !important; }
+  .svc-grid             { width: 100% !important; margin: 0 !important; padding: 0 !important; }
+  .svc-grid > *         { width: 100% !important; margin-left: 0 !important; margin-right: 0 !important; }
+  .svc-grid .card-icon  { margin-left: auto !important; margin-right: auto !important; }
+  .svc-grid h3          { text-align: center !important; }
+  .svc-grid p           { text-align: center !important; }
+  .svc-grid .card-link  { justify-content: center !important; }
+  .svc-grid .card-techs { justify-content: center !important; }
+  .svc-btn              { margin-top: 16px !important; }
+}
 `
 
 /* ── ServiceCard — hover state isolé par carte ── */
@@ -822,7 +857,7 @@ function ServiceCard({ svc, index }: { svc: Service; index: number }) {
         }}
       >
         {/* Icône */}
-        <div style={{
+        <div className="card-icon" style={{
           width:          '44px',
           height:         '44px',
           borderRadius:   '10px',
@@ -867,7 +902,7 @@ function ServiceCard({ svc, index }: { svc: Service; index: number }) {
         </p>
 
         {/* Badges techs */}
-        <div style={{ display: 'flex', flexWrap: 'nowrap', gap: '6px', marginBottom: '16px', overflow: 'hidden' }}>
+        <div className="card-techs" style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '16px', overflow: 'hidden' }}>
           {svc.techs.slice(0, 4).map(t => (
             <span key={t} style={{
               fontFamily:   'var(--font-body)',
@@ -888,10 +923,11 @@ function ServiceCard({ svc, index }: { svc: Service; index: number }) {
         <div style={{ flexGrow: 1 }} />
 
         {/* CTA — séparateur + lien */}
-        <div style={{
+        <div className="card-link" style={{
           paddingTop:  '16px',
           borderTop:   `1px solid ${hovered ? 'rgba(232,97,26,0.12)' : 'rgba(0,0,0,0.06)'}`,
           transition:  'border-top-color 0.25s ease',
+          display:     'flex',
         }}>
           <Link
             href={svc.href}
@@ -919,9 +955,9 @@ function ServicesSection() {
   const [ref, visible] = useReveal()
 
   return (
-    <section id="services" className="section-base" style={{ background: '#F5F5F3' }}>
+    <section id="services" className="section-base svc-section" style={{ background: '#F5F5F3' }}>
       <style dangerouslySetInnerHTML={{ __html: SERVICES_CSS }} />
-      <div className="container" style={{ paddingBlock: 0 }}>
+      <div className="container svc-container" style={{ paddingBlock: 0 }}>
 
         {/* Header */}
         <div ref={ref} style={{ textAlign: 'center', marginBottom: '48px' }}>
@@ -951,7 +987,7 @@ function ServicesSection() {
         </div>
 
         {/* Bouton Voir plus */}
-        <div style={{ textAlign: 'center', ...reveal(visible, 320) }}>
+        <div className="svc-btn" style={{ textAlign: 'center', ...reveal(visible, 320) }}>
           <Link
             href="/services"
             style={{ ...BTN_PRI_STYLE, gap: '8px' }}

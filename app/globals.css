@@ -1137,3 +1137,48 @@ a {
   color:      var(--color-error);
   margin-top: 0.25rem;
 }
+
+/* ── RESPONSIVE TYPOGRAPHY — Mobile & Tablette ───────────── */
+
+/* Tablette (768px – 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .section-base h2,
+  .section-alt h2,
+  .section-brand h2,
+  .section-brand-medium h2 {
+    font-size: clamp(1.5rem, 3.5vw, 2rem) !important;
+  }
+
+  .section-base p,
+  .section-alt p,
+  .section-brand p,
+  .section-brand-medium p {
+    font-size: 16px !important;
+  }
+
+  .card h3     { font-size: 18px !important; }
+  #process h3  { font-size: 17px !important; }
+  #offres h3   { font-size: 18px !important; }
+}
+
+/* Mobile (< 768px) */
+@media (max-width: 767px) {
+  .section-base h2,
+  .section-alt h2,
+  .section-brand h2,
+  .section-brand-medium h2 {
+    font-size: clamp(1.375rem, 5vw, 1.875rem) !important;
+  }
+
+  .section-base p,
+  .section-alt p,
+  .section-brand p,
+  .section-brand-medium p {
+    font-size: 16px !important;
+  }
+
+  .card h3     { font-size: 17px !important; }
+  #process h3  { font-size: 19px !important; }
+  #offres h3   { font-size: 17px !important; }
+}
+
