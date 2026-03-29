@@ -353,8 +353,8 @@ function ClientLogos() {
   const doubled = [...CLIENT_LOGOS, ...CLIENT_LOGOS]
 
   return (
-    <section className="section-base" style={{ background: '#FFFFFF', paddingBlock: '40px' }}>
-      <div className="container">
+    <section className="section-base" style={{ background: '#FFFFFF', paddingBlock: '40px', overflow: 'hidden' }}>
+      <div className="container" style={{ overflow: 'hidden' }}>
 
         {/* Logo carousel — seamless scroll */}
         <style>{`
@@ -1988,7 +1988,7 @@ function ContactCTASection() {
    ─────────────────────────────────────────────────────────────── */
 export function HomePageClient() {
   return (
-    <main>
+    <main style={{ overflowX: 'hidden', maxWidth: '100%' }}>
       <HeroSection />
       <StatsGrid />
       <AboutSection />

@@ -287,6 +287,8 @@
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  overflow-x: hidden;
+  max-width: 100%;
 }
 
 body {
@@ -299,6 +301,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100dvh;
+  overflow-x: hidden;
+  max-width: 100%;
 }
 
 /* ── TYPOGRAPHIE DE BASE ──────────────────────────────────── */
@@ -427,6 +431,8 @@ a {
   background-color: #FFFFFF;
   padding-block:    var(--section-padding-y);
   padding-inline:   var(--section-padding-x);
+  width:            100%;
+  overflow-x:       hidden;
 }
 
 /* Sections bleuté très léger — sections alternées light */
@@ -434,6 +440,8 @@ a {
   background-color: #F4F6FA;
   padding-block:    var(--section-padding-y);
   padding-inline:   var(--section-padding-x);
+  width:            100%;
+  overflow-x:       hidden;
 }
 
 /* Sections bleu très clair — accent soft */
@@ -449,6 +457,8 @@ a {
   color:            #FFFFFF;
   padding-block:    var(--section-padding-y);
   padding-inline:   var(--section-padding-x);
+  width:            100%;
+  overflow-x:       hidden;
 }
 
 /* Sections dark medium — bleu logo medium */
@@ -457,6 +467,8 @@ a {
   color:            #FFFFFF;
   padding-block:    var(--section-padding-y);
   padding-inline:   var(--section-padding-x);
+  width:            100%;
+  overflow-x:       hidden;
 }
 
 /* ─── Cards flush — pattern avec gap réel et bordures individuelles ─── */
