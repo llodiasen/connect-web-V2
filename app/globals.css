@@ -146,7 +146,7 @@
 
   /* ── TOKENS UI — Tailles typographiques cartes & filtres ── */
   --card-title-size:  22px;   /* Titre h3 carte service/portfolio                */
-  --card-text-size:   17.5px; /* Description carte — justify dans les cards      */
+  --card-text-size:   16px;   /* Description carte — justify dans les cards      */
   --card-text-weight: var(--font-light); /* Font-weight description carte → light  */
   --filter-text-size: 14px;   /* Texte boutons filtres/tabs (base 13px +1)       */
   --faq-question-size: var(--card-text-size); /* Titre question FAQ — aligné card-text */

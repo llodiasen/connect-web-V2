@@ -137,10 +137,10 @@ function AnimatedCounter({ target, suffix, prefix = '' }: { target: number; suff
 
 /* Métriques — données page d'accueil */
 const SP_METRICS: { target: number; suffix: string; prefix?: string; label: string; desc: string; displayValue?: string }[] = [
-  { target: 15, suffix: '+',    label: 'Projets livrés',     desc: ''  },
-  { target: 98, suffix: '%',    label: 'Satisfaction client', desc: ''       },
-  { target: 8,  suffix: ' sem', label: 'Délai moyen',         desc: '', displayValue: '2–8 sem.' },
-  { target: 100, suffix: '%',   label: 'Projets livrés dans les délais', desc: '' },
+  { target: 40,  suffix: '+',    label: 'Projets livrés',    desc: '', displayValue: '40+' },
+  { target: 98,  suffix: '%',    label: 'Clients satisfaits', desc: '' },
+  { target: 8,   suffix: ' sem', label: 'Délai livraison',    desc: '', displayValue: '2–8 sem.' },
+  { target: 100, suffix: '%',    label: 'Sur mesure',          desc: '' },
 ]
 
 /* ─────────────────────────────────────────────────────────────────
@@ -193,7 +193,7 @@ function HeroSection() {
         <div style={{
           position:   'absolute',
           inset:      0,
-          background: 'linear-gradient(135deg, rgba(0,0,0,0.78) 0%, rgba(0,0,0,0.55) 60%, rgba(232,97,26,0.12) 100%)',
+          background: 'rgba(0,0,0,0.55)',
         }} />
       </div>
 
@@ -232,7 +232,7 @@ function HeroSection() {
             padding:       '5px 16px',
             fontFamily:    'var(--font-body)',
             fontSize:      '12px',
-            fontWeight:    600,
+            fontWeight:    400,
             letterSpacing: '1.5px',
             textTransform: 'uppercase',
             color:         '#FFFFFF',
@@ -251,15 +251,15 @@ function HeroSection() {
           {/* H1 */}
           <h1 className="hero-title" style={{
             fontFamily:    'var(--font-heading)',
-            fontWeight:    600,
-            fontSize:      'clamp(2.075rem, 5vw, 3.625rem)',
+            fontWeight:    500,
+            fontSize:      'clamp(1.7rem, 4.625vw, 3.25rem)',
             lineHeight:    1.1,
             letterSpacing: '-0.01em',
             color:         '#FFFFFF',
             marginBottom:  '24px',
           }}>
-            Votre projet digital livré.
-            <span style={{ color: 'var(--color-orange-400)', display: 'block' }}>Pas promis.</span>
+            Agence de développement{' '}
+            <span style={{ color: 'var(--color-orange-400)', display: 'block' }}>de solutions digitales.</span>
           </h1>
 
           {/* Sous-titre */}
@@ -271,11 +271,47 @@ function HeroSection() {
             color:        '#FFFFFF',
             opacity:      1,
             maxWidth:     '640px',
-            marginBottom: '36px',
-            textAlign:    'justify',
+            marginBottom: '24px',
+            textAlign:    'left',
           }}>
-            Nous développons sur mesure les solutions digitales qui font grandir les entreprises — applications mobile, applications web, SaaS, sites performants, boutiques en ligne, automatisation IA.
+            Applications web &amp; mobile, e-commerce, ERP/CRM et solutions NFC — pour les PME et startups d&apos;Afrique et d&apos;Europe.
           </p>
+
+          {/* Stats en ligne — fusionnées dans le hero */}
+          <div style={{ display: 'flex', flexWrap: 'wrap', marginBottom: '36px' }}>
+            {SP_METRICS.map((m, i) => (
+              <div key={m.label} style={{
+                display:       'flex',
+                flexDirection: 'column',
+                alignItems:    'center',
+                textAlign:     'center',
+                paddingBlock:  '8px',
+                paddingLeft:   i === 0 ? '0' : 'clamp(1rem, 2.5vw, 2rem)',
+                paddingRight:  i < SP_METRICS.length - 1 ? 'clamp(1rem, 2.5vw, 2rem)' : '0',
+                borderRight:   i < SP_METRICS.length - 1 ? '1px solid rgba(255,255,255,0.18)' : 'none',
+              }}>
+                <span style={{
+                  fontSize:   'clamp(1.75rem, 2.8vw, 2.25rem)',
+                  fontFamily: 'var(--font-heading)',
+                  fontWeight: 500,
+                  color:      'var(--color-orange-400)',
+                  lineHeight: 1,
+                }}>
+                  {m.displayValue ?? `${m.target}${m.suffix}`}
+                </span>
+                <span style={{
+                  fontSize:   '14.5px',
+                  fontWeight: 500,
+                  color:      '#FFFFFF',
+                  marginTop:  '4px',
+                  whiteSpace: 'nowrap',
+                  fontFamily: 'var(--font-heading)',
+                }}>
+                  {m.label}
+                </span>
+              </div>
+            ))}
+          </div>
 
           {/* CTAs — CLAUDE.md : CTA primaire #1B2A4A, hover orange */}
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', marginBottom: '48px' }}>
@@ -291,9 +327,9 @@ function HeroSection() {
             </Link>
             <Link
               href="/portfolio"
-              style={{ ...BTN_SEC_STYLE, gap: '8px' }}
+              style={{ ...BTN_SEC_STYLE, gap: '8px', color: '#FFFFFF', borderColor: 'rgba(255,255,255,0.4)' }}
               onMouseEnter={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = BTN_SEC_HOV; el.style.borderColor = BTN_SEC_HOV; el.style.color = '#FFFFFF' }}
-              onMouseLeave={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = 'transparent'; el.style.borderColor = '#F05A28'; el.style.color = '#F05A28' }}
+              onMouseLeave={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = 'transparent'; el.style.borderColor = 'rgba(255,255,255,0.4)'; el.style.color = '#FFFFFF' }}
               onMouseDown={e => { (e.currentTarget as HTMLAnchorElement).style.transform = 'scale(0.97)' }}
               onMouseUp={e => { (e.currentTarget as HTMLAnchorElement).style.transform = 'scale(1)' }}
             >
@@ -315,7 +351,7 @@ function StatsGrid() {
   const inView = useInView(ref, { once: true, margin: '-40px' })
 
   return (
-    <section style={{ width: '100%', background: '#FFFFFF', borderTop: '1px solid #DDE3EE', borderBottom: '1px solid #DDE3EE', paddingBlock: '24px' }}>
+    <section style={{ width: '100%', background: '#FFFFFF', borderTop: '1px solid #DDE3EE', borderBottom: '1px solid #DDE3EE', paddingBlock: '12px' }}>
 
       {/* Grille 4 colonnes */}
       <div
@@ -330,7 +366,7 @@ function StatsGrid() {
               flexDirection:    'column',
               alignItems:       'center',
               textAlign:        'center',
-              paddingBlock:     '20px',
+              paddingBlock:     '10px',
               paddingInline:    'clamp(1rem, 3vw, 2rem)',
               borderRight:      i < 3 ? '1px solid #DDE3EE' : 'none',
               opacity:          inView ? 1 : 0,
@@ -366,7 +402,7 @@ function ClientLogos() {
   const doubled = [...CLIENT_LOGOS, ...CLIENT_LOGOS]
 
   return (
-    <section className="section-base" style={{ background: '#FFFFFF', paddingBlock: '40px', overflow: 'hidden' }}>
+    <section className="section-base" style={{ background: '#FFFFFF', paddingTop: '40px', paddingBottom: '40px', overflow: 'hidden' }}>
       <div className="container" style={{ overflow: 'hidden' }}>
 
         {/* Logo carousel — seamless scroll */}
@@ -401,7 +437,7 @@ function ClientLogos() {
           marginBottom:  '20px',
           textAlign:     'center',
         }}>
-          Entrepreneurs et PME qui nous font confiance
+          Partenaires de confiance
         </p>
 
         <div style={{
@@ -510,7 +546,7 @@ function AboutSection() {
     <section
       id="about"
       className="section-base"
-      style={{ background: '#FFFFFF', paddingBlock: 'clamp(5rem, 9vw, 8rem)' }}
+      style={{ background: '#FFFFFF' }}
     >
       <style dangerouslySetInnerHTML={{ __html: ABOUT_CSS }} />
       <div className="container">
@@ -549,55 +585,87 @@ function AboutSection() {
                 ...reveal(visible, 70),
                 fontFamily:    'Clash Display, var(--font-montserrat), sans-serif',
                 fontSize:      'clamp(2.125rem, 2.8vw, 2.375rem)',
-                fontWeight:    600,
+                fontWeight:    500,
                 lineHeight:    1.25,
                 letterSpacing: '-0.03em',
                 color:         'var(--text-primary)',
                 textAlign:     'left',
                 margin:        0,
-                marginBottom:  '20px',
+                marginBottom:  '16px',
                 maxWidth:      'none',
               }}
             >
-              Solutions digitales{' '}
-              <span style={{ color: 'var(--color-orange-500)', whiteSpace: 'nowrap' }}>sur mesure</span>
-              <br />
-              pour votre croissance.
+              Nous transformons vos idées en produits digitaux sur mesure.
             </h2>
 
-            {/* Paragraphe — 2 phrases, voix unique */}
+            {/* Sous-titre */}
+            <p style={{
+              ...reveal(visible, 110),
+              fontFamily:   'var(--font-body)',
+              fontSize:     '18px',
+              fontWeight:   400,
+              color:        '#0A0A0A',
+              lineHeight:   1.6,
+              marginBottom: '20px',
+            }}>
+              Connect-Web est une agence sénégalaise spécialisée dans le développement web, mobile et l&apos;intégration de systèmes pour les entreprises en croissance.
+            </p>
+
+            {/* Corps */}
             <p
               className="about-body"
               style={{
-                ...sectionSubtitle,
-                ...reveal(visible, 130),
-                maxWidth:     'none',
+                ...reveal(visible, 140),
+                fontFamily:   'var(--font-body)',
                 fontSize:     '18px',
-                lineHeight:   1.7,
-                marginBottom: '32px',
+                lineHeight:   1.75,
+                marginBottom: '28px',
                 color:        '#0A0A0A',
-                textAlign:    'justify',
+                textAlign:    'left',
               }}
             >
-              Projets abandonnés, outils inadaptés, prestataires qui disparaissent — trop d&apos;entreprises subissent le digital au lieu d&apos;en profiter. Connect-Web est là pour changer ça : nous accompagnons les entreprises, PME, commerces et entrepreneurs qui veulent faire du digital un vrai levier de croissance, pas une source de frustration.
-              <br /><br />
-              Notre mission : concevoir des solutions concrètes face aux vraies problématiques — visibilité en ligne, génération de leads, automatisation des processus et ventes en ligne.
+              Depuis Dakar, nous accompagnons des PME, startups et organisations sur l&apos;ensemble du cycle de leur projet digital — de la stratégie à la mise en production. Nous utilisons React, Next.js, Shopify et Odoo pour livrer des produits robustes et évolutifs. Chaque projet est traité comme s&apos;il était le nôtre.
             </p>
 
+            {/* 3 points forts */}
+            <div style={{ ...reveal(visible, 190), display: 'flex', flexDirection: 'column', gap: '14px', marginBottom: '32px' }}>
+              {[
+                { icon: '⚡', label: 'Livraison rapide', desc: '2 à 8 semaines' },
+                { icon: '🔒', label: 'Code maintenable', desc: 'documentation incluse' },
+                { icon: '🌍', label: 'Expertise locale', desc: 'standards internationaux' },
+              ].map(p => (
+                <div key={p.label} style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
+                  <span style={{ fontSize: '20px', lineHeight: 1, flexShrink: 0 }}>{p.icon}</span>
+                  <span style={{ fontFamily: 'var(--font-body)', fontSize: '16px', color: '#0A0A0A', lineHeight: 1.5 }}>
+                    <strong style={{ fontWeight: 700, color: 'var(--text-primary)' }}>{p.label}</strong>
+                    {' — '}{p.desc}
+                  </span>
+                </div>
+              ))}
+            </div>
 
-
-            {/* CTA — outline orange */}
-            <div style={{ ...reveal(visible, 270) }}>
+            {/* CTA bouton orange → hover bleu marine */}
+            <div style={{ ...reveal(visible, 240) }}>
               <Link
                 href="/a-propos"
-                style={{ ...BTN_SEC_STYLE, gap: '8px' }}
-                onMouseEnter={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = BTN_SEC_HOV; el.style.borderColor = BTN_SEC_HOV; el.style.color = '#FFFFFF' }}
-                onMouseLeave={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = 'transparent'; el.style.borderColor = '#F05A28'; el.style.color = '#F05A28' }}
-                onMouseDown={e => { (e.currentTarget as HTMLAnchorElement).style.transform = 'scale(0.97)' }}
-                onMouseUp={e => { (e.currentTarget as HTMLAnchorElement).style.transform = 'scale(1)' }}
+                style={{
+                  ...BTN_PRI_STYLE,
+                  gap: '8px',
+                }}
+                onMouseEnter={e => {
+                  const el = e.currentTarget as HTMLAnchorElement
+                  el.style.background  = BL_DARK
+                  el.style.transform   = 'translateY(-1px)'
+                  el.style.boxShadow   = '0 4px 12px rgba(27,43,75,0.25)'
+                }}
+                onMouseLeave={e => {
+                  const el = e.currentTarget as HTMLAnchorElement
+                  el.style.background  = BTN_PRI
+                  el.style.transform   = 'translateY(0)'
+                  el.style.boxShadow   = 'none'
+                }}
               >
-                En savoir plus
-                <ArrowRight size={14} />
+                Découvrir notre approche <ArrowRight size={15} />
               </Link>
             </div>
 
@@ -955,7 +1023,7 @@ function ServicesSection() {
   const [ref, visible] = useReveal()
 
   return (
-    <section id="services" className="section-base svc-section" style={{ background: '#F5F5F3' }}>
+    <section id="services" className="section-base svc-section" style={{ background: '#F5F7FA' }}>
       <style dangerouslySetInnerHTML={{ __html: SERVICES_CSS }} />
       <div className="container svc-container" style={{ paddingBlock: 0 }}>
 
@@ -1104,7 +1172,7 @@ function ProcessSection() {
                     <h3 style={{ fontFamily: 'var(--font-heading)', fontWeight: 500, fontSize: 'clamp(17px, 2.5vw, 19px)', color: 'var(--text-primary)', marginBottom: '8px', lineHeight: 1.3, textAlign: 'left' }}>
                       {step.titre}
                     </h3>
-                    <p style={{ fontFamily: 'var(--font-body)', fontSize: '16.5px', lineHeight: 1.65, color: 'var(--text-primary)', margin: '0 0 14px', textAlign: 'justify', display: '-webkit-box', WebkitLineClamp: 4, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                    <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--card-text-size)', lineHeight: 1.65, color: 'var(--text-primary)', margin: '0 0 14px', textAlign: 'justify', display: '-webkit-box', WebkitLineClamp: 4, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
                       {step.desc}
                     </p>
                     <span style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', fontFamily: 'var(--font-body)', fontSize: '12.5px', fontWeight: 600, color: OR_500, background: 'rgba(232,98,42,0.07)', border: '1px solid rgba(232,98,42,0.18)', borderRadius: '6px', padding: '5px 10px', whiteSpace: 'nowrap' }}>
@@ -1142,183 +1210,175 @@ const STATS_BAND = [
    section-base (#FFFFFF) · 3 cartes · central = section-brand
    Source : CONTENT_HOMEPAGE_V4.md > SECTION 6
    ─────────────────────────────────────────────────────────────── */
-const TESTIMONIALS = [
-  {
-    quote:  "Connect-Web a transformé notre présence en ligne en véritable outil de génération de leads. Le ROI a été visible dès le premier trimestre — notre trafic a triplé et les demandes de contact ont explosé.",
-    name:   '[Nom responsable NSS]',
-    role:   'Coordinatrice, NSS/WAS Africa',
-    dark:   false,
-  },
-  {
-    quote:  "Je voulais vendre en ligne sans perdre l'identité de ma marque. Connect-Web a créé une boutique en ligne qui convertit vraiment — le taux de conversion a dépassé nos attentes dès le premier mois.",
-    name:   '[Nom fondatrice ATTA]',
-    role:   'Fondatrice & entrepreneure, ATTA Africa',
-    dark:   true,
-  },
-  {
-    quote:  "L'automatisation de notre ERP a réduit nos tâches administratives de 60%. En tant que PME, on n'a pas de temps à perdre — Connect-Web nous a permis de nous concentrer sur la croissance de notre business.",
-    name:   '[Nom client Odoo]',
-    role:   'Directeur, [Entreprise]',
-    dark:   false,
-  },
-]
-
-function TestimonialsSection() {
-  const [ref, visible] = useReveal()
-
-  return (
-    <section id="temoignages" className="section-base" style={{ background: '#EEF2F7' }}>
-      <div className="container" style={{ paddingBlock: 0 }}>
-        {/* Header */}
-        <div ref={ref} style={{ textAlign: 'center', marginBottom: '56px' }}>
-          <span style={{ ...eyebrow, ...reveal(visible, 0), display: 'block' }}>ILS NOUS FONT CONFIANCE</span>
-          <h2 style={{
-            ...sectionTitle,
-            ...reveal(visible, 80),
-            maxWidth:   '700px',
-            margin:     '0 auto',
-            fontSize:   '2rem',
-            textAlign:  'center',
-            fontFamily: 'Clash Display, var(--font-montserrat), sans-serif',
-            fontWeight: 500,
-          }}>
-            Pas des promesses,{' '}
-            <span style={{ color: 'var(--color-orange-500)' }}>des preuves.</span>
-          </h2>
-          <p style={{ ...sectionSubtitle, ...reveal(visible, 160) }}>
-            Des entrepreneurs et dirigeants de PME témoignent des résultats obtenus. Plus de leads, plus de ventes — ils racontent leur transformation digitale.
-          </p>
-        </div>
-
-        {/* 3 témoignages */}
-        <div className="grid grid-cols-1 md:grid-cols-3" style={{ gap: '24px' }}>
-          {TESTIMONIALS.map((t, i) => (
-            <blockquote
-              key={i}
-              style={{
-                ...reveal(visible, 120 + i * 100),
-                margin:        0,
-                padding:       '28px',
-                background:    t.dark ? BL_DARK : '#F4F6FA',
-                borderRadius:  '16px',
-                border:        t.dark
-                  ? `1px solid ${BL_MED}`
-                  : '1px solid var(--border-default)',
-                display:       'flex',
-                flexDirection: 'column',
-                gap:           '20px',
-              }}
-            >
-              {/* Étoiles */}
-              <div style={{ display: 'flex', gap: '3px' }}>
-                {Array.from({ length: 5 }).map((_, k) => (
-                  <svg key={k} width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                    <path
-                      d="M7 1l1.5 4H13L9.5 8l1.5 4L7 10l-4 2 1.5-4L1 5h4.5z"
-                      fill={t.dark ? OR_400 : OR_500}
-                    />
-                  </svg>
-                ))}
-              </div>
-
-              {/* Citation */}
-              <p style={{
-                fontFamily: 'var(--font-body)',
-                fontSize:   'var(--card-text-size)',
-                fontWeight: 'var(--card-text-weight)',
-                lineHeight: 1.7,
-                color:      t.dark ? 'var(--text-on-dark-muted)' : '#0A0A0A',
-                fontStyle:  'italic',
-                flexGrow:   1,
-                margin:     0,
-              }}>
-                &ldquo;{t.quote}&rdquo;
-              </p>
-
-              {/* Auteur */}
-              <footer>
-                <div style={{
-                  fontFamily:   'var(--font-heading)',
-                  fontWeight:   700,
-                  fontSize:     '14px',
-                  color:        t.dark ? '#FFFFFF' : 'var(--text-primary)',
-                  marginBottom: '2px',
-                }}>{t.name}</div>
-                <div style={{
-                  fontFamily: 'var(--font-body)',
-                  fontSize:   '13px',
-                  color:      t.dark ? 'rgba(255,255,255,0.45)' : 'var(--text-tertiary)',
-                }}>{t.role}</div>
-              </footer>
-            </blockquote>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
 
 /* ─────────────────────────────────────────────────────────────────
-   SECTION 7 — OFFRES (tabs 4 domaines × 3 offres + FAQ)
-   section-base (#FFFFFF) · REMPLACE tarifs — PAS de prix
-   Source : CONTENT_HOMEPAGE_V4.md > SECTION 7
+   SECTION 7 — OFFRES (2 niveaux : 3 tabs × 3 cards)
+   section-base (#F5F7FA)
    ─────────────────────────────────────────────────────────────── */
-interface Offre {
-  categorie: string
-  titre:     string
-  features:  string[]
-  idealPour: string
-  populaire: boolean
+interface ServiceCard {
+  title:    string
+  badge?:   string
+  popular?: boolean
+  items:    string[]
+  cta:      string
 }
 
-const OFFRES_HOME: Offre[] = [
+interface ServiceTab {
+  id:    string
+  label: string
+  cards: ServiceCard[]
+}
+
+const SERVICE_TABS: ServiceTab[] = [
   {
-    categorie: 'E-Commerce',
-    titre:     'Boutique en ligne',
-    features:  [
-      'Boutique WordPress + WooCommerce',
-      'Design personnalisé orienté conversion',
-      'Catalogue illimité + variantes',
-      'Paiement Wave, Orange Money, CB',
-      'SEO avancé + blog intégré',
-      'Automatisation email marketing',
-      'Formation admin incluse',
-      'Support 30 jours post-lancement',
+    id:    'dev',
+    label: 'Développement',
+    cards: [
+      {
+        title: 'Application Web',
+        items: [
+          'Interface React / Next.js moderne',
+          'Authentification & rôles utilisateurs',
+          'Dashboard — données en temps réel',
+          'API REST ou GraphQL incluse',
+          'Connexion à vos outils existants',
+          'Tests & recette avant livraison',
+          'Déploiement Vercel ou VPS',
+          'Support 3 mois post-livraison',
+        ],
+        cta: 'Démarrer ce projet',
+      },
+      {
+        title:   'Application Mobile',
+        badge:   'iOS & Android',
+        popular: true,
+        items: [
+          'Flutter — une codebase, deux stores',
+          'UI personnalisée selon votre charte',
+          'Notifications push intégrées',
+          'Mode hors-ligne si nécessaire',
+          'Paiement Wave / Orange Money',
+          'Publication App Store & Play Store',
+          'Tests sur devices réels',
+          'Support 3 mois post-livraison',
+        ],
+        cta: 'Obtenir un devis',
+      },
+      {
+        title: 'Logiciel SaaS',
+        items: [
+          'Architecture multi-tenant scalable',
+          'Abonnements & facturation automatisée',
+          'Dashboard admin + espace client',
+          'Onboarding utilisateur guidé',
+          'API publique documentée',
+          'Métriques et analytics intégrés',
+          'Infrastructure cloud haute dispo',
+          'Accompagnement go-to-market',
+        ],
+        cta: 'Discuter mon projet',
+      },
     ],
-    idealPour: 'Commerçants, grossistes, PME avec catalogues larges',
-    populaire: false,
   },
   {
-    categorie: 'Développement Web',
-    titre:     'Application web',
-    features:  [
-      'Application full-stack React / Next.js',
-      'Auth, rôles et permissions',
-      'Dashboard analytics & reporting',
-      'Workflows automatisés par IA',
-      'API REST + tests CI/CD',
-      'Notifications temps réel',
-      'Hébergement cloud inclus',
-      '3 mois de support inclus',
+    id:    'site',
+    label: 'Site Internet',
+    cards: [
+      {
+        title: 'Site Vitrine',
+        items: [
+          'Jusqu\'à 15 pages sur mesure',
+          'Design adapté à votre charte',
+          'SEO technique — balises, sitemap, schema',
+          'Formulaire contact + Google Maps',
+          'CMS — mise à jour autonome',
+          'Domaine offert la première année',
+          'Responsive — testé tous écrans',
+          'Lighthouse 95+ garanti',
+        ],
+        cta: 'Démarrer ce projet',
+      },
+      {
+        title:   'E-commerce',
+        badge:   'Le plus demandé',
+        popular: true,
+        items: [
+          'Shopify ou WooCommerce au choix',
+          'Catalogue produits illimité',
+          'Paiement Wave, Orange Money, carte',
+          'Gestion stocks & commandes',
+          'Emails transactionnels automatiques',
+          'SEO produit optimisé',
+          'Tableau de bord ventes en temps réel',
+          'Formation équipe incluse',
+        ],
+        cta: 'Lancer ma boutique',
+      },
+      {
+        title: 'Landing Page',
+        items: [
+          'Page unique haute conversion',
+          'Copywriting orienté résultat inclus',
+          'A/B testing configuré',
+          'Formulaire lead capture optimisé',
+          'Tracking pixels & analytics',
+          'Intégration CRM automatique',
+          'Chargement < 1 seconde',
+          'Livraison en 5 jours ouvrés',
+        ],
+        cta: 'Créer ma landing page',
+      },
     ],
-    idealPour: 'Entreprises digitales en croissance, startups, workflows complexes',
-    populaire: true,
   },
   {
-    categorie: 'Intégration',
-    titre:     'ERP Odoo',
-    features:  [
-      'Audit processus & choix modules',
-      'Configuration comptabilité + stock',
-      'Gestion ventes et CRM intégrée',
-      'Migration données existantes',
-      'Workflows personnalisés + IA',
-      'Formation équipes par module',
-      'Reporting avancé',
-      'Support 3 mois post-déploiement',
+    id:    'integration',
+    label: 'Intégration',
+    cards: [
+      {
+        title: 'ERP / Odoo',
+        items: [
+          'Paramétrage modules métier',
+          'Ventes — pipeline, devis, facturation',
+          'Stock multi-entrepôt temps réel',
+          'RH & paie — congés et employés',
+          'Comptabilité — export FEC inclus',
+          'Migration données existantes',
+          'Formation sessions équipes',
+          'Contrat de maintenance disponible',
+        ],
+        cta: 'Obtenir un devis',
+      },
+      {
+        title:   'CRM',
+        badge:   'HubSpot · Salesforce',
+        popular: true,
+        items: [
+          'Configuration pipelines de vente',
+          'Automatisation des relances',
+          'Scoring et qualification des leads',
+          'Connexion formulaires & landing pages',
+          'Intégration email marketing',
+          'Rapports et dashboards sur mesure',
+          'Formation équipe commerciale',
+          'Support 1 mois post-déploiement',
+        ],
+        cta: 'Configurer mon CRM',
+      },
+      {
+        title: 'Email Marketing',
+        items: [
+          'Mise en place Brevo / Klaviyo / Mailchimp',
+          'Templates responsive sur-mesure',
+          'Séquences d\'automatisation',
+          'Segmentation & personnalisation',
+          'Intégration e-commerce native',
+          'Tests A/B objet et contenu',
+          'Rapports délivrabilité & taux',
+          'Formation équipe incluse',
+        ],
+        cta: 'Lancer mes campagnes',
+      },
     ],
-    idealPour: 'PME structurées, industrie, distribution',
-    populaire: false,
   },
 ]
 
@@ -1346,18 +1406,31 @@ const FAQ_ITEMS = [
 ]
 
 function OffresSection() {
-  const [ref, visible] = useReveal()
+  const [ref, visible]         = useReveal()
+  const [activeTab, setActiveTab] = useState(0)
+  const [tabVisible, setTabV]  = useState(true)
+  const tab = SERVICE_TABS[activeTab]
+
+  const switchTab = (i: number) => {
+    if (i === activeTab) return
+    setTabV(false)
+    setTimeout(() => {
+      setActiveTab(i)
+      setTabV(true)
+    }, 180)
+  }
 
   return (
     <section
       id="offres"
       className="section-base"
-      style={{ background: '#FFFFFF' }}
+      style={{ background: '#F5F7FA' }}
     >
       <div className="container" style={{ paddingBlock: 0 }}>
+
         {/* Header */}
-        <div ref={ref} style={{ textAlign: 'center', marginBottom: '56px' }}>
-          <span style={{ ...eyebrow, ...reveal(visible, 0), display: 'block' }}>NOS OFFRES</span>
+        <div ref={ref} style={{ textAlign: 'center', marginBottom: '40px' }}>
+          <span style={{ ...eyebrow, ...reveal(visible, 0), display: 'block' }}>NOS SERVICES</span>
           <h2 style={{
             ...sectionTitle,
             ...reveal(visible, 80),
@@ -1366,159 +1439,175 @@ function OffresSection() {
             fontSize:  '2rem',
             textAlign: 'center',
           }}>
-            Une offre claire pour chaque besoin.
+            Ce que vous obtenez, concrètement.
           </h2>
           <p style={{ ...sectionSubtitle, ...reveal(visible, 160) }}>
-            Chaque entreprise a des besoins différents. Découvrez nos formules adaptées aux entrepreneurs, commerçants et PME — du site vitrine à l'application.
+            Choisissez votre domaine — 3 formules claires, livrables précis, prix transparents.
           </p>
         </div>
 
-        {/* Cartes offres — 3 offres statiques : Dev · Ecom · Intégration */}
-        <div className="grid grid-cols-1 md:grid-cols-3" style={{ gap: '24px', marginBottom: '40px' }}>
-          {OFFRES_HOME.map(offre => (
-            <div
-              key={offre.titre}
+        {/* Tabs niveau 1 */}
+        <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '8px', marginBottom: '40px' }}>
+          {SERVICE_TABS.map((t, i) => (
+            <button
+              key={t.id}
+              onClick={() => switchTab(i)}
               style={{
-                display:        'flex',
-                flexDirection:  'column',
-                padding:        '28px',
-                background:     offre.populaire ? BL_DARK : '#FFFFFF',
-                borderRadius:   '16px',
-                border:         offre.populaire
-                  ? `2px solid ${BL_MED}`
-                  : '1px solid var(--border-default)',
-                position:       'relative',
+                display:      'inline-flex',
+                alignItems:   'center',
+                padding:      '10px 28px',
+                borderRadius: '100px',
+                border:       i === activeTab ? 'none' : '1px solid #DDE3EE',
+                background:   i === activeTab ? BL_DARK : '#FFFFFF',
+                color:        i === activeTab ? '#FFFFFF' : '#4A5568',
+                fontFamily:   'var(--font-heading)',
+                fontSize:     '14px',
+                fontWeight:   600,
+                cursor:       'pointer',
+                transition:   'all 0.2s ease',
+                whiteSpace:   'nowrap',
               }}
             >
-              {/* Badge populaire — CLAUDE.md : bg-[#111111] text-white → on utilise BL_DARK */}
-              {offre.populaire && (
-                <span style={{
-                  position:      'absolute',
-                  top:           '-12px',
-                  left:          '50%',
-                  transform:     'translateX(-50%)',
-                  background:    OR_500,
-                  color:         '#FFFFFF',
-                  fontFamily:    'var(--font-body)',
-                  fontSize:      '11px',
-                  fontWeight:    700,
-                  letterSpacing: '1px',
-                  textTransform: 'uppercase',
-                  borderRadius:  '100px',
-                  padding:       '4px 14px',
-                  whiteSpace:    'nowrap',
-                }}>
-                  Populaire
-                </span>
-              )}
-
-              {/* Niveau */}
-              <span style={{
-                fontFamily:    'var(--font-body)',
-                fontSize:      '12px',
-                fontWeight:    600,
-                letterSpacing: '1.5px',
-                textTransform: 'uppercase',
-                color:         offre.populaire ? OR_400 : 'var(--color-orange-500)',
-                marginBottom:  '8px',
-                display:       'block',
-              }}>{offre.categorie}</span>
-
-              {/* Titre */}
-              <h3 style={{
-                fontFamily:   'var(--font-heading)',
-                fontWeight:   500,
-                fontSize:     'clamp(18px, 2.5vw, 20px)',
-                color:        offre.populaire ? '#FFFFFF' : 'var(--text-primary)',
-                marginBottom: '24px',
-                lineHeight:   1.2,
-                whiteSpace:   'nowrap',
-              }}>{offre.titre}</h3>
-
-              {/* Features */}
-              <ul style={{
-                listStyle:     'none',
-                padding:       0,
-                margin:        '0 0 24px 0',
-                display:       'flex',
-                flexDirection: 'column',
-                gap:           '10px',
-                flexGrow:      1,
-              }}>
-                {offre.features.map(f => (
-                  <li key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
-                    <Check
-                      size={14}
-                      color={offre.populaire ? OR_400 : OR_500}
-                      strokeWidth={2.5}
-                      style={{ flexShrink: 0, marginTop: '3px' }}
-                    />
-                    <span style={{
-                      fontFamily: 'var(--font-body)',
-                      fontSize:   '16px',
-                      fontWeight: 'var(--font-light)',
-                      lineHeight: 1.55,
-                      color:      offre.populaire ? '#FFFFFF' : '#0A0A0A',
-                      whiteSpace: 'nowrap',
-                    }}>{f}</span>
-                  </li>
-                ))}
-              </ul>
-
-              {/* Idéal pour */}
-              <div style={{
-                padding:      '12px',
-                background:   offre.populaire ? 'rgba(232,97,26,0.12)' : 'rgba(27,42,74,0.05)',
-                borderRadius: '8px',
-                marginBottom: '20px',
-              }}>
-                <span style={{
-                  fontFamily: 'var(--font-body)',
-                  fontSize:   '14px',
-                  fontWeight: 600,
-                  color:      offre.populaire ? OR_400 : 'var(--color-orange-500)',
-                }}>Idéal pour&nbsp;: </span>
-                <span style={{
-                  fontFamily: 'var(--font-body)',
-                  fontSize:   '14px',
-                  color:      offre.populaire ? 'var(--text-on-dark-muted)' : '#0A0A0A',
-                }}>{offre.idealPour}</span>
-              </div>
-
-              {/* CTA — CLAUDE.md : #1B2A4A défaut, hover orange */}
-              <Link
-                href="/contact"
-                style={{ ...BTN_PRI_STYLE, gap: '6px', width: '100%' }}
-                onMouseEnter={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = BTN_PRI_HOV; el.style.borderColor = BTN_PRI_HOV }}
-                onMouseLeave={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = BTN_PRI; el.style.borderColor = BTN_PRI }}
-                onMouseDown={e => { (e.currentTarget as HTMLAnchorElement).style.transform = 'scale(0.97)' }}
-                onMouseUp={e => { (e.currentTarget as HTMLAnchorElement).style.transform = 'scale(1)' }}
-              >
-                Démarrer ce projet <ArrowRight size={14} />
-              </Link>
-            </div>
+              {t.label}
+            </button>
           ))}
         </div>
 
-        {/* Bouton Voir les offres */}
-        <div style={{ textAlign: 'center', marginBottom: '48px' }}>
-          <Link
-            href="/services"
-            style={{ ...BTN_SEC_STYLE, gap: '8px' }}
-            onMouseEnter={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = BTN_SEC_HOV; el.style.borderColor = BTN_SEC_HOV; el.style.color = '#FFFFFF' }}
-            onMouseLeave={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = 'transparent'; el.style.borderColor = '#F05A28'; el.style.color = '#F05A28' }}
-            onMouseDown={e => { (e.currentTarget as HTMLAnchorElement).style.transform = 'scale(0.97)' }}
-            onMouseUp={e => { (e.currentTarget as HTMLAnchorElement).style.transform = 'scale(1)' }}
-          >
-            Voir toutes les offres <ArrowRight size={15} />
-          </Link>
+        {/* Grille 3 cards — niveau 2 */}
+        <div
+          className="grid grid-cols-1 md:grid-cols-3"
+          style={{
+            gap:        '24px',
+            opacity:    tabVisible ? 1 : 0,
+            transition: 'opacity 180ms ease',
+          }}
+        >
+          {tab.cards.map((card) => (
+            <OffreCard key={card.title} card={card} />
+          ))}
         </div>
 
-        {/* CTA full-width image de fond */}
-        <div style={{ marginBottom: '64px' }} />
+        {/* Lien bas de section */}
+        <p style={{ textAlign: 'center', marginTop: '40px' }}>
+          <Link
+            href="/contact"
+            style={{ fontFamily: 'var(--font-body)', fontSize: '14px', color: OR_500, textDecoration: 'none' }}
+            onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.textDecoration = 'underline' }}
+            onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.textDecoration = 'none' }}
+          >
+            Besoin d&rsquo;une solution sur mesure&nbsp;? → Parlez-nous directement
+          </Link>
+        </p>
 
       </div>
     </section>
+  )
+}
+
+function OffreCard({ card }: { card: ServiceCard }) {
+  const [hovered, setHovered] = useState(false)
+  const pop = card.popular === true
+
+  return (
+    <div
+      style={{
+        background:    pop ? BL_DARK : '#FFFFFF',
+        borderRadius:  '12px',
+        border:        pop ? `2px solid ${BL_DARK}` : '1px solid #DDE3EE',
+        padding:       '28px',
+        display:       'flex',
+        flexDirection: 'column',
+        position:      'relative',
+        boxShadow:     hovered
+          ? pop ? '0 12px 32px rgba(27,43,75,0.35)' : '0 8px 24px rgba(0,0,0,0.09)'
+          : pop ? '0 6px 20px rgba(27,43,75,0.20)' : '0 2px 8px rgba(0,0,0,0.04)',
+        transform:     hovered ? 'translateY(-3px)' : 'translateY(0)',
+        transition:    'all 0.2s ease',
+      }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      {/* Badge Populaire */}
+      {pop && (
+        <span style={{
+          position:      'absolute',
+          top:           '-13px',
+          left:          '50%',
+          transform:     'translateX(-50%)',
+          background:    OR_500,
+          color:         '#FFFFFF',
+          fontSize:      '11px',
+          fontWeight:    700,
+          letterSpacing: '0.07em',
+          textTransform: 'uppercase',
+          padding:       '4px 14px',
+          borderRadius:  '100px',
+          whiteSpace:    'nowrap',
+          fontFamily:    'var(--font-heading)',
+        }}>
+          Populaire
+        </span>
+      )}
+
+      {/* Titre + badge descriptif */}
+      <div style={{ marginBottom: '16px' }}>
+        <h3 style={{
+          fontFamily: 'var(--font-heading)',
+          fontSize:   'clamp(18px, 2.5vw, 20px)',
+          fontWeight: 500,
+          color:      pop ? '#FFFFFF' : BL_DARK,
+          margin:     '0 0 6px',
+        }}>
+          {card.title}
+        </h3>
+        {card.badge && (
+          <span style={{
+            display:       'inline-block',
+            background:    pop ? 'rgba(255,255,255,0.12)' : 'rgba(232,98,42,0.10)',
+            color:         pop ? 'rgba(255,255,255,0.85)' : OR_500,
+            fontSize:      '11px',
+            fontWeight:    700,
+            letterSpacing: '0.06em',
+            textTransform: 'uppercase',
+            padding:       '3px 8px',
+            borderRadius:  '4px',
+          }}>
+            {card.badge}
+          </span>
+        )}
+      </div>
+
+      {/* Items */}
+      <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 24px', flex: 1, display: 'flex', flexDirection: 'column', gap: '9px' }}>
+        {card.items.map(item => (
+          <li key={item} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
+            <span style={{ color: OR_500, fontSize: '14px', lineHeight: '20px', flexShrink: 0 }}>✓</span>
+            <span style={{
+              fontFamily: 'var(--font-body)',
+              fontSize:   '16px',
+              color:      pop ? 'rgba(255,255,255,0.80)' : '#4A5568',
+              lineHeight: 1.5,
+            }}>
+              {item}
+            </span>
+          </li>
+        ))}
+      </ul>
+
+      {/* CTA full width */}
+      <Link
+        href="/contact"
+        style={{
+          ...BTN_PRI_STYLE,
+          width:          '100%',
+          justifyContent: 'center',
+          gap:            '6px',
+          background:     hovered ? BTN_PRI_HOV : BTN_PRI,
+        }}
+      >
+        {card.cta} <ArrowRight size={14} />
+      </Link>
+    </div>
   )
 }
 
@@ -1638,7 +1727,7 @@ function FaqSection() {
   const [openFaq, setOpenFaq] = useState<number | null>(null)
 
   return (
-    <section id="faq" className="section-base" style={{ background: '#F7F8FA' }}>
+    <section id="faq" className="section-base" style={{ background: '#FFFFFF' }}>
       <div className="container" style={{ paddingBlock: 0 }}>
 
         {/* Header — même style que Nos Offres */}
@@ -1666,7 +1755,7 @@ function FaqSection() {
             margin:        '0 auto',
             display:       'flex',
             flexDirection: 'column',
-            gap:           '6px',
+            gap:           '14px',
             ...reveal(visible, 200),
           }}
         >
@@ -1689,7 +1778,7 @@ function FaqSection() {
                   alignItems:     'center',
                   justifyContent: 'space-between',
                   gap:            '16px',
-                  padding:        '18px 20px',
+                  padding:        '24px 20px',
                   background:     openFaq === i ? BL_DARK : '#FFFFFF',
                   border:         'none',
                   cursor:         'pointer',
@@ -1742,34 +1831,21 @@ function FaqSection() {
    Source : CONTENT_HOMEPAGE_V4.md > SECTION 8
    ─────────────────────────────────────────────────────────────── */
 interface ContactForm {
-  nom:       string
-  email:     string
-  entreprise: string
-  contact:   string
-  profil:    string
-  message:   string
-}
-
-const SERVICES_BY_PROFIL: Record<string, string[]> = {
-  entrepreneur: ['Site vitrine', 'Boutique en ligne', 'Application web', 'Automatisation IA'],
-  commercant:   ['Boutique en ligne', 'Site vitrine', 'Automatisation IA', 'Refonte site'],
-  pme:          ['Application web', 'ERP / CRM', 'Automatisation IA', 'Refonte site'],
-  startup:      ['Application web', 'Boutique en ligne', 'Site vitrine', 'Automatisation IA'],
-  autre:        ['Site vitrine', 'Boutique en ligne', 'Application web', 'ERP / CRM', 'Automatisation IA', 'Refonte site'],
+  nom:        string
+  email:      string
+  typeProjet: string
+  budget:     string
+  besoin:     string
+  source:     string
 }
 
 function ContactCTASection() {
-  const [ref, visible]           = useReveal()
-  const [submitted, setSubmitted] = useState(false)
-  const [loading, setLoading]     = useState(false)
-  const [error, setError]         = useState<string | null>(null)
-  const [selectedServices, setSelectedServices] = useState<string[]>([])
+  const [ref, visible]            = useReveal()
+  const [submitted, setSubmitted]  = useState(false)
+  const [loading, setLoading]      = useState(false)
+  const [error, setError]          = useState<string | null>(null)
 
-  const { register, handleSubmit, watch, formState: { errors } } = useForm<ContactForm>()
-  const profil        = watch('profil')
-  const servicesList  = profil ? (SERVICES_BY_PROFIL[profil] ?? []) : []
-
-  useEffect(() => { setSelectedServices([]) }, [profil])
+  const { register, handleSubmit, formState: { errors } } = useForm<ContactForm>()
 
   const onSubmit = async (data: ContactForm) => {
     setLoading(true)
@@ -1778,12 +1854,16 @@ function ContactCTASection() {
       const res = await fetch('/api/contact', {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify({ email: data.email, nom: data.nom, entreprise: data.entreprise, contact: data.contact, profil: data.profil, services: selectedServices, message: data.message }),
+        body:    JSON.stringify({
+          nom:     data.nom,
+          email:   data.email,
+          message: `Type: ${data.typeProjet} | Budget: ${data.budget} | Source: ${data.source}\n\n${data.besoin}`,
+        }),
       })
       if (!res.ok) throw new Error()
       setSubmitted(true)
     } catch {
-      setError("Une erreur est survenue. Contactez-nous directement par WhatsApp ou email.")
+      setError("Une erreur est survenue. Contactez-nous directement.")
     } finally {
       setLoading(false)
     }
@@ -1816,13 +1896,11 @@ function ContactCTASection() {
   return (
     <section id="contact" className="section-brand">
       <div className="container" style={{ paddingBlock: 0 }}>
-        <div ref={ref} style={{ display: 'flex', flexDirection: 'column', gap: 'clamp(2rem, 4vw, 3rem)' }}>
+        <div ref={ref} style={{ display: 'flex', flexDirection: 'column', gap: '48px' }}>
 
-          {/* 1 — Titre, sous-titre, intro */}
+          {/* Header */}
           <div style={{ ...reveal(visible, 0), textAlign: 'center', maxWidth: '720px', margin: '0 auto' }}>
-            <span style={{ ...eyebrow, textAlign: 'center' }}>
-              Prêt à accélérer votre croissance digitale&nbsp;?
-            </span>
+            <span style={{ ...eyebrow, textAlign: 'center' }}>TRAVAILLONS ENSEMBLE</span>
             <h2 style={{
               fontFamily:    'Clash Display, var(--font-montserrat), sans-serif',
               fontWeight:    500,
@@ -1834,184 +1912,185 @@ function ContactCTASection() {
             }}>
               Prenons le temps d&apos;analyser votre projet.
             </h2>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: '15px', color: 'rgba(255,255,255,0.65)', margin: 0 }}>
+              2 minutes&nbsp;· Réponse sous 24h&nbsp;· Première analyse gratuite.
+            </p>
           </div>
 
-          {/* Formulaire centré max-width 600px */}
-          <div style={{ ...reveal(visible, 160), maxWidth: '600px', width: '100%', margin: '0 auto' }}>
-            {submitted ? (
-              <div style={{
-                padding:      '28px',
-                background:   'rgba(232,97,26,0.12)',
-                border:       '1px solid rgba(232,97,26,0.30)',
-                borderRadius: '12px',
-                textAlign:    'center',
-              }}>
-                <div style={{ fontSize: '32px', marginBottom: '12px' }}>✓</div>
-                <p style={{
-                  fontFamily: 'var(--font-body)',
-                  color:      'var(--color-orange-400)',
-                  fontWeight: 600,
-                  fontSize:   '16px',
-                  margin:     0,
+          {/* Layout 2 colonnes */}
+          <div style={{
+            ...reveal(visible, 120),
+            display:   'flex',
+            gap:       'clamp(2rem, 5vw, 4rem)',
+            alignItems: 'flex-start',
+          }}
+          className="flex-col lg:flex-row"
+          >
+
+            {/* Colonne gauche — 60% — Formulaire */}
+            <div style={{ flex: '1 1 60%' }}>
+              {submitted ? (
+                <div style={{
+                  padding:      '28px',
+                  background:   'rgba(232,97,26,0.12)',
+                  border:       '1px solid rgba(232,97,26,0.30)',
+                  borderRadius: '12px',
+                  textAlign:    'center',
                 }}>
-                  Demande envoyée ! On vous répond sous 24h.
-                </p>
-              </div>
-            ) : (
-              <form
-                onSubmit={handleSubmit(onSubmit)}
-                noValidate
-                style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}
-              >
-                {/* Nom + Email — 50/50 sur desktop, colonne sur mobile/tablette */}
-                <div className="flex flex-col lg:flex-row" style={{ gap: '12px' }}>
-                  <div style={{ flex: '1 1 50%' }}>
-                    <label htmlFor="c-nom" style={labelStyle}>Nom complet</label>
-                    <input
-                      id="c-nom"
-                      type="text"
-                      placeholder="Votre nom"
-                      style={{ ...inputStyle, borderColor: errors.nom ? OR_500 : 'rgba(255,255,255,0.16)' }}
-                      {...register('nom', { required: true })}
-                    />
-                  </div>
-                  <div style={{ flex: '1 1 50%' }}>
-                    <label htmlFor="c-email" style={labelStyle}>Email</label>
-                    <input
-                      id="c-email"
-                      type="email"
-                      placeholder="votre@email.com"
-                      style={{ ...inputStyle, borderColor: errors.email ? OR_500 : 'rgba(255,255,255,0.16)' }}
-                      {...register('email', { required: true, pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ })}
-                    />
-                  </div>
-                </div>
-
-                {/* Entreprise + Contact — 50/50 sur desktop, colonne sur mobile/tablette */}
-                <div className="flex flex-col lg:flex-row" style={{ gap: '12px' }}>
-                  <div style={{ flex: '1 1 50%' }}>
-                    <label htmlFor="c-entreprise" style={labelStyle}>Nom d&apos;entreprise</label>
-                    <input
-                      id="c-entreprise"
-                      type="text"
-                      placeholder="Votre entreprise"
-                      style={{ ...inputStyle, borderColor: 'rgba(255,255,255,0.16)' }}
-                      {...register('entreprise')}
-                    />
-                  </div>
-                  <div style={{ flex: '1 1 50%' }}>
-                    <label htmlFor="c-contact" style={labelStyle}>Téléphone / WhatsApp</label>
-                    <input
-                      id="c-contact"
-                      type="tel"
-                      placeholder="+221 77 000 00 00"
-                      style={{ ...inputStyle, borderColor: 'rgba(255,255,255,0.16)' }}
-                      {...register('contact')}
-                    />
-                  </div>
-                </div>
-
-                {/* Profil */}
-                <div>
-                  <label htmlFor="c-profil" style={labelStyle}>Vous êtes</label>
-                  <select
-                    id="c-profil"
-                    style={{ ...inputStyle }}
-                    {...register('profil', { required: true })}
-                  >
-                    <option value=""            style={{ background: BL_DARK }}>Sélectionner...</option>
-                    <option value="entrepreneur" style={{ background: BL_DARK }}>Entrepreneur</option>
-                    <option value="commercant"   style={{ background: BL_DARK }}>Commerçant</option>
-                    <option value="pme"          style={{ background: BL_DARK }}>PME</option>
-                    <option value="startup"      style={{ background: BL_DARK }}>Startup</option>
-                    <option value="autre"        style={{ background: BL_DARK }}>Autre</option>
-                  </select>
-                </div>
-
-                {/* Services souhaités */}
-                {servicesList.length > 0 && (
-                  <div>
-                    <label style={labelStyle}>Services souhaités</label>
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginTop: '2px' }}>
-                      {servicesList.map(s => {
-                        const active = selectedServices.includes(s)
-                        return (
-                          <button
-                            key={s}
-                            type="button"
-                            onClick={() => setSelectedServices(prev =>
-                              active ? prev.filter(x => x !== s) : [...prev, s]
-                            )}
-                            style={{
-                              fontFamily:   'var(--font-body)',
-                              fontSize:     '13px',
-                              fontWeight:   600,
-                              padding:      '6px 14px',
-                              borderRadius: '100px',
-                              border:       active ? '1.5px solid #E8622A' : '1.5px solid rgba(255,255,255,0.22)',
-                              background:   active ? 'rgba(232,98,42,0.18)' : 'rgba(255,255,255,0.07)',
-                              color:        active ? '#E8622A' : 'rgba(255,255,255,0.80)',
-                              cursor:       'pointer',
-                              transition:   'all 0.18s ease',
-                            }}
-                          >
-                            {s}
-                          </button>
-                        )
-                      })}
-                    </div>
-                  </div>
-                )}
-
-                {/* Message */}
-                <div>
-                  <label htmlFor="c-message" style={labelStyle}>Votre projet</label>
-                  <textarea
-                    id="c-message"
-                    rows={4}
-                    placeholder="Décrivez votre projet — lancer une boutique en ligne, créer un site vitrine, automatiser vos processus, développer une application..."
-                    style={{
-                      ...inputStyle,
-                      height:     'auto',
-                      padding:    '12px 16px',
-                      resize:     'vertical',
-                      lineHeight: 1.6,
-                    }}
-                    {...register('message', { required: true })}
-                  />
-                </div>
-
-                {error && (
-                  <p style={{ fontFamily: 'var(--font-body)', fontSize: '13px', color: 'var(--color-orange-400)', margin: 0 }}>
-                    {error}
+                  <div style={{ fontSize: '32px', marginBottom: '12px' }}>✓</div>
+                  <p style={{ fontFamily: 'var(--font-body)', color: 'var(--color-orange-400)', fontWeight: 600, fontSize: '16px', margin: 0 }}>
+                    Demande envoyée&nbsp;! On vous répond sous 24h.
                   </p>
-                )}
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit(onSubmit)} noValidate style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
 
-                <button
-                  type="submit"
-                  disabled={loading}
-                  style={{
-                    ...BTN_PRI_STYLE,
-                    gap:        '8px',
-                    width:      '100%',
-                    background: loading ? 'rgba(240,90,40,0.4)' : BTN_PRI,
-                    cursor:     loading ? 'not-allowed' : 'pointer',
-                  }}
-                  onMouseEnter={e => {
-                    if (!loading) { const el = e.currentTarget as HTMLButtonElement; el.style.background = BTN_PRI_HOV; el.style.borderColor = BTN_PRI_HOV }
-                  }}
-                  onMouseLeave={e => {
-                    if (!loading) { const el = e.currentTarget as HTMLButtonElement; el.style.background = BTN_PRI; el.style.borderColor = BTN_PRI }
-                  }}
-                  onMouseDown={e => { if (!loading) (e.currentTarget as HTMLButtonElement).style.transform = 'scale(0.97)' }}
-                  onMouseUp={e => { if (!loading) (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1)' }}
-                >
-                  {loading ? 'Envoi...' : 'Envoyer ma demande'} {!loading && <ArrowRight size={16} />}
-                </button>
-              </form>
-            )}
+                  {/* Grille 2×2 — 4 premiers champs */}
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+
+                    {/* 1 — Prénom & Nom */}
+                    <div>
+                      <label htmlFor="c-nom" style={labelStyle}>Prénom &amp; Nom</label>
+                      <input
+                        id="c-nom" type="text" placeholder="Jean Dupont"
+                        style={{ ...inputStyle, borderColor: errors.nom ? OR_500 : 'rgba(255,255,255,0.16)' }}
+                        {...register('nom', { required: true })}
+                      />
+                    </div>
+
+                    {/* 2 — Email */}
+                    <div>
+                      <label htmlFor="c-email" style={labelStyle}>Email</label>
+                      <input
+                        id="c-email" type="email" placeholder="vous@entreprise.com"
+                        style={{ ...inputStyle, borderColor: errors.email ? OR_500 : 'rgba(255,255,255,0.16)' }}
+                        {...register('email', { required: true, pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ })}
+                      />
+                    </div>
+
+                    {/* 3 — Type de projet */}
+                    <div>
+                      <label htmlFor="c-type" style={labelStyle}>Type de projet</label>
+                      <select id="c-type" style={{ ...inputStyle }} {...register('typeProjet', { required: true })}>
+                        <option value=""           style={{ background: BL_DARK }}>Sélectionner...</option>
+                        <option value="app-web"    style={{ background: BL_DARK }}>App web</option>
+                        <option value="ecommerce"  style={{ background: BL_DARK }}>E-commerce</option>
+                        <option value="erp-crm"    style={{ background: BL_DARK }}>ERP/CRM</option>
+                        <option value="autre"      style={{ background: BL_DARK }}>Autre</option>
+                      </select>
+                    </div>
+
+                    {/* 4 — Budget */}
+                    <div>
+                      <label htmlFor="c-budget" style={labelStyle}>Budget</label>
+                      <select id="c-budget" style={{ ...inputStyle }} {...register('budget', { required: true })}>
+                        <option value=""        style={{ background: BL_DARK }}>Sélectionner...</option>
+                        <option value="<500k"   style={{ background: BL_DARK }}>&lt;500k FCFA</option>
+                        <option value="500-1.5" style={{ background: BL_DARK }}>500k–1,5M FCFA</option>
+                        <option value="1.5-5"   style={{ background: BL_DARK }}>1,5M–5M FCFA</option>
+                        <option value=">5M"     style={{ background: BL_DARK }}>+5M FCFA</option>
+                      </select>
+                    </div>
+
+                  </div>
+
+                  {/* 5 — Votre besoin */}
+                  <div>
+                    <label htmlFor="c-besoin" style={labelStyle}>Votre besoin</label>
+                    <textarea
+                      id="c-besoin" rows={4}
+                      placeholder="Décrivez votre projet en quelques lignes..."
+                      style={{ ...inputStyle, height: 'auto', padding: '12px 16px', resize: 'vertical', lineHeight: 1.6 }}
+                      {...register('besoin', { required: true })}
+                    />
+                  </div>
+
+                  {/* 6 — Source */}
+                  <div>
+                    <label htmlFor="c-source" style={labelStyle}>Vous nous avez connus via</label>
+                    <select id="c-source" style={{ ...inputStyle }} {...register('source')}>
+                      <option value=""               style={{ background: BL_DARK }}>Sélectionner...</option>
+                      <option value="google"         style={{ background: BL_DARK }}>Google</option>
+                      <option value="recommandation" style={{ background: BL_DARK }}>Recommandation</option>
+                      <option value="linkedin"       style={{ background: BL_DARK }}>LinkedIn</option>
+                      <option value="autre"          style={{ background: BL_DARK }}>Autre</option>
+                    </select>
+                  </div>
+
+                  {error && (
+                    <p style={{ fontFamily: 'var(--font-body)', fontSize: '13px', color: 'var(--color-orange-400)', margin: 0 }}>
+                      {error}
+                    </p>
+                  )}
+
+                  {/* Submit */}
+                  <button
+                    type="submit" disabled={loading}
+                    style={{
+                      ...BTN_PRI_STYLE,
+                      gap:        '8px',
+                      width:      '100%',
+                      justifyContent: 'center',
+                      background: loading ? 'rgba(240,90,40,0.4)' : BTN_PRI,
+                      cursor:     loading ? 'not-allowed' : 'pointer',
+                    }}
+                    onMouseEnter={e => { if (!loading) (e.currentTarget as HTMLButtonElement).style.background = BTN_PRI_HOV }}
+                    onMouseLeave={e => { if (!loading) (e.currentTarget as HTMLButtonElement).style.background = BTN_PRI }}
+                    onMouseDown={e => { if (!loading) (e.currentTarget as HTMLButtonElement).style.transform = 'scale(0.97)' }}
+                    onMouseUp={e => { if (!loading) (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1)' }}
+                  >
+                    {loading ? 'Envoi...' : 'Envoyer ma demande — Réponse sous 24h'} {!loading && <ArrowRight size={16} />}
+                  </button>
+
+                  <p style={{ fontFamily: 'var(--font-body)', fontSize: '12px', color: 'rgba(255,255,255,0.45)', textAlign: 'center', margin: 0 }}>
+                    🔒 Informations confidentielles&nbsp;· Aucun démarchage&nbsp;· Devis gratuit
+                  </p>
+
+                </form>
+              )}
+            </div>
+
+            {/* Colonne droite — 38% — Infos contact */}
+            <div style={{ flex: '0 0 38%', display: 'flex', flexDirection: 'column', gap: '24px' }}>
+              {/* Infos contact */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                {[
+                  { icon: '📍', text: 'Dakar — Sacré-Cœur 3' },
+                  { icon: '📧', text: 'contact@connect-web.tech' },
+                  { icon: '📞', text: '+221 77 XXX XX XX' },
+                  { icon: '🕐', text: 'Lun–Ven · 8h–18h' },
+                ].map(item => (
+                  <div key={item.text} style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <span style={{ fontSize: '18px' }}>{item.icon}</span>
+                    <span style={{ fontFamily: 'var(--font-body)', fontSize: '15px', color: 'rgba(255,255,255,0.80)' }}>
+                      {item.text}
+                    </span>
+                  </div>
+                ))}
+              </div>
+
+              {/* Badges */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                {['✓ Réponse sous 24h', '✓ Devis gratuit', '✓ Sans engagement'].map(b => (
+                  <div key={b} style={{
+                    display:      'inline-flex',
+                    alignItems:   'center',
+                    padding:      '8px 16px',
+                    background:   'rgba(255,255,255,0.06)',
+                    border:       '1px solid rgba(255,255,255,0.12)',
+                    borderRadius: '8px',
+                    fontFamily:   'var(--font-body)',
+                    fontSize:     '14px',
+                    fontWeight:   500,
+                    color:        '#FFFFFF',
+                  }}>
+                    {b}
+                  </div>
+                ))}
+              </div>
+            </div>
+
           </div>
-
         </div>
       </div>
     </section>
@@ -2026,12 +2105,10 @@ export function HomePageClient() {
   return (
     <main style={{ overflowX: 'hidden', maxWidth: '100%' }}>
       <HeroSection />
-      <StatsGrid />
+      <ClientLogos />
       <AboutSection />
       <ServicesSection />
       <ProcessSection />
-      <ClientLogos />
-      <TestimonialsSection />
       <OffresSection />
       <CtaBannerSection />
       <FaqSection />
