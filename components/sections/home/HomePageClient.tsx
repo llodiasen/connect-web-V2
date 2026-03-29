@@ -840,7 +840,7 @@ function ServiceCard({ svc, index }: { svc: Service; index: number }) {
         {/* Titre */}
         <h3 style={{
           fontFamily:   'var(--font-heading)',
-          fontWeight:   700,
+          fontWeight:   600,
           fontSize:     'var(--card-title-size)',
           color:        'var(--text-primary)',
           marginBottom: '10px',
@@ -1065,7 +1065,7 @@ function ProcessSection() {
                       el.style.boxShadow = isEven ? '0 2px 8px rgba(232,98,42,0.06)' : '0 1px 4px rgba(0,0,0,0.05)'
                     }}
                   >
-                    <h3 style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: 'clamp(14.5px, 1.35vw, 18px)', color: 'var(--text-primary)', marginBottom: '8px', lineHeight: 1.3, textAlign: 'left' }}>
+                    <h3 style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 'clamp(14.5px, 1.35vw, 18px)', color: 'var(--text-primary)', marginBottom: '8px', lineHeight: 1.3, textAlign: 'left' }}>
                       {step.titre}
                     </h3>
                     <p style={{ fontFamily: 'var(--font-body)', fontSize: '16.5px', lineHeight: 1.65, color: 'var(--text-primary)', margin: '0 0 14px', textAlign: 'justify', display: '-webkit-box', WebkitLineClamp: 4, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
@@ -1391,8 +1391,8 @@ function OffresSection() {
               {/* Titre */}
               <h3 style={{
                 fontFamily:   'var(--font-heading)',
-                fontWeight:   700,
-                fontSize:     '20px',
+                fontWeight:   600,
+                fontSize:     '22px',
                 color:        offre.populaire ? '#FFFFFF' : 'var(--text-primary)',
                 marginBottom: '24px',
                 lineHeight:   1.2,
@@ -1496,7 +1496,7 @@ function CtaBannerSection() {
       backgroundPosition: 'center',
       backgroundRepeat:   'no-repeat',
     }}>
-      {/* Overlay — couvre toute la section */}
+      {/* Overlay */}
       <div aria-hidden="true" style={{
         position:   'absolute',
         top:        0,
@@ -1583,17 +1583,11 @@ function CtaBannerSection() {
 
           <Link
             href="/realisations"
-            style={{
-              fontFamily:          'var(--font-body)',
-              fontSize:            '14px',
-              fontWeight:          500,
-              color:               'rgba(255,255,255,0.60)',
-              textDecoration:      'underline',
-              textUnderlineOffset: '3px',
-              transition:          'color 0.2s ease',
-            }}
-            onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.color = 'rgba(255,255,255,0.90)' }}
-            onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.color = 'rgba(255,255,255,0.60)' }}
+            style={{ ...BTN_SEC_STYLE, gap: '8px', background: '#1B2A3B', color: '#FFFFFF', borderColor: '#1B2A3B' }}
+            onMouseEnter={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = BTN_PRI; el.style.borderColor = BTN_PRI }}
+            onMouseLeave={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = '#1B2A3B'; el.style.borderColor = '#1B2A3B' }}
+            onMouseDown={e => { (e.currentTarget as HTMLAnchorElement).style.transform = 'scale(0.97)' }}
+            onMouseUp={e => { (e.currentTarget as HTMLAnchorElement).style.transform = 'scale(1)' }}
           >
             Voir nos réalisations
           </Link>
@@ -1767,7 +1761,7 @@ function ContactCTASection() {
     border:       '1px solid rgba(255,255,255,0.16)',
     borderRadius: '8px',
     padding:      '0 16px',
-    height:       '48px',
+    height:       '46px',
     width:        '100%',
     boxSizing:    'border-box',
     outline:      'none',
@@ -1786,15 +1780,11 @@ function ContactCTASection() {
   return (
     <section id="contact" className="section-brand">
       <div className="container" style={{ paddingBlock: 0 }}>
-        <div
-          ref={ref}
-          className="grid grid-cols-1 lg:grid-cols-[1fr_1fr]"
-          style={{ gap: 'clamp(3rem, 6vw, 5rem)', alignItems: 'start' }}
-        >
-          {/* Colonne formulaire */}
-          <div style={reveal(visible, 0)}>
-            {/* Eyebrow — orange sur fond brand */}
-            <span style={{ ...eyebrow, textAlign: 'left' }}>
+        <div ref={ref} style={{ display: 'flex', flexDirection: 'column', gap: 'clamp(2rem, 4vw, 3rem)' }}>
+
+          {/* 1 — Titre, sous-titre, intro */}
+          <div style={{ ...reveal(visible, 0), textAlign: 'center', maxWidth: '720px', margin: '0 auto' }}>
+            <span style={{ ...eyebrow, textAlign: 'center' }}>
               Prêt à accélérer votre croissance digitale&nbsp;?
             </span>
             <h2 style={{
@@ -1806,18 +1796,12 @@ function ContactCTASection() {
               color:         '#FFFFFF',
               marginBottom:  '12px',
             }}>
-              Parlons de votre projet. La première consultation est offerte.
+              Prenons le temps d&apos;analyser votre projet.
             </h2>
-            <p style={{
-              fontFamily:   'var(--font-body)',
-              fontSize:     '15px',
-              lineHeight:   1.7,
-              color:        '#FFFFFF',
-              marginBottom: '40px',
-            }}>
-              Entrepreneur, commerçant ou dirigeant de PME — réponse sous 24h · Proposition avec ROI estimé sous 48h · Sans engagement
-            </p>
+          </div>
 
+          {/* Formulaire centré max-width 600px */}
+          <div style={{ ...reveal(visible, 160), maxWidth: '600px', width: '100%', margin: '0 auto' }}>
             {submitted ? (
               <div style={{
                 padding:      '28px',
@@ -1841,10 +1825,10 @@ function ContactCTASection() {
               <form
                 onSubmit={handleSubmit(onSubmit)}
                 noValidate
-                style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}
+                style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}
               >
-                {/* Nom + Email — 50/50 sur la même ligne */}
-                <div style={{ display: 'flex', gap: '18px' }}>
+                {/* Nom + Email — 50/50 sur desktop, colonne sur mobile/tablette */}
+                <div className="flex flex-col lg:flex-row" style={{ gap: '12px' }}>
                   <div style={{ flex: '1 1 50%' }}>
                     <label htmlFor="c-nom" style={labelStyle}>Nom complet</label>
                     <input
@@ -1855,7 +1839,6 @@ function ContactCTASection() {
                       {...register('nom', { required: true })}
                     />
                   </div>
-
                   <div style={{ flex: '1 1 50%' }}>
                     <label htmlFor="c-email" style={labelStyle}>Email</label>
                     <input
@@ -1868,8 +1851,8 @@ function ContactCTASection() {
                   </div>
                 </div>
 
-                {/* Entreprise + Contact — 50/50 sur la même ligne */}
-                <div style={{ display: 'flex', gap: '18px' }}>
+                {/* Entreprise + Contact — 50/50 sur desktop, colonne sur mobile/tablette */}
+                <div className="flex flex-col lg:flex-row" style={{ gap: '12px' }}>
                   <div style={{ flex: '1 1 50%' }}>
                     <label htmlFor="c-entreprise" style={labelStyle}>Nom d&apos;entreprise</label>
                     <input
@@ -1880,7 +1863,6 @@ function ContactCTASection() {
                       {...register('entreprise')}
                     />
                   </div>
-
                   <div style={{ flex: '1 1 50%' }}>
                     <label htmlFor="c-contact" style={labelStyle}>Téléphone / WhatsApp</label>
                     <input
@@ -1901,7 +1883,7 @@ function ContactCTASection() {
                     style={{ ...inputStyle }}
                     {...register('profil', { required: true })}
                   >
-                    <option value=""           style={{ background: BL_DARK }}>Sélectionner...</option>
+                    <option value=""            style={{ background: BL_DARK }}>Sélectionner...</option>
                     <option value="entrepreneur" style={{ background: BL_DARK }}>Entrepreneur</option>
                     <option value="commercant"   style={{ background: BL_DARK }}>Commerçant</option>
                     <option value="pme"          style={{ background: BL_DARK }}>PME</option>
@@ -1910,39 +1892,39 @@ function ContactCTASection() {
                   </select>
                 </div>
 
-                {/* Services souhaités — affichés uniquement si un profil est sélectionné */}
+                {/* Services souhaités */}
                 {servicesList.length > 0 && (
-                <div>
-                  <label style={labelStyle}>Services souhaités</label>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginTop: '2px' }}>
-                    {servicesList.map(s => {
-                      const active = selectedServices.includes(s)
-                      return (
-                        <button
-                          key={s}
-                          type="button"
-                          onClick={() => setSelectedServices(prev =>
-                            active ? prev.filter(x => x !== s) : [...prev, s]
-                          )}
-                          style={{
-                            fontFamily:   'var(--font-body)',
-                            fontSize:     '13px',
-                            fontWeight:   600,
-                            padding:      '6px 14px',
-                            borderRadius: '100px',
-                            border:       active ? '1.5px solid #E8622A' : '1.5px solid rgba(255,255,255,0.22)',
-                            background:   active ? 'rgba(232,98,42,0.18)' : 'rgba(255,255,255,0.07)',
-                            color:        active ? '#E8622A' : 'rgba(255,255,255,0.80)',
-                            cursor:       'pointer',
-                            transition:   'all 0.18s ease',
-                          }}
-                        >
-                          {s}
-                        </button>
-                      )
-                    })}
+                  <div>
+                    <label style={labelStyle}>Services souhaités</label>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginTop: '2px' }}>
+                      {servicesList.map(s => {
+                        const active = selectedServices.includes(s)
+                        return (
+                          <button
+                            key={s}
+                            type="button"
+                            onClick={() => setSelectedServices(prev =>
+                              active ? prev.filter(x => x !== s) : [...prev, s]
+                            )}
+                            style={{
+                              fontFamily:   'var(--font-body)',
+                              fontSize:     '13px',
+                              fontWeight:   600,
+                              padding:      '6px 14px',
+                              borderRadius: '100px',
+                              border:       active ? '1.5px solid #E8622A' : '1.5px solid rgba(255,255,255,0.22)',
+                              background:   active ? 'rgba(232,98,42,0.18)' : 'rgba(255,255,255,0.07)',
+                              color:        active ? '#E8622A' : 'rgba(255,255,255,0.80)',
+                              cursor:       'pointer',
+                              transition:   'all 0.18s ease',
+                            }}
+                          >
+                            {s}
+                          </button>
+                        )
+                      })}
+                    </div>
                   </div>
-                </div>
                 )}
 
                 {/* Message */}
@@ -1964,24 +1946,20 @@ function ContactCTASection() {
                 </div>
 
                 {error && (
-                  <p style={{
-                    fontFamily: 'var(--font-body)',
-                    fontSize:   '13px',
-                    color:      'var(--color-orange-400)',
-                    margin:     0,
-                  }}>{error}</p>
+                  <p style={{ fontFamily: 'var(--font-body)', fontSize: '13px', color: 'var(--color-orange-400)', margin: 0 }}>
+                    {error}
+                  </p>
                 )}
 
-                {/* Submit — CLAUDE.md : bg-[#1B2A4A] défaut, hover bg-[#E8611A] */}
                 <button
                   type="submit"
                   disabled={loading}
                   style={{
                     ...BTN_PRI_STYLE,
-                    gap:       '8px',
-                    width:     '100%',
+                    gap:        '8px',
+                    width:      '100%',
                     background: loading ? 'rgba(240,90,40,0.4)' : BTN_PRI,
-                    cursor:    loading ? 'not-allowed' : 'pointer',
+                    cursor:     loading ? 'not-allowed' : 'pointer',
                   }}
                   onMouseEnter={e => {
                     if (!loading) { const el = e.currentTarget as HTMLButtonElement; el.style.background = BTN_PRI_HOV; el.style.borderColor = BTN_PRI_HOV }
@@ -1998,107 +1976,6 @@ function ContactCTASection() {
             )}
           </div>
 
-          {/* Colonne alternatives de contact */}
-          <div style={{ ...reveal(visible, 120), display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            {[
-              {
-                icon:     MessageSquare,
-                titre:    'WhatsApp',
-                desc:     '+221 77 900 62 82',
-                detail:   'Réponse rapide pour les entrepreneurs pressés, du lundi au samedi',
-                href:     'https://wa.me/221779006282',
-                external: true,
-              },
-              {
-                icon:     Mail,
-                titre:    'Email',
-                desc:     'contact@connect-web.tech',
-                detail:   'Pour les demandes détaillées',
-                href:     'mailto:contact@connect-web.tech',
-                external: false,
-              },
-              {
-                icon:     Calendar,
-                titre:    'Rendez-vous',
-                desc:     'Réserver un appel stratégique de 30 min',
-                detail:   'Choisissez votre créneau directement',
-                href:     '/contact',
-                external: false,
-              },
-            ].map(alt => {
-              const Icon = alt.icon
-              return (
-                <a
-                  key={alt.titre}
-                  href={alt.href}
-                  target={alt.external ? '_blank' : undefined}
-                  rel={alt.external ? 'noopener noreferrer' : undefined}
-                  style={{
-                    display:        'flex',
-                    alignItems:     'flex-start',
-                    gap:            '16px',
-                    padding:        '24px',
-                    background:     'rgba(255,255,255,0.05)',
-                    border:         '1px solid rgba(255,255,255,0.10)',
-                    borderRadius:   '12px',
-                    textDecoration: 'none',
-                    transition:     'background 0.2s, border-color 0.2s',
-                  }}
-                  onMouseEnter={e => {
-                    const el = e.currentTarget as HTMLAnchorElement
-                    el.style.background   = 'rgba(232,97,26,0.10)'
-                    el.style.borderColor  = 'rgba(232,97,26,0.30)'
-                  }}
-                  onMouseLeave={e => {
-                    const el = e.currentTarget as HTMLAnchorElement
-                    el.style.background   = 'rgba(255,255,255,0.05)'
-                    el.style.borderColor  = 'rgba(255,255,255,0.10)'
-                  }}
-                >
-                  {/* Icône wrapper — 44px CLAUDE.md */}
-                  <div style={{
-                    width:          '44px',
-                    height:         '44px',
-                    borderRadius:   '10px',
-                    background:     'rgba(232,97,26,0.15)',
-                    display:        'flex',
-                    alignItems:     'center',
-                    justifyContent: 'center',
-                    flexShrink:     0,
-                  }}>
-                    <Icon size={20} color={OR_400} strokeWidth={1.8} />
-                  </div>
-                  <div>
-                    <div style={{
-                      fontFamily:   'var(--font-heading)',
-                      fontWeight:   700,
-                      fontSize:     '15px',
-                      color:        '#FFFFFF',
-                      marginBottom: '4px',
-                    }}>
-                      {alt.titre}
-                    </div>
-                    <div style={{
-                      fontFamily:   'var(--font-body)',
-                      fontSize:     '14px',
-                      color:        '#FFFFFF',
-                      fontWeight:   600,
-                      marginBottom: '4px',
-                    }}>
-                      {alt.desc}
-                    </div>
-                    <div style={{
-                      fontFamily: 'var(--font-body)',
-                      fontSize:   '13px',
-                      color:      '#FFFFFF',
-                    }}>
-                      {alt.detail}
-                    </div>
-                  </div>
-                </a>
-              )
-            })}
-          </div>
         </div>
       </div>
     </section>
