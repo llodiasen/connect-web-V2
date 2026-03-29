@@ -42,7 +42,7 @@ const fadeUp = {
    HELPERS TYPOGRAPHIE — identiques à logiciels-saas
    ─────────────────────────────────────────────────────────────── */
 const H2_STYLE: React.CSSProperties = {
-  fontSize:      'clamp(1.25rem, 2.5vw, 2rem)',
+  fontSize:      'clamp(1.125rem, 2.5vw, 2rem)',
   lineHeight:    1.25,
   letterSpacing: '-0.02em',
   color:         '#1B2A4A',
@@ -220,7 +220,7 @@ function SocialProofSection() {
           className="font-heading font-bold"
           style={{
             textAlign: 'center', color: 'var(--text-primary)',
-            fontSize: 'clamp(1.5rem, 2.5vw, 2rem)', lineHeight: 1.15,
+            fontSize: 'clamp(1.375rem, 2.5vw, 2rem)', lineHeight: 1.15,
             letterSpacing: '-0.025em',
             marginBottom: 'clamp(2.5rem, 5vw, 3.5rem)',
           }}
@@ -432,7 +432,7 @@ function HeroSection() {
             <motion.h1
               variants={fadeUp}
               className="font-heading font-bold"
-              style={{ fontSize: 'clamp(2rem, 5vw, 3rem)', lineHeight: 1.1, letterSpacing: '-0.03em', color: '#F9FAFB', marginBottom: '20px' }}
+              style={{ fontSize: 'clamp(1.875rem, 5vw, 3rem)', lineHeight: 1.1, letterSpacing: '-0.03em', color: '#F9FAFB', marginBottom: '20px' }}
             >
               Un site vitrine<br />professionnel qui donne<br />
               <span style={{ color: 'var(--color-orange-500)' }}>envie de vous contacter.</span>

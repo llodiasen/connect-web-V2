@@ -27,7 +27,7 @@ const STATS: Stat[] = [
     animated:    15,
     suffix:      '+',
     label:       'Projets livrés',
-    description: "de l'idée à la mise en production",
+    description: '',
   },
   {
     prefix:      '',
@@ -35,7 +35,7 @@ const STATS: Stat[] = [
     animated:    98,
     suffix:      '%',
     label:       'Satisfaction client',
-    description: 'taux mesuré en fin de projet',
+    description: '',
   },
   {
     prefix:      '',
@@ -43,7 +43,7 @@ const STATS: Stat[] = [
     animated:    null,
     suffix:      ' sem.',
     label:       'Délai moyen',
-    description: 'de cadrage à livraison',
+    description: '',
   },
   {
     prefix:      'x',
@@ -135,7 +135,7 @@ function StatItem({ stat, index, isLast }: {
         {stat.prefix && (
           <span style={{
             fontFamily:    'var(--font-heading)',
-            fontWeight:    800,
+            fontWeight:    700,
             fontSize:      'clamp(1rem, 1.6vw, 1.25rem)',
             lineHeight:    1,
             letterSpacing: '-0.03em',
@@ -148,7 +148,7 @@ function StatItem({ stat, index, isLast }: {
 
         <span style={{
           fontFamily:         'var(--font-heading)',
-          fontWeight:         800,
+          fontWeight:         700,
           fontSize:           'clamp(1.375rem, 2.5vw, 1.875rem)',
           lineHeight:         1,
           letterSpacing:      '-0.04em',
@@ -161,7 +161,7 @@ function StatItem({ stat, index, isLast }: {
         {stat.suffix && (
           <span style={{
             fontFamily:    'var(--font-heading)',
-            fontWeight:    700,
+            fontWeight:    600,
             fontSize:      stat.suffix === ' sem.'
               ? 'clamp(0.6875rem, 1.1vw, 0.8125rem)'
               : 'clamp(0.875rem, 1.4vw, 1.125rem)',
@@ -181,7 +181,7 @@ function StatItem({ stat, index, isLast }: {
       <p style={{
         fontFamily:    'var(--font-heading)',
         fontSize:      '12.5px',
-        fontWeight:    700,
+        fontWeight:    600,
         color:         'var(--text-primary)',
         lineHeight:    1.3,
         letterSpacing: '-0.005em',

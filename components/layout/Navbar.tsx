@@ -267,7 +267,7 @@ function NavLink({ href, label, isActive }: { href: string; label: string; isAct
           display: 'flex', alignItems: 'center',
           padding: '0 10px', height: '100%',
           fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: '15px',
-          color: isActive || hovered ? '#1a1a2e' : '#4A5568',
+          color: isActive || hovered ? '#1B2B4B' : '#1B2B4B',
           textDecoration: 'none', transition: 'color 150ms ease',
           whiteSpace: 'nowrap',
         }}
@@ -310,7 +310,7 @@ function NavItemMenu({
           padding: '0 10px', height: '100%',
           background: 'transparent', border: 'none', cursor: 'pointer',
           fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: '15px',
-          color: isActive || isOpen || hovered ? '#1a1a2e' : '#4A5568',
+          color: isActive || isOpen || hovered ? '#1B2B4B' : '#1B2B4B',
           transition: 'color 150ms ease', whiteSpace: 'nowrap',
         }}
       >

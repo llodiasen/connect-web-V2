@@ -58,7 +58,7 @@ const eyebrow: React.CSSProperties = {
 
 const sectionTitle: React.CSSProperties = {
   fontFamily:    'var(--font-heading)',
-  fontWeight:    700,
+  fontWeight:    500,
   fontSize:      'clamp(1.8rem, 4vw, 2.8rem)',
   lineHeight:    1.15,
   letterSpacing: '-0.03em',
@@ -137,10 +137,10 @@ function AnimatedCounter({ target, suffix, prefix = '' }: { target: number; suff
 
 /* Métriques — données page d'accueil */
 const SP_METRICS: { target: number; suffix: string; prefix?: string; label: string; desc: string; displayValue?: string }[] = [
-  { target: 15, suffix: '+',    label: 'Projets livrés',     desc: "de l'idée à la mise en production"  },
-  { target: 98, suffix: '%',    label: 'Satisfaction client', desc: 'taux mesuré en fin de projet'       },
-  { target: 8,  suffix: ' sem', label: 'Délai moyen',         desc: 'de cadrage à livraison', displayValue: '2–8 sem.' },
-  { target: 100, suffix: '%',   label: 'Projets livrés dans les délais', desc: 'sans exception, depuis le premier jour' },
+  { target: 15, suffix: '+',    label: 'Projets livrés',     desc: ''  },
+  { target: 98, suffix: '%',    label: 'Satisfaction client', desc: ''       },
+  { target: 8,  suffix: ' sem', label: 'Délai moyen',         desc: '', displayValue: '2–8 sem.' },
+  { target: 100, suffix: '%',   label: 'Projets livrés dans les délais', desc: '' },
 ]
 
 /* ─────────────────────────────────────────────────────────────────
@@ -252,7 +252,7 @@ function HeroSection() {
           <h1 className="hero-title" style={{
             fontFamily:    'var(--font-heading)',
             fontWeight:    600,
-            fontSize:      'clamp(2.2rem, 5vw, 3.75rem)',
+            fontSize:      'clamp(2.075rem, 5vw, 3.625rem)',
             lineHeight:    1.1,
             letterSpacing: '-0.01em',
             color:         '#FFFFFF',
@@ -471,7 +471,7 @@ function StatsBand() {
             <div key={s.value} style={{ background: '#FFFFFF', padding: '28px 24px', textAlign: 'center' }}>
               <div style={{
                 fontFamily:    'var(--font-heading)',
-                fontWeight:    800,
+                fontWeight:    700,
                 fontSize:      'clamp(1.8rem, 3vw, 2.5rem)',
                 letterSpacing: '-0.04em',
                 color:         'var(--text-primary)',
@@ -548,8 +548,8 @@ function AboutSection() {
                 ...sectionTitle,
                 ...reveal(visible, 70),
                 fontFamily:    'Clash Display, var(--font-montserrat), sans-serif',
-                fontSize:      'clamp(1.875rem, 2.8vw, 2.375rem)',
-                fontWeight:    700,
+                fontSize:      'clamp(2.125rem, 2.8vw, 2.375rem)',
+                fontWeight:    600,
                 lineHeight:    1.25,
                 letterSpacing: '-0.03em',
                 color:         'var(--text-primary)',
@@ -875,8 +875,8 @@ function ServiceCard({ svc, index }: { svc: Service; index: number }) {
         {/* Titre */}
         <h3 style={{
           fontFamily:   'var(--font-heading)',
-          fontWeight:   600,
-          fontSize:     'var(--card-title-size)',
+          fontWeight:   500,
+          fontSize:     'clamp(18px, 2.5vw, 20px)',
           color:        'var(--text-primary)',
           marginBottom: '10px',
           lineHeight:   1.25,
@@ -962,7 +962,7 @@ function ServicesSection() {
         {/* Header */}
         <div ref={ref} style={{ textAlign: 'center', marginBottom: '48px' }}>
           <span style={{ ...eyebrow, ...reveal(visible, 0) }}>NOS EXPERTISES</span>
-          <h2 style={{ ...sectionTitle, ...reveal(visible, 80), fontSize: '1.875rem', fontFamily: 'Clash Display, var(--font-montserrat), sans-serif', fontWeight: 700 }}>
+          <h2 style={{ ...sectionTitle, ...reveal(visible, 80), fontSize: '1.875rem', fontFamily: 'Clash Display, var(--font-montserrat), sans-serif', fontWeight: 500 }}>
             Nos expertises, au service de votre croissance.
           </h2>
           <p style={{ ...sectionSubtitle, ...reveal(visible, 160) }}>
@@ -1027,7 +1027,7 @@ function ProcessSection() {
         {/* Header centré */}
         <div ref={ref} style={{ textAlign: 'center', marginBottom: '64px' }}>
           <span style={{ ...eyebrow, ...reveal(visible, 0) }}>NOTRE MÉTHODE</span>
-          <h2 style={{ ...sectionTitle, ...reveal(visible, 80), fontSize: '2rem', fontFamily: 'Clash Display, var(--font-montserrat), sans-serif', fontWeight: 700 }}>
+          <h2 style={{ ...sectionTitle, ...reveal(visible, 80), fontSize: '2rem', fontFamily: 'Clash Display, var(--font-montserrat), sans-serif', fontWeight: 500 }}>
             Simple, transparent, sans surprise.
           </h2>
           <p style={{ ...sectionSubtitle, ...reveal(visible, 160) }}>
@@ -1101,7 +1101,7 @@ function ProcessSection() {
                       el.style.boxShadow = isEven ? '0 2px 8px rgba(232,98,42,0.06)' : '0 1px 4px rgba(0,0,0,0.05)'
                     }}
                   >
-                    <h3 style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: 'clamp(14.5px, 1.35vw, 18px)', color: 'var(--text-primary)', marginBottom: '8px', lineHeight: 1.3, textAlign: 'left' }}>
+                    <h3 style={{ fontFamily: 'var(--font-heading)', fontWeight: 500, fontSize: 'clamp(17px, 2.5vw, 19px)', color: 'var(--text-primary)', marginBottom: '8px', lineHeight: 1.3, textAlign: 'left' }}>
                       {step.titre}
                     </h3>
                     <p style={{ fontFamily: 'var(--font-body)', fontSize: '16.5px', lineHeight: 1.65, color: 'var(--text-primary)', margin: '0 0 14px', textAlign: 'justify', display: '-webkit-box', WebkitLineClamp: 4, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
@@ -1180,7 +1180,7 @@ function TestimonialsSection() {
             fontSize:   '2rem',
             textAlign:  'center',
             fontFamily: 'Clash Display, var(--font-montserrat), sans-serif',
-            fontWeight: 700,
+            fontWeight: 500,
           }}>
             Pas des promesses,{' '}
             <span style={{ color: 'var(--color-orange-500)' }}>des preuves.</span>
@@ -1427,8 +1427,8 @@ function OffresSection() {
               {/* Titre */}
               <h3 style={{
                 fontFamily:   'var(--font-heading)',
-                fontWeight:   600,
-                fontSize:     '22px',
+                fontWeight:   500,
+                fontSize:     'clamp(18px, 2.5vw, 20px)',
                 color:        offre.populaire ? '#FFFFFF' : 'var(--text-primary)',
                 marginBottom: '24px',
                 lineHeight:   1.2,
@@ -1573,7 +1573,7 @@ function CtaBannerSection() {
         {/* Titre */}
         <h2 style={{
           fontFamily:    'Clash Display, var(--font-montserrat), sans-serif',
-          fontWeight:    700,
+          fontWeight:    500,
           fontSize:      'clamp(1.75rem, 3.5vw, 2.5rem)',
           lineHeight:    1.1,
           letterSpacing: '-0.03em',
@@ -1700,7 +1700,7 @@ function FaqSection() {
                 <span style={{
                   fontFamily: 'var(--font-body)',
                   fontSize:   '15px',
-                  fontWeight: 600,
+                  fontWeight: 500,
                   color:      openFaq === i ? '#FFFFFF' : 'var(--text-primary)',
                   lineHeight: 1.4,
                 }}>{faq.q}</span>
@@ -1825,7 +1825,7 @@ function ContactCTASection() {
             </span>
             <h2 style={{
               fontFamily:    'Clash Display, var(--font-montserrat), sans-serif',
-              fontWeight:    700,
+              fontWeight:    500,
               fontSize:      '2rem',
               lineHeight:    1.15,
               letterSpacing: '-0.03em',
