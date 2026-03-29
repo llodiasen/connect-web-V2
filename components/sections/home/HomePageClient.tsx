@@ -235,7 +235,7 @@ function HeroSection() {
             fontWeight:    600,
             letterSpacing: '1.5px',
             textTransform: 'uppercase',
-            color:         'var(--color-orange-400)',
+            color:         '#FFFFFF',
             marginBottom:  '28px',
           }}>
             <span style={{
@@ -446,7 +446,7 @@ const ABOUT_CSS = `
 @media (max-width: 767px) {
   .about-grid  { flex-direction: column !important; }
   .about-img   { order: -1; height: 280px !important; min-height: unset !important; margin-right: 0 !important; border-radius: 12px !important; }
-  .about-title { font-size: clamp(1.375rem, 5vw, 1.875rem) !important; }
+  .about-title { font-size: clamp(1.6875rem, 5vw, 2.1875rem) !important; }
   .about-body  { font-size: 16px !important; }
 }
 .about-img-inner { transition: transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94); }
@@ -581,7 +581,7 @@ function AboutSection() {
             >
               Projets abandonnés, outils inadaptés, prestataires qui disparaissent — trop d&apos;entreprises subissent le digital au lieu d&apos;en profiter. Connect-Web est là pour changer ça : nous accompagnons les entreprises, PME, commerces et entrepreneurs qui veulent faire du digital un vrai levier de croissance, pas une source de frustration.
               <br /><br />
-              Notre mission : concevoir des solutions concrètes face aux vraies problématiques — visibilité en ligne, génération de leads, automatisation des processus et ventes en ligne. Nous maîtrisons les réalités du marché africain et les standards internationaux pour livrer des solutions qui génèrent un ROI mesurable dès les premières semaines.
+              Notre mission : concevoir des solutions concrètes face aux vraies problématiques — visibilité en ligne, génération de leads, automatisation des processus et ventes en ligne.
             </p>
 
 
