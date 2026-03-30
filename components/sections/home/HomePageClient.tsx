@@ -1059,7 +1059,7 @@ function ProcessSection() {
           <h2 style={{ ...sectionTitle, ...reveal(visible, 80), fontSize: '2rem', fontFamily: 'var(--font-montserrat), sans-serif', fontWeight: 500, color: '#F9FAFB' }}>
             Simple, transparent, sans surprise.
           </h2>
-          <p style={{ ...sectionSubtitle, ...reveal(visible, 160), color: 'rgba(255,255,255,0.65)' }}>
+          <p style={{ ...sectionSubtitle, ...reveal(visible, 160), color: '#FFFFFF' }}>
             Un process éprouvé avec des entrepreneurs, PME et startups. De la première prise de contact à la mise en production, vous gardez le contrôle.
           </p>
         </div>
@@ -1640,7 +1640,7 @@ function CtaBannerSection() {
           fontSize:     'clamp(0.9375rem, 1.5vw, 1.0625rem)',
           fontWeight:   400,
           lineHeight:   1.65,
-          color:        'rgba(255,255,255,0.75)',
+          color:        '#FFFFFF',
           marginBottom: '36px',
           maxWidth:     '480px',
         }}>
@@ -1872,7 +1872,7 @@ function ContactCTASection() {
             }}>
               Prenons le temps d&apos;analyser votre projet.
             </h2>
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: '15px', color: 'rgba(255,255,255,0.65)', margin: 0 }}>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: '15px', color: '#FFFFFF', margin: 0 }}>
               2 minutes&nbsp;· Réponse sous 24h&nbsp;· Première analyse gratuite.
             </p>
           </div>
@@ -2010,7 +2010,7 @@ function ContactCTASection() {
                 ].map(item => (
                   <div key={item.text} style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                     <span style={{ fontSize: '18px' }}>{item.icon}</span>
-                    <span style={{ fontFamily: 'var(--font-body)', fontSize: '15px', color: 'rgba(255,255,255,0.80)' }}>
+                    <span style={{ fontFamily: 'var(--font-body)', fontSize: '15px', color: '#FFFFFF' }}>
                       {item.text}
                     </span>
                   </div>

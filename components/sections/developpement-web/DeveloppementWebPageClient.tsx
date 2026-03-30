@@ -825,20 +825,22 @@ function ProcessSection() {
           <h3 id="process-heading" className="font-heading" style={{ ...H2_STYLE, color: '#F9FAFB' }}>
             De la maquette au site en ligne
           </h3>
-          <p style={{ ...SUBTITLE_STYLE, color: 'rgba(255,255,255,0.65)' }}>Brief, design, développement, tests, déploiement — jalons partagés, délais tenus.</p>
+          <p style={{ ...SUBTITLE_STYLE, color: '#FFFFFF' }}>Brief, design, développement, tests, déploiement — jalons partagés, délais tenus.</p>
         </motion.div>
 
-        {/* Timeline horizontale — 6 colonnes sur desktop */}
-        <div style={{ position: 'relative', overflowX: 'auto' }}>
-          <div aria-hidden="true" className="hidden lg:block" style={{
-            position: 'absolute', top: '20px', left: '0', right: '0',
-            height: '2px',
-            background: `linear-gradient(to right, rgba(232,97,26,0.10), #E8611A, rgba(232,97,26,0.10))`,
+        {/* Timeline verticale */}
+        <div style={{ maxWidth: '720px', margin: '0 auto', position: 'relative' }}>
+
+          {/* Ligne verticale connectrice */}
+          <div aria-hidden="true" style={{
+            position: 'absolute', left: '19px', top: '18px', bottom: '18px',
+            width: '2px',
+            background: 'linear-gradient(to bottom, #E8611A, rgba(232,97,26,0.15))',
             borderRadius: '2px', zIndex: 0,
           }} />
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6" style={{ gap: '12px', minWidth: '0' }}>
-            {PROCESS_STEPS.map(({ num, title, duration, text, implication }, i) => {
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            {PROCESS_STEPS.map(({ num, title, duration, text }, i) => {
               const isEven = i % 2 === 0
               return (
                 <motion.div
@@ -848,19 +850,18 @@ function ProcessSection() {
                   whileInView="visible"
                   viewport={VIEWPORT}
                   variants={fadeUp}
-                  style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+                  style={{ display: 'flex', alignItems: 'flex-start', gap: '20px' }}
                 >
                   {/* Cercle numéroté */}
                   <div style={{
-                    width: '36px', height: '36px', borderRadius: '50%',
-                    background:     isEven ? '#E8611A' : 'rgba(255,255,255,0.10)',
-                    border:         '2px solid #E8611A',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    position: 'relative', zIndex: 1, flexShrink: 0,
-                    boxShadow: isEven ? '0 0 0 4px rgba(232,97,26,0.18)' : '0 0 0 4px rgba(255,255,255,0.06)',
-                    marginBottom: '16px',
+                    width: '40px', height: '40px', borderRadius: '50%',
+                    background:  isEven ? '#E8611A' : 'rgba(255,255,255,0.08)',
+                    border:      '2px solid #E8611A',
+                    display:     'flex', alignItems: 'center', justifyContent: 'center',
+                    flexShrink:  0, position: 'relative', zIndex: 1,
+                    boxShadow:   isEven ? '0 0 0 4px rgba(232,97,26,0.18)' : '0 0 0 4px rgba(255,255,255,0.05)',
                   }}>
-                    <span style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: '12px', color: '#FFFFFF', letterSpacing: '0.02em' }}>
+                    <span style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: '13px', color: '#FFFFFF', letterSpacing: '0.02em' }}>
                       {String(num).padStart(2, '0')}
                     </span>
                   </div>
@@ -868,26 +869,28 @@ function ProcessSection() {
                   {/* Carte */}
                   <div
                     style={{
-                      width: '100%', flex: 1,
+                      flex: 1,
                       background:   isEven ? 'rgba(232,98,42,0.10)' : 'rgba(255,255,255,0.05)',
                       border:       isEven ? '1px solid rgba(232,98,42,0.28)' : '1px solid rgba(255,255,255,0.10)',
-                      borderTop:    `3px solid ${isEven ? '#E8611A' : 'rgba(255,255,255,0.20)'}`,
-                      borderRadius: '10px', padding: '14px',
-                      boxShadow:    '0 2px 12px rgba(0,0,0,0.20)',
-                      transition:   'transform 0.3s ease, box-shadow 0.3s ease',
+                      borderLeft:   `3px solid ${isEven ? '#E8611A' : 'rgba(255,255,255,0.20)'}`,
+                      borderRadius: '10px', padding: '16px 20px',
+                      boxShadow:    '0 2px 12px rgba(0,0,0,0.15)',
+                      transition:   'transform 0.25s ease, box-shadow 0.25s ease',
                     }}
-                    onMouseEnter={e => { const el = e.currentTarget as HTMLDivElement; el.style.transform = 'translateY(-3px)'; el.style.boxShadow = isEven ? '0 10px 28px rgba(232,98,42,0.22)' : '0 8px 22px rgba(0,0,0,0.35)' }}
-                    onMouseLeave={e => { const el = e.currentTarget as HTMLDivElement; el.style.transform = 'translateY(0)'; el.style.boxShadow = '0 2px 12px rgba(0,0,0,0.20)' }}
+                    onMouseEnter={e => { const el = e.currentTarget as HTMLDivElement; el.style.transform = 'translateX(4px)'; el.style.boxShadow = isEven ? '0 6px 24px rgba(232,98,42,0.20)' : '0 6px 20px rgba(0,0,0,0.30)' }}
+                    onMouseLeave={e => { const el = e.currentTarget as HTMLDivElement; el.style.transform = 'translateX(0)'; el.style.boxShadow = '0 2px 12px rgba(0,0,0,0.15)' }}
                   >
-                    <h3 style={{ fontFamily: 'var(--font-heading)', fontWeight: 500, fontSize: '15px', color: '#F9FAFB', marginBottom: '6px', lineHeight: 1.3 }}>
-                      {title}
-                    </h3>
-                    <p style={{ fontFamily: 'var(--font-body)', fontSize: '13px', lineHeight: 1.6, color: '#FFFFFF', margin: '0 0 12px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', marginBottom: '6px' }}>
+                      <h3 style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: '17px', color: '#F9FAFB', lineHeight: 1.3, margin: 0 }}>
+                        {title}
+                      </h3>
+                      <span style={{ flexShrink: 0, fontFamily: 'var(--font-body)', fontSize: '12px', fontWeight: 600, color: '#E8611A', background: 'rgba(232,98,42,0.12)', border: '1px solid rgba(232,98,42,0.30)', borderRadius: '6px', padding: '3px 10px', whiteSpace: 'nowrap' }}>
+                        {duration}
+                      </span>
+                    </div>
+                    <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--card-text-size)', lineHeight: 1.65, color: '#FFFFFF', margin: 0 }}>
                       {text}
                     </p>
-                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', fontFamily: 'var(--font-body)', fontSize: '11px', fontWeight: 600, color: '#E8611A', background: 'rgba(232,98,42,0.12)', border: '1px solid rgba(232,98,42,0.30)', borderRadius: '6px', padding: '3px 8px', whiteSpace: 'nowrap' }}>
-                      {duration}
-                    </span>
                   </div>
                 </motion.div>
               )
@@ -1035,7 +1038,7 @@ function FaqSection() {
   const [openIdx, setOpenIdx] = useState<number | null>(null)
 
   return (
-    <section aria-labelledby="faq-heading" className="section-base" style={{ background: '#FFFFFF' }}>
+    <section aria-labelledby="faq-heading" className="section-alt">
       <div className="container">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -1056,14 +1059,14 @@ function FaqSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={VIEWPORT}
           transition={{ duration: 0.5, ease: EASE }}
-          style={{ maxWidth: '760px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '14px' }}
+          style={{ maxWidth: '720px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '14px' }}
         >
           {FAQ_ITEMS.map(({ q, a, link }, i) => (
             <div
               key={i}
               style={{
                 borderRadius: '10px',
-                border:       '1px solid #DDE3EE',
+                border:       '1px solid var(--border-default)',
                 overflow:     'hidden',
                 background:   '#FFFFFF',
               }}
@@ -1086,10 +1089,10 @@ function FaqSection() {
                 }}
               >
                 <span style={{
-                  fontFamily: 'var(--font-heading)',
-                  fontSize:   'var(--faq-question-size)',
-                  fontWeight: 600,
-                  color:      openIdx === i ? '#FFFFFF' : '#1B2A4A',
+                  fontFamily: 'var(--font-body)',
+                  fontSize:   '15px',
+                  fontWeight: 500,
+                  color:      openIdx === i ? '#FFFFFF' : 'var(--text-primary)',
                   lineHeight: 1.4,
                 }}>
                   {q}
@@ -1107,11 +1110,11 @@ function FaqSection() {
               </button>
               {openIdx === i && (
                 <div style={{ padding: '4px 20px 20px', background: '#FAFAFA' }}>
-                  <p className="font-body" style={{ fontSize: 'var(--faq-answer-size)', color: '#4A5568', lineHeight: 1.7, textAlign: 'justify', margin: 0 }}>
+                  <p style={{ fontFamily: 'var(--font-body)', fontSize: '15px', lineHeight: 1.7, color: '#0A0A0A', textAlign: 'justify', margin: 0 }}>
                     {a}
                   </p>
                   {link && (
-                    <Link href={link.href} className="font-body font-semibold inline-flex items-center transition-colors duration-200" style={{ fontSize: '14px', color: '#E8611A', textDecoration: 'none', marginTop: '12px' }}>
+                    <Link href={link.href} style={{ display: 'inline-flex', alignItems: 'center', fontSize: '14px', fontFamily: 'var(--font-body)', fontWeight: 600, color: '#E8611A', textDecoration: 'none', marginTop: '12px' }}>
                       {link.label}
                     </Link>
                   )}
@@ -1208,7 +1211,7 @@ function ContactSection() {
           <h2 style={{ ...H2_STYLE, color: '#FFFFFF', fontSize: '2rem' }}>
             Prenons le temps d&apos;analyser votre projet.
           </h2>
-          <p style={{ ...SUBTITLE_STYLE, color: 'rgba(255,255,255,0.65)', margin: '12px auto 0' }}>
+          <p style={{ ...SUBTITLE_STYLE, color: '#FFFFFF', margin: '12px auto 0' }}>
             2 minutes&nbsp;· Réponse sous 24h&nbsp;· Première analyse gratuite.
           </p>
         </motion.div>
@@ -1332,7 +1335,7 @@ function ContactSection() {
               ].map(item => (
                 <div key={item.text} style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                   <span style={{ fontSize: '18px' }}>{item.icon}</span>
-                  <span style={{ fontFamily: 'var(--font-body)', fontSize: '15px', color: 'rgba(255,255,255,0.80)' }}>
+                  <span style={{ fontFamily: 'var(--font-body)', fontSize: '15px', color: '#FFFFFF' }}>
                     {item.text}
                   </span>
                 </div>
