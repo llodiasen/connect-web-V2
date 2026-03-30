@@ -1817,7 +1817,7 @@ function ContactCTASection() {
         body:    JSON.stringify({
           nom:     data.nom,
           email:   data.email,
-          message: `Type: ${data.typeProjet} | Budget: ${data.budget} | Source: ${data.source}\n\n${data.besoin}`,
+          message: `Type: ${data.typeProjet} | Source: ${data.source}\n\n${data.besoin}`,
         }),
       })
       if (!res.ok) throw new Error()
