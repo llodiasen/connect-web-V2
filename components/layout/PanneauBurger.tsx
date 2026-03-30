@@ -13,13 +13,45 @@ import { X, ArrowRight, Linkedin, Instagram } from 'lucide-react'
 const EASE: [number, number, number, number] = [0.4, 0.0, 0.2, 1.0]
 
 /* ── Données ───────────────────────────────────────────────── */
-const SERVICES = [
-  { label: 'Développement Web',    href: '/services/developpement-web'    },
-  { label: 'Développement Mobile', href: '/services/developpement-mobile' },
-  { label: 'E-commerce',           href: '/services/sites-ecommerce'      },
-  { label: 'Mobile Banking',       href: '/services/mobile-banking', badge: 'Beta' },
-  { label: 'UI/UX Design',         href: '/services/design'               },
-  { label: 'Consulting Tech',      href: '/services/consulting'           },
+const SERVICE_GROUPS = [
+  {
+    label: 'Développement',
+    items: [
+      { label: 'Développement Web',    href: '/services/developpement-web'    },
+      { label: 'Développement Mobile', href: '/services/developpement-mobile' },
+      { label: 'Applications Web',     href: '/services/applications-web'     },
+      { label: 'Applications Mobile',  href: '/services/applications-mobile'  },
+      { label: 'Logiciels SaaS',       href: '/services/logiciels-saas'       },
+    ],
+  },
+  {
+    label: 'Site Internet',
+    items: [
+      { label: 'Sites E-commerce',     href: '/services/sites-ecommerce'      },
+      { label: 'Boutique Shopify',     href: '/services/boutique-shopify'     },
+      { label: 'Boutique WooCommerce', href: '/services/boutique-woocommerce' },
+      { label: 'Marketplace',          href: '/services/marketplace'          },
+      { label: 'Sites Vitrine',        href: '/services/sites-vitrine'        },
+      { label: 'Landing Pages',        href: '/services/landing-pages'        },
+    ],
+  },
+  {
+    label: 'Intégration',
+    items: [
+      { label: 'Intégration ERP',      href: '/services/integration-erp'     },
+      { label: 'Intégration CRM',      href: '/services/integration-crm'     },
+      { label: 'Email Marketing',      href: '/services/email-marketing'     },
+      { label: 'Architecture & API',   href: '/services/architecture-api'    },
+    ],
+  },
+  {
+    label: 'Technologie NFC',
+    items: [
+      { label: 'Carte de visite NFC',  href: '/services/carte-visite-nfc'    },
+      { label: 'Menu Digital NFC',     href: '/services/menu-digital'        },
+      { label: 'Pack NFC Business',    href: '/services/nfc'                 },
+    ],
+  },
 ]
 
 const ENTREPRISE = [
@@ -204,14 +236,23 @@ export function PanneauBurger({ isOpen, onClose }: PanneauBurgerProps) {
             <div style={{ flex: 1, padding: '24px', overflowY: 'auto' }}>
 
               {/* SERVICES */}
-              <SectionLabel>Services</SectionLabel>
-              <div style={{ marginBottom: '28px' }}>
-                {SERVICES.map(({ label, href, badge }) => (
-                  <PanneauLink key={href} href={href} badge={badge} onClose={onClose}>
-                    {label}
-                  </PanneauLink>
-                ))}
-              </div>
+              {SERVICE_GROUPS.map((group) => (
+                <div key={group.label} style={{ marginBottom: '24px' }}>
+                  <p style={{
+                    fontFamily: 'var(--font-heading)',
+                    fontSize: '10px', fontWeight: 700,
+                    textTransform: 'uppercase', letterSpacing: '0.08em',
+                    color: '#E8593C', marginBottom: '4px',
+                  }}>
+                    {group.label}
+                  </p>
+                  {group.items.map(({ label, href }) => (
+                    <PanneauLink key={href} href={href} onClose={onClose}>
+                      {label}
+                    </PanneauLink>
+                  ))}
+                </div>
+              ))}
 
               {/* ENTREPRISE */}
               <SectionLabel>Entreprise</SectionLabel>
@@ -273,21 +314,41 @@ export function PanneauBurger({ isOpen, onClose }: PanneauBurgerProps) {
               {/* Langue + réseaux */}
               <div className="flex items-center justify-between">
 
-                {/* Toggle FR / EN */}
-                <div className="flex items-center" style={{ gap: '2px' }}>
-                  {(['FR', 'EN'] as const).map(code => (
+                {/* Toggle FR / EN — drapeaux SVG */}
+                <div className="flex items-center" style={{ gap: '4px' }}>
+                  {([
+                    { code: 'FR' as const, flag: (
+                      <svg width="20" height="14" viewBox="0 0 20 14" aria-hidden="true" style={{ borderRadius: '2px', flexShrink: 0 }}>
+                        <rect width="20" height="14" fill="#ED2939" />
+                        <rect width="13.4" height="14" fill="#fff" />
+                        <rect width="6.7" height="14" fill="#002395" />
+                      </svg>
+                    )},
+                    { code: 'EN' as const, flag: (
+                      <svg width="20" height="14" viewBox="0 0 60 40" aria-hidden="true" style={{ borderRadius: '2px', flexShrink: 0 }}>
+                        <rect width="60" height="40" fill="#012169" />
+                        <path d="M0,0 L60,40 M60,0 L0,40" stroke="#fff" strokeWidth="8" />
+                        <path d="M0,0 L60,40 M60,0 L0,40" stroke="#C8102E" strokeWidth="4.8" />
+                        <path d="M30,0 V40 M0,20 H60" stroke="#fff" strokeWidth="12" />
+                        <path d="M30,0 V40 M0,20 H60" stroke="#C8102E" strokeWidth="7.2" />
+                      </svg>
+                    )},
+                  ]).map(({ code, flag }) => (
                     <button
                       key={code}
                       onClick={() => setLang(code)}
                       style={{
-                        padding: '4px 12px', borderRadius: '6px',
-                        border: 'none', cursor: 'pointer',
+                        display: 'flex', alignItems: 'center', gap: '5px',
+                        padding: '4px 10px', borderRadius: '6px',
+                        border: lang === code ? '1px solid #DDE3EE' : '1px solid transparent',
+                        cursor: 'pointer',
                         fontFamily: 'var(--font-body)', fontSize: '12px', fontWeight: 600,
-                        background: lang === code ? '#1a1a2e' : 'transparent',
-                        color:      lang === code ? '#ffffff' : '#94A3B8',
+                        background: lang === code ? '#f4f6fa' : 'transparent',
+                        color:      lang === code ? '#1a1a2e' : '#94A3B8',
                         transition: 'all 150ms ease',
                       }}
                     >
+                      {flag}
                       {code}
                     </button>
                   ))}

@@ -66,9 +66,9 @@ export function TopBar() {
     <span
       style={{
         fontFamily:  'var(--font-body)',
-        fontSize:    '12px',
-        fontWeight:  'var(--font-light)',
-        color:       'rgba(255,255,255,0.80)',
+        fontSize:    '14px',
+        fontWeight:  500,
+        color:       '#FFFFFF',
         letterSpacing: '0.01em',
         opacity:     visible ? 1 : 0,
         transition:  reducedMotion.current ? 'none' : `opacity ${FADE_MS}ms ease`,

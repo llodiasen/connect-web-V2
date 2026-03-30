@@ -7,33 +7,17 @@
 
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { motion, useInView } from 'framer-motion'
-import useEmblaCarousel from 'embla-carousel-react'
-import {
-  Root    as AccordionRoot,
-  Item    as AccordionItem,
-  Trigger as AccordionTrigger,
-  Content as AccordionContent,
-} from '@radix-ui/react-accordion'
 import {
   Gauge, Smartphone, SearchX, PenOff,
   Globe, Globe2, Layers, RefreshCw, MessageCircle,
   Search, Edit, Shield, BarChart2, Languages, Headphones,
   Code2, Clock, MapPin,
-  ChevronDown, ChevronLeft, ChevronRight, ArrowRight,
+  ChevronDown, ArrowRight,
 } from 'lucide-react'
+import { useForm } from 'react-hook-form'
 import { EASE, VIEWPORT, staggerGrid, gridChild, iconHover } from '@/lib/motion'
-import { CTASection } from '@/components/sections/CTASection'
-
-const CTA_PROPS = {
-  service:         'developpement-web',
-  titre:           "Démarrez votre\nprojet web aujourd'hui",
-  sousTitre:       'Premier échange gratuit à Dakar — réponse sous 24h.',
-  titreCarte:      'Démarrer votre projet web',
-  sousTitreCarte:  'Premier échange gratuit — réponse sous 24h.',
-  placeholder:     'Type de site (vitrine, e-commerce, PWA…), pages nécessaires, contenu disponible, délai souhaité...',
-  intentionDefaut: 'Démarrer mon projet web',
-} as const
 
 /* ─────────────────────────────────────────────────────────────────
    CONSTANTES ANIMATION
@@ -51,20 +35,33 @@ const fadeUp = {
    HELPERS TYPOGRAPHIE
    ─────────────────────────────────────────────────────────────── */
 const H2_STYLE: React.CSSProperties = {
-  fontSize:      'clamp(1.25rem, 2.5vw, 2rem)',
-  lineHeight:    1.25,
-  letterSpacing: '-0.02em',
-  color:         '#1B2A4A',
+  fontFamily:    'Clash Display, var(--font-montserrat), sans-serif',
+  fontSize:      '2rem',
+  fontWeight:    500,
+  lineHeight:    1.15,
+  letterSpacing: '-0.03em',
+  color:         'var(--text-primary)',
 }
 
 const EYEBROW_STYLE: React.CSSProperties = {
-  fontFamily:    'var(--font-body)',
+  fontFamily:    'var(--font-heading)',
   fontSize:      '11px',
-  fontWeight:    600,
-  letterSpacing: '0.08em',
+  fontWeight:    700,
+  letterSpacing: '0.1em',
   textTransform: 'uppercase',
-  color:         'var(--color-orange-500)',
-  marginBottom:  '12px',
+  color:         '#E8611A',
+  marginBottom:  '16px',
+}
+
+const SUBTITLE_STYLE: React.CSSProperties = {
+  fontFamily:  'var(--font-body)',
+  fontSize:    '17px',
+  fontWeight:  400,
+  color:       '#4A5568',
+  lineHeight:  1.6,
+  maxWidth:    '620px',
+  margin:      '12px auto 0',
+  textAlign:   'center',
 }
 
 /* ─────────────────────────────────────────────────────────────────
@@ -89,7 +86,7 @@ const SITE_TYPES = [
   { icon: Layers,        title: 'Architecture headless',      text: 'Next.js en front, Sanity ou Strapi en backend. Vitesse maximale pour votre site web professionnel.',               link: undefined,                 dashed: false },
   { icon: RefreshCw,     title: 'Refonte de site web',        text: 'Votre site est lent ou vieilli ? On le reconstruit avec une stack moderne. Refonte site web complète.',             link: undefined,                 dashed: false },
   { icon: Globe2,        title: 'Site multilingue',           text: 'Français, anglais, wolof — i18n Next.js natif pour le marché ouest-africain.',                                     link: undefined,                 dashed: false },
-  { icon: MessageCircle, title: 'Un besoin spécifique ?',     text: 'Décrivez votre projet.',                                                                                           link: '/contact',                dashed: true  },
+  { icon: MessageCircle, title: 'Un besoin spécifique ?',     text: 'Décrivez votre projet.',                                                                                           link: '/contact',                dashed: false },
 ]
 
 const FEATURES = [
@@ -268,8 +265,34 @@ function HeroSection() {
   ]
 
   return (
-    <section className="hero-bg" style={{ paddingBlock: 'clamp(5rem, 10vw, 8rem)' }}>
-      <div className="container">
+    <section
+      className="hero-bg"
+      style={{ position: 'relative', overflow: 'hidden' }}
+    >
+      {/* Image background */}
+      <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
+        <Image
+          src="/Hero/hero-image.png"
+          alt="Développement web à Dakar — Connect Web"
+          fill
+          style={{ objectFit: 'cover', objectPosition: 'center' }}
+          priority
+          quality={85}
+        />
+        <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.62)' }} />
+      </div>
+
+      {/* Grille de points décorative */}
+      <div aria-hidden="true" style={{
+        position:        'absolute',
+        inset:           0,
+        zIndex:          1,
+        backgroundImage: 'radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px)',
+        backgroundSize:  '32px 32px',
+        pointerEvents:   'none',
+      }} />
+
+      <div className="container" style={{ position: 'relative', zIndex: 2, paddingTop: 'clamp(6rem, 12vw, 9rem)', paddingBottom: 'clamp(4rem, 8vw, 6rem)' }}>
         <div style={{
           display:             'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 480px), 1fr))',
@@ -282,23 +305,40 @@ function HeroSection() {
             animate="visible"
             variants={{ visible: { transition: { staggerChildren: 0.1 } } }}
           >
-            <motion.div variants={fadeUp} style={{ marginBottom: '20px' }}>
-              <span style={EYEBROW_STYLE}>Service · Développement Web</span>
+            <motion.div variants={fadeUp} style={{ marginBottom: '28px' }}>
+              <span style={{
+                display:       'inline-flex',
+                alignItems:    'center',
+                gap:           '8px',
+                background:    'rgba(232,97,26,0.12)',
+                border:        '1px solid rgba(232,97,26,0.30)',
+                borderRadius:  '100px',
+                padding:       '5px 16px',
+                fontFamily:    'var(--font-body)',
+                fontSize:      '12px',
+                fontWeight:    400,
+                letterSpacing: '1.5px',
+                textTransform: 'uppercase',
+                color:         '#FFFFFF',
+              }}>
+                <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--color-orange-500)', flexShrink: 0 }} />
+                Agence digitale · Développement Web
+              </span>
             </motion.div>
 
             <motion.h1
               variants={fadeUp}
               className="font-heading font-bold"
-              style={{ fontSize: 'clamp(2rem, 5vw, 3rem)', lineHeight: 1.1, letterSpacing: '-0.03em', color: '#F9FAFB', marginBottom: '20px' }}
+              style={{ fontFamily: 'var(--font-heading)', fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 600, lineHeight: 1.15, letterSpacing: '-0.03em', color: '#FFFFFF', marginBottom: '20px' }}
             >
-              Des sites web rapides,<br />beaux<br />et{' '}
+              Des sites web rapides,<br />beaux et{' '}
               <span style={{ color: 'var(--color-orange-500)' }}>trouvables.</span>
             </motion.h1>
 
             <motion.p
               variants={fadeUp}
               className="font-body"
-              style={{ fontSize: '17px', color: '#CBD5E0', lineHeight: 1.65, marginBottom: '32px', maxWidth: '520px' }}
+              style={{ fontFamily: 'var(--font-body)', fontSize: '18px', fontWeight: 400, color: '#FFFFFF', lineHeight: 1.6, marginBottom: '32px', maxWidth: '520px' }}
             >
               Next.js · Lighthouse 95+ · Livré en 1 à 3 semaines. Agence développement web à Dakar.
             </motion.p>
@@ -309,7 +349,7 @@ function HeroSection() {
                 fontFamily:   'var(--font-body)',
                 fontSize:     '13px',
                 fontWeight:   500,
-                color:        '#CBD5E0',
+                color:        '#FFFFFF',
                 background:   'rgba(255,255,255,0.08)',
                 border:       '1px solid rgba(255,255,255,0.15)',
                 borderRadius: '6px',
@@ -327,19 +367,22 @@ function HeroSection() {
                   display:        'inline-flex',
                   alignItems:     'center',
                   gap:            '8px',
-                  height:         '52px',
-                  padding:        '0 32px',
+                  padding:        '8px 16px',
                   background:     '#E8622A',
                   color:          '#FFFFFF',
-                  fontSize:       '15px',
-                  borderRadius:   '8px',
+                  fontFamily:     'var(--font-body)',
+                  fontSize:       '14px',
+                  fontWeight:     600,
+                  borderRadius:   '6px',
+                  border:         'none',
                   textDecoration: 'none',
+                  cursor:         'pointer',
                   transition:     'all 0.2s ease',
                 }}
-                onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = '#C9501E'; el.style.transform = 'translateY(-1px)'; el.style.boxShadow = '0 4px 12px rgba(232, 98, 42, 0.30)' }}
+                onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = '#1B2B4B'; el.style.transform = 'translateY(-1px)'; el.style.boxShadow = '0 4px 12px rgba(232,98,42,0.30)' }}
                 onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = '#E8622A'; el.style.transform = 'translateY(0)'; el.style.boxShadow = 'none' }}
               >
-                Démarrer mon projet web <ArrowRight size={16} aria-hidden="true" />
+                Démarrer mon projet web <ArrowRight size={14} aria-hidden="true" />
               </Link>
               <Link
                 href="/portfolio"
@@ -348,18 +391,19 @@ function HeroSection() {
                   display:        'inline-flex',
                   alignItems:     'center',
                   gap:            '8px',
-                  height:         '52px',
-                  padding:        '0 24px',
+                  padding:        '8px 16px',
                   background:     'transparent',
-                  color:          '#F9FAFB',
-                  fontSize:       '15px',
-                  borderRadius:   '8px',
+                  color:          '#FFFFFF',
+                  fontFamily:     'var(--font-body)',
+                  fontSize:       '14px',
+                  fontWeight:     600,
+                  borderRadius:   '6px',
                   textDecoration: 'none',
-                  border:         '1.5px solid rgba(255,255,255,0.3)',
+                  border:         '1.5px solid rgba(255,255,255,0.40)',
                   transition:     'all 0.2s ease',
                 }}
-                onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = 'rgba(255,255,255,0.12)'; el.style.borderColor = 'rgba(255,255,255,0.5)' }}
-                onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = 'transparent'; el.style.borderColor = 'rgba(255,255,255,0.3)' }}
+                onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.background = '#1B2B4B'; el.style.borderColor = '#1B2B4B' }}
+                onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.background = 'transparent'; el.style.borderColor = 'rgba(255,255,255,0.40)' }}
               >
                 Voir nos réalisations
               </Link>
@@ -409,82 +453,44 @@ function HeroSection() {
 /* ═══════════════════════════════════════════════════════════════
    SECTION 02 · SOCIAL PROOF
    ═══════════════════════════════════════════════════════════════ */
-function SocialProofSection() {
+function StatsSection() {
   return (
-    <section className="section-base" style={{ paddingTop: '3rem' }}>
+    <section className="section-base" style={{ paddingBlock: '2rem' }}>
       <div className="container">
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.55, ease: EASE }}
-          className="font-heading font-bold"
-          style={{
-            textAlign:     'center',
-            color:         'var(--text-primary)',
-            fontSize:      'clamp(1.5rem, 2.5vw, 2rem)',
-            lineHeight:    1.15,
-            letterSpacing: '-0.025em',
-            marginBottom:  'clamp(2.5rem, 5vw, 3.5rem)',
-          }}
-        >
-          Ils nous font confiance pour la création de leur site web
-        </motion.h2>
-
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.6, ease: EASE, delay: 0.1 }}
-          style={{
-            display:             'grid',
-            gridTemplateColumns: 'repeat(4, 1fr)',
-            gap:                 '1px',
-            background:          'var(--border-default)',
-            border:              '1px solid var(--border-default)',
-            borderRadius:        '16px',
-            overflow:            'hidden',
-            marginBottom:        'clamp(2.5rem, 5vw, 4rem)',
-          }}
-        >
-          {SP_METRICS.map(({ target, suffix, label, displayValue }) => (
-            <div
-              key={label}
-              style={{
-                background:    '#FFFFFF',
-                padding:       'clamp(1.5rem, 3vw, 2.5rem) clamp(1rem, 2vw, 1.5rem)',
-                textAlign:     'center',
-                display:       'flex',
-                flexDirection: 'column',
-                alignItems:    'center',
-                gap:           '6px',
-              }}
-            >
-              <span
-                className="font-heading font-bold"
-                style={{
-                  fontSize:           'clamp(1.5rem, 2.5vw, 2rem)',
-                  lineHeight:         1,
-                  letterSpacing:      '-0.04em',
-                  color:              'var(--color-orange-500)',
-                  fontVariantNumeric: 'tabular-nums',
-                }}
-              >
-                {displayValue ?? <AnimatedCounter target={target} suffix={suffix} />}
-              </span>
-              <span style={{ fontFamily: 'var(--font-body)', fontSize: '13px', fontWeight: 500, color: 'var(--text-secondary)', letterSpacing: '0.01em' }}>
-                {label}
-              </span>
-              <span aria-hidden="true" style={{ display: 'block', width: '24px', height: '2px', background: 'var(--color-orange-500)', borderRadius: '2px', marginTop: '2px', opacity: 0.4 }} />
-            </div>
-          ))}
-        </motion.div>
-
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.55, ease: EASE, delay: 0.2 }}
+          transition={{ duration: 0.5, ease: EASE }}
+          className="grid grid-cols-2 md:grid-cols-4"
+          style={{ gap: 0 }}
+        >
+          {SP_METRICS.map(({ target, suffix, label, displayValue }, i) => (
+            <div key={label} style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px', padding: '24px 16px', borderRight: i < SP_METRICS.length - 1 ? '1px solid #E2E8F0' : 'none' }}>
+              <span style={{ fontFamily: 'var(--font-heading)', fontSize: 'clamp(1.5rem, 2.5vw, 2rem)', fontWeight: 700, lineHeight: 1, letterSpacing: '-0.04em', color: '#E8611A' }}>
+                {displayValue ?? <AnimatedCounter target={target} suffix={suffix} />}
+              </span>
+              <span style={{ fontFamily: 'var(--font-body)', fontSize: '15px', fontWeight: 500, color: '#4A5568' }}>
+                {label}
+              </span>
+              <span aria-hidden="true" style={{ display: 'block', width: '24px', height: '2px', background: '#E8611A', borderRadius: '2px', opacity: 0.4 }} />
+            </div>
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  )
+}
+
+function SocialProofSection() {
+  return (
+    <section className="section-base" style={{ paddingTop: '1rem' }}>
+      <div className="container">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.55, ease: EASE }}
         >
           <p style={{ fontFamily: 'var(--font-body)', fontSize: '12px', fontWeight: 600, color: 'var(--text-tertiary)', letterSpacing: '0.08em', textTransform: 'uppercase', textAlign: 'center', marginBottom: '20px' }}>
             ILS NOUS FONT CONFIANCE
@@ -508,7 +514,7 @@ function SocialProofSection() {
    ═══════════════════════════════════════════════════════════════ */
 function ProblemsSection() {
   return (
-    <section aria-labelledby="problems-heading" className="section-base">
+    <section aria-labelledby="problems-heading" className="section-alt">
       <div className="container">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -518,9 +524,10 @@ function ProblemsSection() {
           style={{ marginBottom: '48px', textAlign: 'center' }}
         >
           <p style={EYEBROW_STYLE}>Vos défis</p>
-          <h2 id="problems-heading" className="font-heading font-bold" style={{ ...H2_STYLE }}>
+          <h3 id="problems-heading" className="font-heading" style={{ ...H2_STYLE, textAlign: 'center' }}>
             Votre site actuel vous freine
-          </h2>
+          </h3>
+          <p style={SUBTITLE_STYLE}>Un site lent, invisible ou impossible à mettre à jour coûte des clients chaque jour.</p>
         </motion.div>
 
         <motion.div
@@ -535,22 +542,21 @@ function ProblemsSection() {
             <motion.div
               key={title}
               variants={gridChild}
-              whileHover={{ y: -6, boxShadow: '0 16px 48px rgba(27,42,74,0.14), 0 4px 12px rgba(27,42,74,0.08)', borderColor: 'rgba(232,97,26,0.35)' }}
+              whileHover={{ y: -3, boxShadow: '0 8px 24px rgba(0,0,0,0.09)', borderColor: 'rgba(232,97,26,0.35)' }}
               transition={{ duration: 0.25 }}
-              style={{ padding: '28px', border: '1px solid #E2E8F0', borderRadius: '12px', background: '#FFFFFF', boxShadow: 'var(--shadow-sm)' }}
+              style={{ padding: '28px', border: '1px solid #DDE3EE', borderRadius: '12px', background: '#FFFFFF', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}
             >
               <motion.div
                 variants={iconHover} initial="rest" whileHover="hover"
-                className="flex items-center justify-center rounded-[--border-radius-md]"
-                style={{ width: '44px', height: '44px', marginBottom: '16px', backgroundColor: 'rgba(232,97,26,0.08)', color: 'var(--color-orange-500)' }}
+                className="flex items-center justify-center"
+                style={{ width: '44px', height: '44px', borderRadius: '10px', marginBottom: '16px', backgroundColor: 'rgba(232,97,26,0.08)', color: '#E8611A' }}
               >
                 <Icon size={20} aria-hidden="true" />
               </motion.div>
-              <h3 className="font-heading font-bold text-[--text-primary]" style={{ fontSize: '20px', marginBottom: '10px' }}>
+              <h3 className="font-heading" style={{ fontSize: 'clamp(18px, 2.5vw, 20px)', fontWeight: 500, color: '#1B2A4A', marginBottom: '10px' }}>
                 {title}
               </h3>
-              <p className="font-body text-[--text-secondary]" style={{ fontSize: 'var(--card-text-size)',
-              fontWeight: 'var(--card-text-weight)', lineHeight: 1.7, textAlign: 'justify' }}>
+              <p className="font-body" style={{ fontSize: 'var(--card-text-size)', color: '#4A5568', lineHeight: 1.65, textAlign: 'justify' }}>
                 {text}
               </p>
             </motion.div>
@@ -573,12 +579,13 @@ function ApproachSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-60px' }}
           transition={{ duration: 0.55, ease: EASE }}
-          style={{ marginBottom: '56px' }}
+          style={{ marginBottom: '56px', textAlign: 'center' }}
         >
-          <p style={{ ...EYEBROW_STYLE }}>Notre méthode</p>
-          <h2 id="approach-heading" className="font-heading font-bold" style={{ ...H2_STYLE, color: '#F9FAFB' }}>
-            Rapide, propre, livré — notre méthode de développement web
-          </h2>
+          <p style={{ ...EYEBROW_STYLE, color: '#E8611A' }}>Notre méthode</p>
+          <h3 id="approach-heading" className="font-heading" style={{ ...H2_STYLE, color: '#F9FAFB' }}>
+            Rapide, propre, livré.
+          </h3>
+          <p style={{ ...SUBTITLE_STYLE, color: '#FFFFFF' }}>Stack moderne, performance garantie, autonomie assurée — livré en 1 à 3 semaines.</p>
         </motion.div>
 
         <div className="flex flex-col md:flex-row" style={{ alignItems: 'flex-start' }}>
@@ -614,7 +621,7 @@ function ApproachSection() {
                   {title}
                 </h3>
                 <p className="font-body" style={{ fontSize: 'var(--card-text-size)',
-              fontWeight: 'var(--card-text-weight)', color: '#CBD5E0', lineHeight: 1.7 }}>
+              fontWeight: 'var(--card-text-weight)', color: '#FFFFFF', lineHeight: 1.7 }}>
                   {text}
                 </p>
               </motion.div>
@@ -651,9 +658,11 @@ function TypesSection() {
           transition={{ duration: 0.55, ease: EASE }}
           style={{ textAlign: 'center', marginBottom: '48px' }}
         >
-          <h2 id="types-heading" className="font-heading font-bold" style={{ ...H2_STYLE }}>
+          <p style={EYEBROW_STYLE}>Nos solutions</p>
+          <h3 id="types-heading" className="font-heading" style={{ ...H2_STYLE }}>
             Quel type de site web vous faut-il ?
-          </h2>
+          </h3>
+          <p style={SUBTITLE_STYLE}>Du site vitrine à l&apos;architecture headless — choisissez le format adapté à votre activité.</p>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3" style={{ gap: '24px' }}>
@@ -690,16 +699,17 @@ function TypesSection() {
                 }}>
                   <Icon size={20} aria-hidden="true" />
                 </div>
-                <h3 className="font-heading font-bold" style={{
-                  fontSize:     '18px',
-                  color:        dashed ? '#94A3B8' : 'var(--text-primary)',
+                <h3 className="font-heading" style={{
+                  fontSize:     'clamp(18px, 2.5vw, 20px)',
+                  fontWeight:   500,
+                  color:        dashed ? '#94A3B8' : '#1B2A4A',
                   marginBottom: '10px',
                   lineHeight:   1.3,
                   textAlign:    'left',
                 }}>
                   {title}
                 </h3>
-                <p className="font-body" style={{ fontSize: '14px', color: 'var(--text-secondary)', lineHeight: 1.75, textAlign: 'left', flexGrow: 1 }}>
+                <p className="font-body" style={{ fontSize: 'var(--card-text-size)', color: '#4A5568', lineHeight: 1.65, textAlign: 'left', flexGrow: 1 }}>
                   {text}
                 </p>
                 {link && (
@@ -730,8 +740,6 @@ function TypesSection() {
    SECTION 06 · FONCTIONNALITÉS (slider Embla — 8 items)
    ═══════════════════════════════════════════════════════════════ */
 function FeaturesSection() {
-  const [emblaRef, emblaApi] = useEmblaCarousel({ align: 'start', loop: false })
-
   return (
     <section aria-labelledby="features-heading" className="section-base">
       <div className="container">
@@ -742,86 +750,67 @@ function FeaturesSection() {
           transition={{ duration: 0.55, ease: EASE }}
           style={{ textAlign: 'center', marginBottom: '40px' }}
         >
-          <h2 id="features-heading" className="font-heading font-bold" style={{ ...H2_STYLE }}>
+          <p style={EYEBROW_STYLE}>Inclus</p>
+          <h3 id="features-heading" className="font-heading" style={{ ...H2_STYLE }}>
             Ce que votre site web inclut
-          </h2>
+          </h3>
+          <p style={SUBTITLE_STYLE}>Tout ce dont votre site a besoin pour performer, se référencer et rester à jour.</p>
         </motion.div>
 
-        <div ref={emblaRef} style={{ overflow: 'hidden' }}>
-          <div style={{ display: 'flex', gap: '16px' }}>
-            {FEATURES.map(({ icon: Icon, title, benefit, text }) => (
-              <div key={title} style={{
-                flex:          '0 0 calc(25% - 12px)',
-                padding:       '24px',
-                background:    '#FFFFFF',
-                border:        '1px solid #E2E8F0',
-                borderRadius:  '12px',
-                boxShadow:     'var(--shadow-sm)',
-                display:       'flex',
-                flexDirection: 'column',
-              }}>
-                <motion.div
-                  variants={iconHover} initial="rest" whileHover="hover"
-                  className="flex items-center justify-center rounded-[--border-radius-md]"
-                  style={{ width: '44px', height: '44px', marginBottom: '14px', backgroundColor: 'rgba(232,97,26,0.08)', color: 'var(--color-orange-500)' }}
-                >
-                  <Icon size={20} aria-hidden="true" />
-                </motion.div>
-                <div style={{ fontFamily: 'var(--font-body)', fontSize: '10px', fontWeight: 700, color: 'var(--color-orange-500)', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: '6px' }}>
-                  {benefit}
-                </div>
-                <h3 className="font-heading font-bold text-[--text-primary]" style={{ fontSize: '20px', marginBottom: '8px' }}>
-                  {title}
-                </h3>
-                <p className="font-body text-[--text-secondary] flex-grow" style={{ fontSize: 'var(--card-text-size)',
-              fontWeight: 'var(--card-text-weight)', lineHeight: 1.7, textAlign: 'justify' }}>
-                  {text}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '12px', marginTop: '28px' }}>
-          <button onClick={() => emblaApi?.scrollPrev()} aria-label="Précédent" style={{ width: '40px', height: '40px', borderRadius: '50%', border: '1px solid #CBD5E0', background: '#FFFFFF', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#4A5568' }}>
-            <ChevronLeft size={18} aria-hidden="true" />
-          </button>
-          <button onClick={() => emblaApi?.scrollNext()} aria-label="Suivant" style={{ width: '40px', height: '40px', borderRadius: '50%', border: '1px solid #CBD5E0', background: '#FFFFFF', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#4A5568' }}>
-            <ChevronRight size={18} aria-hidden="true" />
-          </button>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4" style={{ gap: '24px' }}>
+          {FEATURES.map(({ icon: Icon, title, benefit, text }, idx) => (
+            <FeatureCard key={title} Icon={Icon} title={title} benefit={benefit} text={text} idx={idx} />
+          ))}
         </div>
       </div>
     </section>
   )
 }
 
+function FeatureCard({ Icon, title, benefit, text, idx }: {
+  Icon: React.ElementType; title: string; benefit: string; text: string; idx: number
+}) {
+  const [hovered, setHovered] = useState(false)
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-40px' }}
+      transition={{ duration: 0.45, ease: EASE, delay: idx * 0.07 }}
+      style={{
+        padding:       '28px',
+        background:    '#FFFFFF',
+        border:        '1px solid #DDE3EE',
+        borderRadius:  '12px',
+        boxShadow:     hovered ? '0 8px 24px rgba(0,0,0,0.09)' : '0 2px 8px rgba(0,0,0,0.04)',
+        transform:     hovered ? 'translateY(-3px)' : 'translateY(0)',
+        transition:    'all 0.2s ease',
+        display:       'flex',
+        flexDirection: 'column',
+      }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <div style={{ width: '44px', height: '44px', borderRadius: '10px', background: 'rgba(232,97,26,0.10)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
+        <Icon size={20} style={{ color: '#E8611A' }} aria-hidden="true" />
+      </div>
+      <div style={{ fontFamily: 'var(--font-heading)', fontSize: '11px', fontWeight: 700, color: '#E8611A', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>
+        {benefit}
+      </div>
+      <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: 'clamp(18px, 2.5vw, 20px)', fontWeight: 500, color: '#1B2A4A', marginBottom: '10px', lineHeight: 1.25 }}>
+        {title}
+      </h3>
+      <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--card-text-size)', color: '#4A5568', lineHeight: 1.65, flex: 1 }}>
+        {text}
+      </p>
+    </motion.div>
+  )
+}
+
 /* ═══════════════════════════════════════════════════════════════
-   SECTION 07 · PROCESSUS (timeline zigzag)
+   SECTION 07 · PROCESSUS (4 colonnes — style homepage)
    ═══════════════════════════════════════════════════════════════ */
 function ProcessSection() {
-  function StepCard({ title, duration, text, impl }: {
-    title: string; duration: string; text: string
-    impl: { color: string; bg: string; label: string } | undefined
-  }) {
-    const isOrange = impl?.color === '#E8611A'
-    return (
-      <div style={{ background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '12px', padding: '24px', boxShadow: '0 2px 12px rgba(0,0,0,0.25)' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap', marginBottom: '10px' }}>
-          <h3 className="font-heading font-bold" style={{ fontSize: '18px', color: '#F9FAFB', lineHeight: 1.3 }}>{title}</h3>
-          <span className="font-body" style={{ fontSize: '12px', fontWeight: 500, color: '#CBD5E0', background: 'rgba(255,255,255,0.10)', border: '1px solid rgba(255,255,255,0.15)', padding: '3px 10px', borderRadius: '4px', flexShrink: 0 }}>
-            {duration}
-          </span>
-          {impl && (
-            <span className="font-body" style={{ fontSize: '11px', fontWeight: 600, flexShrink: 0, color: '#FFFFFF', background: isOrange ? 'rgba(232,97,26,0.85)' : 'rgba(59,130,246,0.30)', padding: '3px 10px', borderRadius: '4px' }}>
-              {impl.label}
-            </span>
-          )}
-        </div>
-        <p className="font-body" style={{ fontSize: '14px', color: '#CBD5E0', lineHeight: 1.7 }}>{text}</p>
-      </div>
-    )
-  }
-
   return (
     <section aria-labelledby="process-heading" className="section-brand">
       <div className="container">
@@ -832,60 +821,78 @@ function ProcessSection() {
           transition={{ duration: 0.55, ease: EASE }}
           style={{ marginBottom: '64px', textAlign: 'center' }}
         >
-          <p style={{ ...EYEBROW_STYLE }}>Notre méthode</p>
-          <h2 id="process-heading" className="font-heading font-bold" style={{ ...H2_STYLE, color: '#F9FAFB' }}>
+          <p style={{ ...EYEBROW_STYLE, color: '#E8611A' }}>Notre processus</p>
+          <h3 id="process-heading" className="font-heading" style={{ ...H2_STYLE, color: '#F9FAFB' }}>
             De la maquette au site en ligne
-          </h2>
+          </h3>
+          <p style={{ ...SUBTITLE_STYLE, color: 'rgba(255,255,255,0.65)' }}>Brief, design, développement, tests, déploiement — jalons partagés, délais tenus.</p>
         </motion.div>
 
-        <div style={{ position: 'relative' }}>
-          <div className="hidden lg:block" aria-hidden="true" style={{ position: 'absolute', top: '24px', bottom: '24px', left: '50%', width: '2px', transform: 'translateX(-50%)', background: 'linear-gradient(to bottom, rgba(232,97,26,0.5) 0%, rgba(232,97,26,0.15) 100%)', zIndex: 0 }} />
-          <div className="block lg:hidden" aria-hidden="true" style={{ position: 'absolute', top: '24px', bottom: '24px', left: '23px', width: '2px', background: 'linear-gradient(to bottom, rgba(232,97,26,0.4) 0%, rgba(232,97,26,0.1) 100%)', zIndex: 0 }} />
+        {/* Timeline horizontale — 6 colonnes sur desktop */}
+        <div style={{ position: 'relative', overflowX: 'auto' }}>
+          <div aria-hidden="true" className="hidden lg:block" style={{
+            position: 'absolute', top: '20px', left: '0', right: '0',
+            height: '2px',
+            background: `linear-gradient(to right, rgba(232,97,26,0.10), #E8611A, rgba(232,97,26,0.10))`,
+            borderRadius: '2px', zIndex: 0,
+          }} />
 
-          {PROCESS_STEPS.map(({ num, title, duration, text, implication }, i) => {
-            const impl   = IMPLICATION_CONFIG[implication]
-            const isLeft = i % 2 === 0
-            const circle = (
-              <div style={{
-                width:          '48px',
-                height:         '48px',
-                borderRadius:   '50%',
-                background:     '#2D3E5F',
-                border:         '2px solid rgba(232,97,26,0.5)',
-                boxShadow:      '0 0 0 3px rgba(232,97,26,0.15)',
-                display:        'flex',
-                alignItems:     'center',
-                justifyContent: 'center',
-                flexShrink:     0,
-                position:       'relative',
-                zIndex:         1,
-              }}>
-                <span className="font-heading font-bold" style={{ fontSize: '13px', color: '#FFFFFF', lineHeight: 1, letterSpacing: '0.03em' }}>
-                  {String(num).padStart(2, '0')}
-                </span>
-              </div>
-            )
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6" style={{ gap: '12px', minWidth: '0' }}>
+            {PROCESS_STEPS.map(({ num, title, duration, text, implication }, i) => {
+              const isEven = i % 2 === 0
+              return (
+                <motion.div
+                  key={num}
+                  custom={i}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={VIEWPORT}
+                  variants={fadeUp}
+                  style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+                >
+                  {/* Cercle numéroté */}
+                  <div style={{
+                    width: '36px', height: '36px', borderRadius: '50%',
+                    background:     isEven ? '#E8611A' : 'rgba(255,255,255,0.10)',
+                    border:         '2px solid #E8611A',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    position: 'relative', zIndex: 1, flexShrink: 0,
+                    boxShadow: isEven ? '0 0 0 4px rgba(232,97,26,0.18)' : '0 0 0 4px rgba(255,255,255,0.06)',
+                    marginBottom: '16px',
+                  }}>
+                    <span style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: '12px', color: '#FFFFFF', letterSpacing: '0.02em' }}>
+                      {String(num).padStart(2, '0')}
+                    </span>
+                  </div>
 
-            return (
-              <motion.div key={num} custom={i} initial="hidden" whileInView="visible" viewport={VIEWPORT} variants={fadeUp} style={{ marginBottom: i < PROCESS_STEPS.length - 1 ? '28px' : '0' }}>
-                <div className="hidden lg:grid" style={{ gridTemplateColumns: '1fr 80px 1fr', alignItems: 'center' }}>
-                  <div style={{ paddingRight: '32px' }}>
-                    {isLeft ? <StepCard title={title} duration={duration} text={text} impl={impl} /> : <div />}
+                  {/* Carte */}
+                  <div
+                    style={{
+                      width: '100%', flex: 1,
+                      background:   isEven ? 'rgba(232,98,42,0.10)' : 'rgba(255,255,255,0.05)',
+                      border:       isEven ? '1px solid rgba(232,98,42,0.28)' : '1px solid rgba(255,255,255,0.10)',
+                      borderTop:    `3px solid ${isEven ? '#E8611A' : 'rgba(255,255,255,0.20)'}`,
+                      borderRadius: '10px', padding: '14px',
+                      boxShadow:    '0 2px 12px rgba(0,0,0,0.20)',
+                      transition:   'transform 0.3s ease, box-shadow 0.3s ease',
+                    }}
+                    onMouseEnter={e => { const el = e.currentTarget as HTMLDivElement; el.style.transform = 'translateY(-3px)'; el.style.boxShadow = isEven ? '0 10px 28px rgba(232,98,42,0.22)' : '0 8px 22px rgba(0,0,0,0.35)' }}
+                    onMouseLeave={e => { const el = e.currentTarget as HTMLDivElement; el.style.transform = 'translateY(0)'; el.style.boxShadow = '0 2px 12px rgba(0,0,0,0.20)' }}
+                  >
+                    <h3 style={{ fontFamily: 'var(--font-heading)', fontWeight: 500, fontSize: '15px', color: '#F9FAFB', marginBottom: '6px', lineHeight: 1.3 }}>
+                      {title}
+                    </h3>
+                    <p style={{ fontFamily: 'var(--font-body)', fontSize: '13px', lineHeight: 1.6, color: '#FFFFFF', margin: '0 0 12px' }}>
+                      {text}
+                    </p>
+                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', fontFamily: 'var(--font-body)', fontSize: '11px', fontWeight: 600, color: '#E8611A', background: 'rgba(232,98,42,0.12)', border: '1px solid rgba(232,98,42,0.30)', borderRadius: '6px', padding: '3px 8px', whiteSpace: 'nowrap' }}>
+                      {duration}
+                    </span>
                   </div>
-                  <div style={{ display: 'flex', justifyContent: 'center', position: 'relative', zIndex: 1 }}>{circle}</div>
-                  <div style={{ paddingLeft: '32px' }}>
-                    {!isLeft ? <StepCard title={title} duration={duration} text={text} impl={impl} /> : <div />}
-                  </div>
-                </div>
-                <div className="flex lg:hidden" style={{ alignItems: 'flex-start', gap: '16px' }}>
-                  <div style={{ flexShrink: 0, position: 'relative', zIndex: 1 }}>{circle}</div>
-                  <div style={{ flex: 1, paddingTop: '4px' }}>
-                    <StepCard title={title} duration={duration} text={text} impl={impl} />
-                  </div>
-                </div>
-              </motion.div>
-            )
-          })}
+                </motion.div>
+              )
+            })}
+          </div>
         </div>
       </div>
     </section>
@@ -907,9 +914,10 @@ function GuaranteesSection() {
           style={{ textAlign: 'center', marginBottom: '48px' }}
         >
           <p style={EYEBROW_STYLE}>Preuves</p>
-          <h2 id="guarantees-heading" className="font-heading font-bold" style={{ ...H2_STYLE }}>
+          <h3 id="guarantees-heading" className="font-heading" style={{ ...H2_STYLE }}>
             Pourquoi nous faire confiance pour votre site web
-          </h2>
+          </h3>
+          <p style={SUBTITLE_STYLE}>Des engagements concrets, vérifiables à la livraison — pas des promesses.</p>
         </motion.div>
 
         <motion.div
@@ -948,10 +956,10 @@ function GuaranteesSection() {
               }}>
                 <Icon size={20} aria-hidden="true" />
               </div>
-              <h3 className="font-heading font-bold" style={{ fontSize: '17px', color: 'var(--text-primary)', marginBottom: '10px', lineHeight: 1.3 }}>
+              <h3 className="font-heading" style={{ fontSize: 'clamp(18px, 2.5vw, 20px)', fontWeight: 500, color: '#1B2A4A', marginBottom: '10px', lineHeight: 1.3 }}>
                 {title}
               </h3>
-              <p className="font-body" style={{ fontSize: '14px', color: 'var(--text-secondary)', lineHeight: 1.75, flexGrow: 1 }}>
+              <p className="font-body" style={{ fontSize: 'var(--card-text-size)', color: '#4A5568', lineHeight: 1.65, flexGrow: 1 }}>
                 {text}
               </p>
             </motion.div>
@@ -976,9 +984,11 @@ function DifferentiatorsSection() {
           transition={{ duration: 0.55, ease: EASE }}
           style={{ textAlign: 'center', marginBottom: '48px' }}
         >
-          <h2 id="diff-heading" className="font-heading font-bold" style={{ ...H2_STYLE }}>
+          <p style={EYEBROW_STYLE}>Pourquoi nous</p>
+          <h3 id="diff-heading" className="font-heading" style={{ ...H2_STYLE }}>
             Ce qui fait la différence avec Connect Web
-          </h2>
+          </h3>
+          <p style={SUBTITLE_STYLE}>Ce que les autres agences web à Dakar ne font pas — et que nous garantissons.</p>
         </motion.div>
 
         <motion.div
@@ -993,22 +1003,21 @@ function DifferentiatorsSection() {
             <motion.div
               key={title}
               variants={gridChild}
-              whileHover={{ y: -6, boxShadow: '0 16px 48px rgba(27,42,74,0.14), 0 4px 12px rgba(27,42,74,0.08)', borderColor: 'rgba(232,97,26,0.35)' }}
+              whileHover={{ y: -3, boxShadow: '0 8px 24px rgba(0,0,0,0.09)', borderColor: 'rgba(232,97,26,0.35)' }}
               transition={{ duration: 0.25 }}
-              style={{ padding: '28px', border: '1px solid #E2E8F0', borderRadius: '12px', background: '#FFFFFF', boxShadow: 'var(--shadow-sm)' }}
+              style={{ padding: '28px', border: '1px solid #DDE3EE', borderRadius: '12px', background: '#FFFFFF', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}
             >
               <motion.div
                 variants={iconHover} initial="rest" whileHover="hover"
-                className="flex items-center justify-center rounded-[--border-radius-md]"
-                style={{ width: '44px', height: '44px', marginBottom: '16px', backgroundColor: 'rgba(232,97,26,0.08)', color: 'var(--color-orange-500)' }}
+                className="flex items-center justify-center"
+                style={{ width: '44px', height: '44px', borderRadius: '10px', marginBottom: '16px', backgroundColor: 'rgba(232,97,26,0.08)', color: '#E8611A' }}
               >
                 <Icon size={20} aria-hidden="true" />
               </motion.div>
-              <h3 className="font-heading font-bold text-[--text-primary]" style={{ fontSize: '20px', marginBottom: '10px' }}>
+              <h3 className="font-heading" style={{ fontSize: 'clamp(18px, 2.5vw, 20px)', fontWeight: 500, color: '#1B2A4A', marginBottom: '10px' }}>
                 {title}
               </h3>
-              <p className="font-body text-[--text-secondary]" style={{ fontSize: 'var(--card-text-size)',
-              fontWeight: 'var(--card-text-weight)', lineHeight: 1.7, textAlign: 'justify' }}>
+              <p className="font-body" style={{ fontSize: 'var(--card-text-size)', color: '#4A5568', lineHeight: 1.65, textAlign: 'justify' }}>
                 {text}
               </p>
             </motion.div>
@@ -1023,8 +1032,10 @@ function DifferentiatorsSection() {
    SECTION 10 · FAQ (Accordion Radix UI)
    ═══════════════════════════════════════════════════════════════ */
 function FaqSection() {
+  const [openIdx, setOpenIdx] = useState<number | null>(null)
+
   return (
-    <section aria-labelledby="faq-heading" className="section-base">
+    <section aria-labelledby="faq-heading" className="section-base" style={{ background: '#FFFFFF' }}>
       <div className="container">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -1033,9 +1044,11 @@ function FaqSection() {
           transition={{ duration: 0.55, ease: EASE }}
           style={{ textAlign: 'center', marginBottom: '48px' }}
         >
-          <h2 id="faq-heading" className="font-heading font-bold" style={{ ...H2_STYLE }}>
+          <p style={EYEBROW_STYLE}>FAQ</p>
+          <h3 id="faq-heading" className="font-heading" style={{ ...H2_STYLE }}>
             Questions fréquentes sur la création de site web à Dakar
-          </h2>
+          </h3>
+          <p style={SUBTITLE_STYLE}>Tout ce que vous devez savoir avant de lancer votre projet web.</p>
         </motion.div>
 
         <motion.div
@@ -1043,30 +1056,69 @@ function FaqSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={VIEWPORT}
           transition={{ duration: 0.5, ease: EASE }}
-          style={{ maxWidth: '760px', margin: '0 auto' }}
+          style={{ maxWidth: '760px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '14px' }}
         >
-          <AccordionRoot type="single" collapsible>
-            {FAQ_ITEMS.map(({ q, a, link }, i) => (
-              <AccordionItem key={i} value={`faq-${i}`} style={{ borderBottom: '1px solid #E2E8F0' }}>
-                <AccordionTrigger style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', paddingBlock: '20px', background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left', gap: '16px' }}>
-                  <span className="font-heading font-semibold text-[--text-primary]" style={{ fontSize: 'var(--faq-question-size)' }}>
-                    {q}
-                  </span>
-                  <ChevronDown size={18} style={{ color: '#94A3B8', flexShrink: 0, transition: 'transform 0.2s' }} aria-hidden="true" />
-                </AccordionTrigger>
-                <AccordionContent style={{ paddingBottom: '20px' }}>
-                  <p className="font-body text-[--text-secondary]" style={{ fontSize: 'var(--faq-answer-size)', lineHeight: 1.7, textAlign: 'justify' }}>
+          {FAQ_ITEMS.map(({ q, a, link }, i) => (
+            <div
+              key={i}
+              style={{
+                borderRadius: '10px',
+                border:       '1px solid #DDE3EE',
+                overflow:     'hidden',
+                background:   '#FFFFFF',
+              }}
+            >
+              <button
+                onClick={() => setOpenIdx(openIdx === i ? null : i)}
+                aria-expanded={openIdx === i}
+                style={{
+                  width:          '100%',
+                  display:        'flex',
+                  alignItems:     'center',
+                  justifyContent: 'space-between',
+                  gap:            '16px',
+                  padding:        '24px 20px',
+                  background:     openIdx === i ? '#1B2A4A' : '#FFFFFF',
+                  border:         'none',
+                  cursor:         'pointer',
+                  textAlign:      'left',
+                  transition:     'background 0.2s',
+                }}
+              >
+                <span style={{
+                  fontFamily: 'var(--font-heading)',
+                  fontSize:   'var(--faq-question-size)',
+                  fontWeight: 600,
+                  color:      openIdx === i ? '#FFFFFF' : '#1B2A4A',
+                  lineHeight: 1.4,
+                }}>
+                  {q}
+                </span>
+                <ChevronDown
+                  size={18}
+                  color={openIdx === i ? '#FF7A20' : '#E8611A'}
+                  style={{
+                    flexShrink: 0,
+                    transform:  openIdx === i ? 'rotate(180deg)' : 'rotate(0deg)',
+                    transition: 'transform 0.2s',
+                  }}
+                  aria-hidden="true"
+                />
+              </button>
+              {openIdx === i && (
+                <div style={{ padding: '4px 20px 20px', background: '#FAFAFA' }}>
+                  <p className="font-body" style={{ fontSize: 'var(--faq-answer-size)', color: '#4A5568', lineHeight: 1.7, textAlign: 'justify', margin: 0 }}>
                     {a}
                   </p>
                   {link && (
-                    <Link href={link.href} className="font-body font-semibold inline-flex items-center transition-colors duration-200" style={{ fontSize: '14px', color: 'var(--color-orange-500)', textDecoration: 'none', marginTop: '12px' }}>
+                    <Link href={link.href} className="font-body font-semibold inline-flex items-center transition-colors duration-200" style={{ fontSize: '14px', color: '#E8611A', textDecoration: 'none', marginTop: '12px' }}>
                       {link.label}
                     </Link>
                   )}
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </AccordionRoot>
+                </div>
+              )}
+            </div>
+          ))}
         </motion.div>
       </div>
     </section>
@@ -1074,13 +1126,251 @@ function FaqSection() {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   PAGE CLIENT — assemblage des 11 sections
+   SECTION 11 · CONTACT
+   ═══════════════════════════════════════════════════════════════ */
+interface ContactForm {
+  nom:        string
+  email:      string
+  typeProjet: string
+  besoin:     string
+  source:     string
+}
+
+const BL_DARK_DEV = '#1B2A4A'
+const OR_DEV      = '#E8611A'
+const BTN_PRI_DEV = '#F05A28'
+const BTN_HOV_DEV = '#1B2A3B'
+
+function ContactSection() {
+  const [submitted, setSubmitted] = useState(false)
+  const [loading, setLoading]     = useState(false)
+  const [error, setError]         = useState<string | null>(null)
+
+  const { register, handleSubmit, formState: { errors } } = useForm<ContactForm>()
+
+  const onSubmit = async (data: ContactForm) => {
+    setLoading(true)
+    setError(null)
+    try {
+      const res = await fetch('/api/contact', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({
+          nom:     data.nom,
+          email:   data.email,
+          message: `Type: ${data.typeProjet} | Budget: — | Source: ${data.source}\n\n${data.besoin}`,
+        }),
+      })
+      if (!res.ok) throw new Error()
+      setSubmitted(true)
+    } catch {
+      setError("Une erreur est survenue. Contactez-nous directement.")
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const inputStyle: React.CSSProperties = {
+    fontFamily:   'var(--font-body)',
+    fontSize:     '15px',
+    color:        '#FFFFFF',
+    background:   'rgba(255,255,255,0.07)',
+    border:       '1px solid rgba(255,255,255,0.16)',
+    borderRadius: '8px',
+    padding:      '0 16px',
+    height:       '46px',
+    width:        '100%',
+    boxSizing:    'border-box',
+    outline:      'none',
+    transition:   'border-color 0.2s',
+  }
+
+  const labelStyle: React.CSSProperties = {
+    fontFamily:   'var(--font-body)',
+    fontSize:     '13px',
+    fontWeight:   600,
+    color:        '#FFFFFF',
+    marginBottom: '6px',
+    display:      'block',
+  }
+
+  return (
+    <section id="contact" className="section-brand">
+      <div className="container">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.55, ease: EASE }}
+          style={{ textAlign: 'center', maxWidth: '720px', margin: '0 auto', marginBottom: '48px' }}
+        >
+          <p style={{ ...EYEBROW_STYLE, color: OR_DEV }}>TRAVAILLONS ENSEMBLE</p>
+          <h2 style={{ ...H2_STYLE, color: '#FFFFFF', fontSize: '2rem' }}>
+            Prenons le temps d&apos;analyser votre projet.
+          </h2>
+          <p style={{ ...SUBTITLE_STYLE, color: 'rgba(255,255,255,0.65)', margin: '12px auto 0' }}>
+            2 minutes&nbsp;· Réponse sous 24h&nbsp;· Première analyse gratuite.
+          </p>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.55, ease: EASE, delay: 0.1 }}
+          style={{ display: 'flex', gap: 'clamp(2rem, 5vw, 4rem)', alignItems: 'flex-start' }}
+          className="flex-col lg:flex-row"
+        >
+          {/* Formulaire — 60% */}
+          <div style={{ flex: '1 1 60%' }}>
+            {submitted ? (
+              <div style={{
+                padding:      '28px',
+                background:   'rgba(232,97,26,0.12)',
+                border:       '1px solid rgba(232,97,26,0.30)',
+                borderRadius: '12px',
+                textAlign:    'center',
+              }}>
+                <div style={{ fontSize: '32px', marginBottom: '12px' }}>✓</div>
+                <p style={{ fontFamily: 'var(--font-body)', color: '#FF7A20', fontWeight: 600, fontSize: '16px', margin: 0 }}>
+                  Demande envoyée&nbsp;! On vous répond sous 24h.
+                </p>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit(onSubmit)} noValidate style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                  <div>
+                    <label htmlFor="dw-nom" style={labelStyle}>Prénom &amp; Nom</label>
+                    <input
+                      id="dw-nom" type="text" placeholder="Jean Dupont"
+                      style={{ ...inputStyle, borderColor: errors.nom ? OR_DEV : 'rgba(255,255,255,0.16)' }}
+                      {...register('nom', { required: true })}
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="dw-email" style={labelStyle}>Email</label>
+                    <input
+                      id="dw-email" type="email" placeholder="vous@entreprise.com"
+                      style={{ ...inputStyle, borderColor: errors.email ? OR_DEV : 'rgba(255,255,255,0.16)' }}
+                      {...register('email', { required: true, pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ })}
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="dw-type" style={labelStyle}>Type de projet</label>
+                    <select id="dw-type" style={{ ...inputStyle }} {...register('typeProjet', { required: true })}>
+                      <option value=""                  style={{ background: BL_DARK_DEV }}>Sélectionner...</option>
+                      <option value="site-vitrine"      style={{ background: BL_DARK_DEV }}>Site vitrine</option>
+                      <option value="ecommerce"         style={{ background: BL_DARK_DEV }}>E-commerce</option>
+                      <option value="app-web"           style={{ background: BL_DARK_DEV }}>App web / PWA</option>
+                      <option value="refonte"           style={{ background: BL_DARK_DEV }}>Refonte de site</option>
+                      <option value="autre"             style={{ background: BL_DARK_DEV }}>Autre</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label htmlFor="dw-source" style={labelStyle}>Vous nous avez connus via</label>
+                    <select id="dw-source" style={{ ...inputStyle }} {...register('source')}>
+                      <option value=""               style={{ background: BL_DARK_DEV }}>Sélectionner...</option>
+                      <option value="google"         style={{ background: BL_DARK_DEV }}>Google</option>
+                      <option value="recommandation" style={{ background: BL_DARK_DEV }}>Recommandation</option>
+                      <option value="linkedin"       style={{ background: BL_DARK_DEV }}>LinkedIn</option>
+                      <option value="autre"          style={{ background: BL_DARK_DEV }}>Autre</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label htmlFor="dw-besoin" style={labelStyle}>Votre besoin</label>
+                  <textarea
+                    id="dw-besoin" rows={3}
+                    placeholder="Décrivez votre projet web en quelques lignes..."
+                    style={{ ...inputStyle, height: 'auto', padding: '12px 16px', resize: 'vertical', lineHeight: 1.6 }}
+                    {...register('besoin', { required: true })}
+                  />
+                </div>
+
+                {error && (
+                  <p style={{ fontFamily: 'var(--font-body)', fontSize: '13px', color: '#FF7A20', margin: 0 }}>
+                    {error}
+                  </p>
+                )}
+
+                <button
+                  type="submit" disabled={loading}
+                  style={{
+                    display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                    gap: '8px', width: '100%',
+                    padding: '0 32px', height: '52px',
+                    background: loading ? 'rgba(240,90,40,0.4)' : BTN_PRI_DEV,
+                    color: '#FFFFFF', fontFamily: 'var(--font-body)',
+                    fontSize: '15px', fontWeight: 700,
+                    border: 'none', borderRadius: '10px',
+                    cursor: loading ? 'not-allowed' : 'pointer',
+                    transition: 'all 0.2s ease',
+                  }}
+                  onMouseEnter={e => { if (!loading) { const el = e.currentTarget; el.style.background = BTN_HOV_DEV; el.style.transform = 'translateY(-1px)' } }}
+                  onMouseLeave={e => { if (!loading) { const el = e.currentTarget; el.style.background = BTN_PRI_DEV; el.style.transform = 'translateY(0)' } }}
+                >
+                  {loading ? 'Envoi...' : 'Envoyer ma demande — Réponse sous 24h'}
+                  {!loading && <ArrowRight size={16} aria-hidden="true" />}
+                </button>
+
+                <p style={{ fontFamily: 'var(--font-body)', fontSize: '12px', color: 'rgba(255,255,255,0.45)', textAlign: 'center', margin: 0 }}>
+                  🔒 Informations confidentielles&nbsp;· Aucun démarchage&nbsp;· Devis gratuit
+                </p>
+              </form>
+            )}
+          </div>
+
+          {/* Colonne droite — infos contact */}
+          <div style={{ flex: '0 0 38%', display: 'flex', flexDirection: 'column', gap: '24px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+              {[
+                { icon: '📍', text: 'Dakar — Sacré-Cœur 3' },
+                { icon: '📧', text: 'contact@connect-web.tech' },
+                { icon: '📞', text: '+221 77 900 62 82' },
+                { icon: '🕐', text: 'Lun–Ven · 8h–18h WAT' },
+              ].map(item => (
+                <div key={item.text} style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                  <span style={{ fontSize: '18px' }}>{item.icon}</span>
+                  <span style={{ fontFamily: 'var(--font-body)', fontSize: '15px', color: 'rgba(255,255,255,0.80)' }}>
+                    {item.text}
+                  </span>
+                </div>
+              ))}
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              {['✓ Réponse sous 24h', '✓ Devis gratuit', '✓ Sans engagement'].map(b => (
+                <div key={b} style={{
+                  display:      'inline-flex',
+                  alignItems:   'center',
+                  padding:      '8px 16px',
+                  background:   'rgba(255,255,255,0.06)',
+                  border:       '1px solid rgba(255,255,255,0.12)',
+                  borderRadius: '8px',
+                  fontFamily:   'var(--font-body)',
+                  fontSize:     '14px',
+                  fontWeight:   500,
+                  color:        '#FFFFFF',
+                }}>
+                  {b}
+                </div>
+              ))}
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  )
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PAGE CLIENT — assemblage des sections
    ═══════════════════════════════════════════════════════════════ */
 export function DeveloppementWebPageClient() {
   return (
     <main>
       <HeroSection />
-      <SocialProofSection />
+      <StatsSection />
       <ProblemsSection />
       <ApproachSection />
       <TypesSection />
@@ -1088,8 +1378,9 @@ export function DeveloppementWebPageClient() {
       <ProcessSection />
       <GuaranteesSection />
       <DifferentiatorsSection />
+      <SocialProofSection />
       <FaqSection />
-      <CTASection {...CTA_PROPS} />
+      <ContactSection />
     </main>
   )
 }

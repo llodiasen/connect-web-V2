@@ -17,7 +17,8 @@ import {
   Code2, ShoppingCart, Layers, Wifi,
   ChevronDown, ChevronLeft, ChevronRight,
   Check, ArrowRight, Mail, Phone, Calendar,
-  MessageSquare, Cpu, Globe, Zap, CreditCard, Smartphone,
+  MessageSquare, Cpu, Globe, Globe2, Zap, CreditCard, Smartphone,
+  RefreshCw, MessageCircle,
 } from 'lucide-react'
 
 /* ─────────────────────────────────────────────────────────────────
@@ -251,7 +252,7 @@ function HeroSection() {
           {/* H1 */}
           <h1 className="hero-title" style={{
             fontFamily:    'var(--font-heading)',
-            fontWeight:    500,
+            fontWeight:    600,
             fontSize:      'clamp(1.7rem, 4.625vw, 3.25rem)',
             lineHeight:    1.1,
             letterSpacing: '-0.01em',
@@ -274,44 +275,8 @@ function HeroSection() {
             marginBottom: '24px',
             textAlign:    'left',
           }}>
-            Applications web &amp; mobile, e-commerce, ERP/CRM et solutions NFC — pour les PME et startups d&apos;Afrique et d&apos;Europe.
+            Applications web &amp; mobile, boutique en ligne, e-commerce, ERP/CRM et solutions NFC.
           </p>
-
-          {/* Stats en ligne — fusionnées dans le hero */}
-          <div style={{ display: 'flex', flexWrap: 'wrap', marginBottom: '36px' }}>
-            {SP_METRICS.map((m, i) => (
-              <div key={m.label} style={{
-                display:       'flex',
-                flexDirection: 'column',
-                alignItems:    'center',
-                textAlign:     'center',
-                paddingBlock:  '8px',
-                paddingLeft:   i === 0 ? '0' : 'clamp(1rem, 2.5vw, 2rem)',
-                paddingRight:  i < SP_METRICS.length - 1 ? 'clamp(1rem, 2.5vw, 2rem)' : '0',
-                borderRight:   i < SP_METRICS.length - 1 ? '1px solid rgba(255,255,255,0.18)' : 'none',
-              }}>
-                <span style={{
-                  fontSize:   'clamp(1.75rem, 2.8vw, 2.25rem)',
-                  fontFamily: 'var(--font-heading)',
-                  fontWeight: 500,
-                  color:      'var(--color-orange-400)',
-                  lineHeight: 1,
-                }}>
-                  {m.displayValue ?? `${m.target}${m.suffix}`}
-                </span>
-                <span style={{
-                  fontSize:   '14.5px',
-                  fontWeight: 500,
-                  color:      '#FFFFFF',
-                  marginTop:  '4px',
-                  whiteSpace: 'nowrap',
-                  fontFamily: 'var(--font-heading)',
-                }}>
-                  {m.label}
-                </span>
-              </div>
-            ))}
-          </div>
 
           {/* CTAs — CLAUDE.md : CTA primaire #1B2A4A, hover orange */}
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', marginBottom: '48px' }}>
@@ -351,48 +316,44 @@ function StatsGrid() {
   const inView = useInView(ref, { once: true, margin: '-40px' })
 
   return (
-    <section style={{ width: '100%', background: '#FFFFFF', borderTop: '1px solid #DDE3EE', borderBottom: '1px solid #DDE3EE', paddingBlock: '12px' }}>
+    <section className="section-base" style={{ paddingBlock: '2rem' }}>
+      <div className="container">
+        <div
+          ref={ref}
+          className="grid grid-cols-2 md:grid-cols-4"
+          style={{ gap: 0 }}
+        >
+          {SP_METRICS.map(({ target, suffix, prefix, label, displayValue }, i) => (
+            <div
+              key={label}
+              style={{
+                textAlign:      'center',
+                display:        'flex',
+                flexDirection:  'column',
+                alignItems:     'center',
+                gap:            '6px',
+                padding:        '24px 16px',
+                borderRight:    i < SP_METRICS.length - 1 ? '1px solid #E2E8F0' : 'none',
+                opacity:        inView ? 1 : 0,
+                transform:      inView ? 'translateY(0)' : 'translateY(12px)',
+                transition:     `opacity 0.45s ease ${i * 100}ms, transform 0.45s cubic-bezier(0,0,0.2,1) ${i * 100}ms`,
+              }}
+            >
+              {/* Chiffre */}
+              <span style={{ fontFamily: 'var(--font-heading)', fontSize: 'clamp(1.5rem, 2.5vw, 2rem)', fontWeight: 700, lineHeight: 1, letterSpacing: '-0.04em', color: '#E8611A' }}>
+                {displayValue ?? <AnimatedCounter target={target} suffix={suffix} prefix={prefix} />}
+              </span>
 
-      {/* Grille 4 colonnes */}
-      <div
-        ref={ref}
-        className="grid grid-cols-2 lg:grid-cols-4"
-      >
-        {SP_METRICS.map(({ target, suffix, prefix, label, desc, displayValue }, i) => (
-          <div
-            key={label}
-            style={{
-              display:          'flex',
-              flexDirection:    'column',
-              alignItems:       'center',
-              textAlign:        'center',
-              paddingBlock:     '10px',
-              paddingInline:    'clamp(1rem, 3vw, 2rem)',
-              borderRight:      i < 3 ? '1px solid #DDE3EE' : 'none',
-              opacity:          inView ? 1 : 0,
-              transform:        inView ? 'translateY(0)' : 'translateY(12px)',
-              transition:       `opacity 0.45s ease ${i * 100}ms, transform 0.45s cubic-bezier(0,0,0.2,1) ${i * 100}ms`,
-            }}
-          >
-            {/* Trait décoratif */}
-            <div aria-hidden="true" style={{ width: '20px', height: '2px', borderRadius: '2px', background: 'var(--color-orange-500)', marginBottom: '10px' }} />
+              {/* Label */}
+              <span style={{ fontFamily: 'var(--font-body)', fontSize: '15px', fontWeight: 500, color: '#4A5568' }}>
+                {label}
+              </span>
 
-            {/* Chiffre */}
-            <span className="font-heading font-bold" style={{ fontSize: 'clamp(1.375rem, 2.5vw, 1.875rem)', lineHeight: 1, letterSpacing: '-0.04em', color: 'var(--color-orange-500)', fontVariantNumeric: 'tabular-nums', marginBottom: '4px' }}>
-              {displayValue ?? <AnimatedCounter target={target} suffix={suffix} prefix={prefix} />}
-            </span>
-
-            {/* Label */}
-            <p style={{ fontFamily: 'var(--font-heading)', fontSize: '16px', fontWeight: 700, color: 'var(--text-primary)', lineHeight: 1.3, letterSpacing: '-0.005em', marginBottom: '2px' }}>
-              {label}
-            </p>
-
-            {/* Description muted — masquée sur mobile */}
-            <p className="hidden sm:block" style={{ fontFamily: 'var(--font-body)', fontSize: '15px', fontWeight: 'var(--font-light)' as unknown as number, color: 'var(--text-tertiary)', lineHeight: 1.45 }}>
-              {desc}
-            </p>
-          </div>
-        ))}
+              {/* Trait décoratif bas */}
+              <span aria-hidden="true" style={{ display: 'block', width: '24px', height: '2px', background: '#E8611A', borderRadius: '2px', opacity: 0.4 }} />
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   )
@@ -402,7 +363,7 @@ function ClientLogos() {
   const doubled = [...CLIENT_LOGOS, ...CLIENT_LOGOS]
 
   return (
-    <section className="section-base" style={{ background: '#FFFFFF', paddingTop: '40px', paddingBottom: '40px', overflow: 'hidden' }}>
+    <section className="section-alt" style={{ paddingTop: '40px', paddingBottom: '40px', overflow: 'hidden' }}>
       <div className="container" style={{ overflow: 'hidden' }}>
 
         {/* Logo carousel — seamless scroll */}
@@ -583,9 +544,9 @@ function AboutSection() {
               style={{
                 ...sectionTitle,
                 ...reveal(visible, 70),
-                fontFamily:    'Clash Display, var(--font-montserrat), sans-serif',
+                fontFamily:    'var(--font-montserrat), sans-serif',
                 fontSize:      'clamp(2.125rem, 2.8vw, 2.375rem)',
-                fontWeight:    500,
+                fontWeight:    600,
                 lineHeight:    1.25,
                 letterSpacing: '-0.03em',
                 color:         'var(--text-primary)',
@@ -1030,7 +991,7 @@ function ServicesSection() {
         {/* Header */}
         <div ref={ref} style={{ textAlign: 'center', marginBottom: '48px' }}>
           <span style={{ ...eyebrow, ...reveal(visible, 0) }}>NOS EXPERTISES</span>
-          <h2 style={{ ...sectionTitle, ...reveal(visible, 80), fontSize: '1.875rem', fontFamily: 'Clash Display, var(--font-montserrat), sans-serif', fontWeight: 500 }}>
+          <h2 style={{ ...sectionTitle, ...reveal(visible, 80), fontSize: '1.875rem', fontFamily: 'var(--font-montserrat), sans-serif', fontWeight: 500 }}>
             Nos expertises, au service de votre croissance.
           </h2>
           <p style={{ ...sectionSubtitle, ...reveal(visible, 160) }}>
@@ -1089,16 +1050,16 @@ function ProcessSection() {
   const [ref, visible] = useReveal()
 
   return (
-    <section id="process" className="section-base" style={{ background: '#FFFFFF' }}>
+    <section id="process" className="section-brand">
       <div className="container" style={{ paddingBlock: 0 }}>
 
         {/* Header centré */}
         <div ref={ref} style={{ textAlign: 'center', marginBottom: '64px' }}>
           <span style={{ ...eyebrow, ...reveal(visible, 0) }}>NOTRE MÉTHODE</span>
-          <h2 style={{ ...sectionTitle, ...reveal(visible, 80), fontSize: '2rem', fontFamily: 'Clash Display, var(--font-montserrat), sans-serif', fontWeight: 500 }}>
+          <h2 style={{ ...sectionTitle, ...reveal(visible, 80), fontSize: '2rem', fontFamily: 'var(--font-montserrat), sans-serif', fontWeight: 500, color: '#F9FAFB' }}>
             Simple, transparent, sans surprise.
           </h2>
-          <p style={{ ...sectionSubtitle, ...reveal(visible, 160) }}>
+          <p style={{ ...sectionSubtitle, ...reveal(visible, 160), color: 'rgba(255,255,255,0.65)' }}>
             Un process éprouvé avec des entrepreneurs, PME et startups. De la première prise de contact à la mise en production, vous gardez le contrôle.
           </p>
         </div>
@@ -1113,7 +1074,7 @@ function ProcessSection() {
             left:         '0',
             right:        '0',
             height:       '2px',
-            background:   `linear-gradient(to right, rgba(232,98,42,0.15), ${OR_500}, rgba(232,98,42,0.15))`,
+            background:   `linear-gradient(to right, rgba(232,98,42,0.10), ${OR_500}, rgba(232,98,42,0.10))`,
             borderRadius: '2px',
             zIndex:       0,
           }} />
@@ -1129,7 +1090,7 @@ function ProcessSection() {
                     width:           '40px',
                     height:          '40px',
                     borderRadius:    '50%',
-                    background:      isEven ? OR_500 : '#FFFFFF',
+                    background:      isEven ? OR_500 : 'rgba(255,255,255,0.10)',
                     border:          `2px solid ${OR_500}`,
                     display:         'flex',
                     alignItems:      'center',
@@ -1137,10 +1098,10 @@ function ProcessSection() {
                     position:        'relative',
                     zIndex:          1,
                     flexShrink:      0,
-                    boxShadow:       isEven ? `0 0 0 5px rgba(232,98,42,0.12)` : `0 0 0 5px rgba(232,98,42,0.06)`,
+                    boxShadow:       isEven ? `0 0 0 5px rgba(232,98,42,0.18)` : `0 0 0 5px rgba(255,255,255,0.06)`,
                     marginBottom:    '20px',
                   }}>
-                    <span style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: '13px', color: isEven ? '#FFFFFF' : OR_500, letterSpacing: '0.02em' }}>
+                    <span style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: '13px', color: '#FFFFFF', letterSpacing: '0.02em' }}>
                       {step.num}
                     </span>
                   </div>
@@ -1150,32 +1111,32 @@ function ProcessSection() {
                     style={{
                       width:        '100%',
                       flex:         1,
-                      background:   isEven ? '#FAFAFA' : '#FFFFFF',
-                      border:       isEven ? `1px solid rgba(232,98,42,0.15)` : `1px solid var(--border-default)`,
-                      borderTop:    `3px solid ${isEven ? OR_500 : 'var(--border-default)'}`,
+                      background:   isEven ? 'rgba(232,98,42,0.10)' : 'rgba(255,255,255,0.05)',
+                      border:       isEven ? `1px solid rgba(232,98,42,0.28)` : `1px solid rgba(255,255,255,0.10)`,
+                      borderTop:    `3px solid ${isEven ? OR_500 : 'rgba(255,255,255,0.20)'}`,
                       borderRadius: '10px',
                       padding:      '20px',
-                      boxShadow:    isEven ? '0 2px 8px rgba(232,98,42,0.06)' : '0 1px 4px rgba(0,0,0,0.05)',
+                      boxShadow:    '0 2px 12px rgba(0,0,0,0.20)',
                       transition:   'transform 0.3s ease, box-shadow 0.3s ease',
                     }}
                     onMouseEnter={e => {
                       const el = e.currentTarget as HTMLDivElement
                       el.style.transform = 'translateY(-3px)'
-                      el.style.boxShadow = isEven ? '0 10px 28px rgba(232,98,42,0.13)' : '0 8px 22px rgba(0,0,0,0.09)'
+                      el.style.boxShadow = isEven ? '0 10px 28px rgba(232,98,42,0.22)' : '0 8px 22px rgba(0,0,0,0.35)'
                     }}
                     onMouseLeave={e => {
                       const el = e.currentTarget as HTMLDivElement
                       el.style.transform = 'translateY(0)'
-                      el.style.boxShadow = isEven ? '0 2px 8px rgba(232,98,42,0.06)' : '0 1px 4px rgba(0,0,0,0.05)'
+                      el.style.boxShadow = '0 2px 12px rgba(0,0,0,0.20)'
                     }}
                   >
-                    <h3 style={{ fontFamily: 'var(--font-heading)', fontWeight: 500, fontSize: 'clamp(17px, 2.5vw, 19px)', color: 'var(--text-primary)', marginBottom: '8px', lineHeight: 1.3, textAlign: 'left' }}>
+                    <h3 style={{ fontFamily: 'var(--font-heading)', fontWeight: 500, fontSize: 'clamp(17px, 2.5vw, 19px)', color: '#F9FAFB', marginBottom: '8px', lineHeight: 1.3, textAlign: 'left' }}>
                       {step.titre}
                     </h3>
-                    <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--card-text-size)', lineHeight: 1.65, color: 'var(--text-primary)', margin: '0 0 14px', textAlign: 'justify', display: '-webkit-box', WebkitLineClamp: 4, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                    <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--card-text-size)', lineHeight: 1.65, color: '#FFFFFF', margin: '0 0 14px', textAlign: 'justify', display: '-webkit-box', WebkitLineClamp: 4, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
                       {step.desc}
                     </p>
-                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', fontFamily: 'var(--font-body)', fontSize: '12.5px', fontWeight: 600, color: OR_500, background: 'rgba(232,98,42,0.07)', border: '1px solid rgba(232,98,42,0.18)', borderRadius: '6px', padding: '5px 10px', whiteSpace: 'nowrap' }}>
+                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', fontFamily: 'var(--font-body)', fontSize: '12.5px', fontWeight: 600, color: OR_500, background: 'rgba(232,98,42,0.12)', border: '1px solid rgba(232,98,42,0.30)', borderRadius: '6px', padding: '5px 10px', whiteSpace: 'nowrap' }}>
                       <Check size={11} color={OR_500} strokeWidth={2.5} />
                       {step.badge}
                     </span>
@@ -1455,13 +1416,13 @@ function OffresSection() {
               style={{
                 display:      'inline-flex',
                 alignItems:   'center',
-                padding:      '10px 28px',
+                padding:      '7px 18px',
                 borderRadius: '100px',
                 border:       i === activeTab ? 'none' : '1px solid #DDE3EE',
                 background:   i === activeTab ? BL_DARK : '#FFFFFF',
                 color:        i === activeTab ? '#FFFFFF' : '#4A5568',
                 fontFamily:   'var(--font-heading)',
-                fontSize:     '14px',
+                fontSize:     '13px',
                 fontWeight:   600,
                 cursor:       'pointer',
                 transition:   'all 0.2s ease',
@@ -1585,7 +1546,7 @@ function OffreCard({ card }: { card: ServiceCard }) {
             <span style={{
               fontFamily: 'var(--font-body)',
               fontSize:   '16px',
-              color:      pop ? 'rgba(255,255,255,0.80)' : '#4A5568',
+              color:      pop ? '#FFFFFF' : '#4A5568',
               lineHeight: 1.5,
             }}>
               {item}
@@ -1661,7 +1622,7 @@ function CtaBannerSection() {
 
         {/* Titre */}
         <h2 style={{
-          fontFamily:    'Clash Display, var(--font-montserrat), sans-serif',
+          fontFamily:    'var(--font-montserrat), sans-serif',
           fontWeight:    500,
           fontSize:      'clamp(1.75rem, 3.5vw, 2.5rem)',
           lineHeight:    1.1,
@@ -1727,7 +1688,7 @@ function FaqSection() {
   const [openFaq, setOpenFaq] = useState<number | null>(null)
 
   return (
-    <section id="faq" className="section-base" style={{ background: '#FFFFFF' }}>
+    <section id="faq" className="section-alt">
       <div className="container" style={{ paddingBlock: 0 }}>
 
         {/* Header — même style que Nos Offres */}
@@ -1834,7 +1795,6 @@ interface ContactForm {
   nom:        string
   email:      string
   typeProjet: string
-  budget:     string
   besoin:     string
   source:     string
 }
@@ -1902,7 +1862,7 @@ function ContactCTASection() {
           <div style={{ ...reveal(visible, 0), textAlign: 'center', maxWidth: '720px', margin: '0 auto' }}>
             <span style={{ ...eyebrow, textAlign: 'center' }}>TRAVAILLONS ENSEMBLE</span>
             <h2 style={{
-              fontFamily:    'Clash Display, var(--font-montserrat), sans-serif',
+              fontFamily:    'var(--font-montserrat), sans-serif',
               fontWeight:    500,
               fontSize:      '2rem',
               lineHeight:    1.15,
@@ -1980,15 +1940,15 @@ function ContactCTASection() {
                       </select>
                     </div>
 
-                    {/* 4 — Budget */}
+                    {/* 4 — Source */}
                     <div>
-                      <label htmlFor="c-budget" style={labelStyle}>Budget</label>
-                      <select id="c-budget" style={{ ...inputStyle }} {...register('budget', { required: true })}>
-                        <option value=""        style={{ background: BL_DARK }}>Sélectionner...</option>
-                        <option value="<500k"   style={{ background: BL_DARK }}>&lt;500k FCFA</option>
-                        <option value="500-1.5" style={{ background: BL_DARK }}>500k–1,5M FCFA</option>
-                        <option value="1.5-5"   style={{ background: BL_DARK }}>1,5M–5M FCFA</option>
-                        <option value=">5M"     style={{ background: BL_DARK }}>+5M FCFA</option>
+                      <label htmlFor="c-source" style={labelStyle}>Vous nous avez connus via</label>
+                      <select id="c-source" style={{ ...inputStyle }} {...register('source')}>
+                        <option value=""               style={{ background: BL_DARK }}>Sélectionner...</option>
+                        <option value="google"         style={{ background: BL_DARK }}>Google</option>
+                        <option value="recommandation" style={{ background: BL_DARK }}>Recommandation</option>
+                        <option value="linkedin"       style={{ background: BL_DARK }}>LinkedIn</option>
+                        <option value="autre"          style={{ background: BL_DARK }}>Autre</option>
                       </select>
                     </div>
 
@@ -1998,23 +1958,11 @@ function ContactCTASection() {
                   <div>
                     <label htmlFor="c-besoin" style={labelStyle}>Votre besoin</label>
                     <textarea
-                      id="c-besoin" rows={4}
+                      id="c-besoin" rows={2}
                       placeholder="Décrivez votre projet en quelques lignes..."
                       style={{ ...inputStyle, height: 'auto', padding: '12px 16px', resize: 'vertical', lineHeight: 1.6 }}
                       {...register('besoin', { required: true })}
                     />
-                  </div>
-
-                  {/* 6 — Source */}
-                  <div>
-                    <label htmlFor="c-source" style={labelStyle}>Vous nous avez connus via</label>
-                    <select id="c-source" style={{ ...inputStyle }} {...register('source')}>
-                      <option value=""               style={{ background: BL_DARK }}>Sélectionner...</option>
-                      <option value="google"         style={{ background: BL_DARK }}>Google</option>
-                      <option value="recommandation" style={{ background: BL_DARK }}>Recommandation</option>
-                      <option value="linkedin"       style={{ background: BL_DARK }}>LinkedIn</option>
-                      <option value="autre"          style={{ background: BL_DARK }}>Autre</option>
-                    </select>
                   </div>
 
                   {error && (
@@ -2098,6 +2046,100 @@ function ContactCTASection() {
 }
 
 /* ─────────────────────────────────────────────────────────────────
+   SECTION — TYPES DE SITES
+   section-base (#FFFFFF) · grille 2×3 · après ProcessSection
+   ─────────────────────────────────────────────────────────────── */
+const HOME_SITE_TYPES = [
+  { icon: Globe,         title: 'Site vitrine professionnel', text: '3 à 10 pages. CMS inclus, SEO de base, Lighthouse 95+. Livré en 1-2 semaines.',                              link: '/services/sites-vitrine' },
+  { icon: ShoppingCart,  title: 'Boutique en ligne',          text: 'Shopify ou WooCommerce. Paiement Wave & Orange Money. Opérationnel en 2 semaines.',                          link: '/services/sites-ecommerce' },
+  { icon: Layers,        title: 'Architecture headless',      text: 'Next.js en front, Sanity ou Strapi en backend. Vitesse maximale pour votre projet.',                          link: undefined },
+  { icon: RefreshCw,     title: 'Refonte de site web',        text: 'Votre site est lent ou vieilli ? On le reconstruit avec une stack moderne. Résultats garantis.',             link: undefined },
+  { icon: Globe2,        title: 'Site multilingue',           text: 'Français, anglais, wolof — i18n Next.js natif pour le marché ouest-africain.',                               link: undefined },
+  { icon: MessageCircle, title: 'Un besoin spécifique ?',     text: 'Décrivez votre projet. On vous répond sous 24h avec une estimation claire.',                                  link: '/contact' },
+]
+
+function TypesSection() {
+  const [ref, visible] = useReveal()
+
+  return (
+    <section className="section-base">
+      <div className="container">
+        <div ref={ref} style={{ textAlign: 'center', marginBottom: '48px' }}>
+          <span style={{ ...eyebrow, ...reveal(visible, 0) }}>NOS SOLUTIONS</span>
+          <h2 style={{ ...sectionTitle, ...reveal(visible, 80), fontSize: '2rem', fontFamily: 'var(--font-montserrat), sans-serif', fontWeight: 500 }}>
+            Quel type de projet vous faut-il ?
+          </h2>
+          <p style={{ ...sectionSubtitle, ...reveal(visible, 160) }}>
+            Du site vitrine à l&apos;architecture headless — choisissez le format adapté à votre activité.
+          </p>
+        </div>
+
+        <div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+          style={{ gap: '24px', alignItems: 'stretch', ...reveal(visible, 200) }}
+        >
+          {HOME_SITE_TYPES.map(({ icon: Icon, title, text, link }) => {
+            const card = (
+              <div style={{
+                padding:       '28px',
+                background:    '#FFFFFF',
+                border:        '1px solid rgba(0,0,0,0.07)',
+                borderRadius:  '16px',
+                boxShadow:     '0 1px 3px rgba(0,0,0,0.05), 0 4px 16px rgba(0,0,0,0.04)',
+                display:       'flex',
+                flexDirection: 'column',
+                height:        '100%',
+                boxSizing:     'border-box',
+              }}>
+                <div style={{
+                  width: '44px', height: '44px', borderRadius: '10px',
+                  background: 'rgba(232,97,26,0.10)', display: 'flex',
+                  alignItems: 'center', justifyContent: 'center',
+                  marginBottom: '16px', flexShrink: 0,
+                  color: OR_500,
+                }}>
+                  <Icon size={20} aria-hidden="true" />
+                </div>
+                <h3 style={{
+                  fontFamily: 'var(--font-heading)', fontSize: 'clamp(18px, 2.5vw, 20px)',
+                  fontWeight: 500, color: BL_DARK, marginBottom: '10px', lineHeight: 1.3,
+                }}>
+                  {title}
+                </h3>
+                <p style={{
+                  fontFamily: 'var(--font-body)', fontSize: 'var(--card-text-size)',
+                  color: '#4A5568', lineHeight: 1.65, flexGrow: 1,
+                }}>
+                  {text}
+                </p>
+                {link && (
+                  <span style={{
+                    display: 'inline-flex', alignItems: 'center', gap: '6px',
+                    marginTop: '16px', fontSize: '13px', fontWeight: 600,
+                    fontFamily: 'var(--font-body)', color: OR_500,
+                  }}>
+                    En savoir plus <ArrowRight size={14} />
+                  </span>
+                )}
+              </div>
+            )
+            return link ? (
+              <Link key={title} href={link} style={{ textDecoration: 'none', display: 'flex', height: '100%' }}>
+                {card}
+              </Link>
+            ) : (
+              <div key={title} style={{ display: 'flex', height: '100%' }}>
+                {card}
+              </div>
+            )
+          })}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/* ─────────────────────────────────────────────────────────────────
    EXPORT PRINCIPAL — HomePageClient
    Structure sémantique : <main> · IDs d'ancrage sur chaque section
    ─────────────────────────────────────────────────────────────── */
@@ -2105,10 +2147,12 @@ export function HomePageClient() {
   return (
     <main style={{ overflowX: 'hidden', maxWidth: '100%' }}>
       <HeroSection />
-      <ClientLogos />
+      <StatsGrid />
       <AboutSection />
       <ServicesSection />
       <ProcessSection />
+      <ClientLogos />
+      <TypesSection />
       <OffresSection />
       <CtaBannerSection />
       <FaqSection />
